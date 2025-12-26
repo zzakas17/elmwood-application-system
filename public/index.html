@@ -3362,7 +3362,7 @@
 
             // Auto-save to localStorage
             let saveTimeout;
-            function autoSave() {
+            window.autoSave = function() {
                 clearTimeout(saveTimeout);
                 saveIndicator.textContent = 'Saving...';
                 saveIndicator.className = 'save-indicator show saving';
