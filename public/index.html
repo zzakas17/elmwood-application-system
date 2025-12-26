@@ -3002,6 +3002,7 @@
         let recordingStream = null;
         let recordingTimerInterval = null;
         let recordingStartTime = null;
+        let globalShowMessage = null; // Will be set in DOMContentLoaded
 
         function switchToRecord() {
             document.getElementById('recordOption').classList.add('active');
@@ -3050,7 +3051,11 @@
                 document.getElementById('recordingStatus').style.display = 'none';
             } catch (error) {
                 console.error('Error accessing camera:', error);
-                showMessage('Unable to access camera. Please check permissions and try again, or use the upload option.', 'error');
+                if (globalShowMessage) {
+                    globalShowMessage('Unable to access camera. Please check permissions and try again, or use the upload option.', 'error');
+                } else {
+                    alert('Unable to access camera. Please check permissions and try again, or use the upload option.');
+                }
                 switchToUpload();
             }
         }
@@ -3138,7 +3143,11 @@
 
         function useRecordedVideo() {
             if (!recordedBlob) {
-                showMessage('No video recorded. Please record a video first.', 'error');
+                if (globalShowMessage) {
+                    globalShowMessage('No video recorded. Please record a video first.', 'error');
+                } else {
+                    alert('No video recorded. Please record a video first.');
+                }
                 return;
             }
 
@@ -3161,10 +3170,17 @@
 
             // Switch to upload view to show the file
             switchToUpload();
-            showMessage('Video recorded successfully! You can review it in the upload section.', 'success');
+            if (globalShowMessage) {
+                globalShowMessage('Video recorded successfully! You can review it in the upload section.', 'success');
+            }
             
-            updateProgress();
-            autoSave();
+            // Update progress and auto-save
+            if (window.updateProgress) {
+                window.updateProgress();
+            }
+            if (window.autoSave) {
+                window.autoSave();
+            }
         }
 
         function retryRecording() {
@@ -3237,6 +3253,14 @@
             const saveIndicator = document.getElementById('saveIndicator');
             const navList = document.getElementById('navList');
 
+            // Make showMessage globally accessible for video recording
+            globalShowMessage = function(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+                messageDiv.style.display = 'block';
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            };
+
             // Section navigation
             const sections = [
                 { id: 1, title: 'Personal Information' },
@@ -3270,8 +3294,8 @@
                 navList.appendChild(li);
             });
 
-            // Progress tracking
-            function updateProgress() {
+            // Make updateProgress and autoSave globally accessible
+            window.updateProgress = function() {
                 const requiredFields = form.querySelectorAll('[required]');
                 const filledFields = Array.from(requiredFields).filter(field => {
                     if (field.type === 'checkbox' || field.type === 'radio') {
