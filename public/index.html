@@ -136,6 +136,7 @@
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
         }
 
         /* Section visibility animations */
@@ -1122,80 +1123,298 @@
 
         @media (max-width: 768px) {
             .header-content {
-                padding: 60px 30px 50px;
+                padding: 50px 20px 40px;
             }
 
             .header h1 {
-                font-size: 36px;
+                font-size: 32px;
+                line-height: 1.2;
             }
 
             .header p {
-                font-size: 18px;
+                font-size: 16px;
             }
 
             .main-container {
-                margin: -40px auto 40px;
-                padding: 0 20px;
+                margin: -30px auto 30px;
+                padding: 0 15px;
             }
 
             .form-content {
-                padding: 35px 25px;
+                padding: 25px 18px;
             }
 
             .form-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 18px;
+            }
+
+            .form-section {
+                padding: 25px 0;
+                margin-bottom: 30px;
+            }
+
+            .section-header {
+                margin-bottom: 20px;
+                padding-bottom: 12px;
             }
 
             .section-title {
-                font-size: 20px;
+                font-size: 18px;
             }
 
             .section-number {
-                width: 36px;
-                height: 36px;
-                font-size: 15px;
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .position-card {
+                margin-bottom: 20px;
             }
 
             .position-card-header {
-                padding: 24px 25px;
+                padding: 20px 18px;
             }
 
             .position-card-header h2 {
-                font-size: 24px;
+                font-size: 22px;
+            }
+
+            .position-card-header p {
+                font-size: 14px;
+            }
+
+            .job-description {
+                padding: 20px 18px;
+            }
+
+            .job-section {
+                margin-bottom: 24px;
+            }
+
+            .job-section h3 {
+                font-size: 17px;
+                margin-bottom: 10px;
+            }
+
+            .job-section ul {
+                padding-left: 20px;
+            }
+
+            .job-section li {
+                font-size: 14px;
+                margin-bottom: 8px;
             }
 
             .radio-cards {
                 grid-template-columns: 1fr;
+                gap: 12px;
             }
 
-            .job-description {
-                padding: 24px 25px;
+            .radio-card {
+                padding: 14px;
             }
 
-            .job-section h3 {
-                font-size: 18px;
+            .radio-card-title {
+                font-size: 15px;
+            }
+
+            .radio-card-desc {
+                font-size: 13px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="date"],
+            input[type="number"],
+            select,
+            textarea {
+                padding: 14px 16px;
+                font-size: 16px; /* Prevents zoom on iOS */
+                border-radius: 8px;
+            }
+
+            textarea {
+                min-height: 120px;
+            }
+
+            label {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .file-upload-label {
+                padding: 30px 20px;
+            }
+
+            .file-upload-text {
+                font-size: 14px;
+            }
+
+            .file-upload-hint {
+                font-size: 12px;
+            }
+
+            .btn {
+                padding: 14px 24px;
+                font-size: 16px;
+                min-height: 48px; /* Better touch target */
             }
 
             .progress-info {
-                padding: 12px 20px;
+                padding: 12px 15px;
                 flex-direction: column;
                 gap: 8px;
                 align-items: flex-start;
+            }
+
+            .progress-text {
+                font-size: 13px;
+            }
+
+            .progress-percentage {
+                font-size: 18px;
+            }
+
+            .nav-sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 20px;
+                padding: 18px;
+            }
+
+            .nav-sidebar h3 {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            .nav-link {
+                padding: 12px;
+                font-size: 13px;
+            }
+
+            .video-instructions {
+                padding: 18px;
+            }
+
+            .video-instructions h4 {
+                font-size: 16px;
+            }
+
+            .video-instructions > div {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .char-counter {
+                font-size: 11px;
+            }
+
+            .error-message {
+                font-size: 12px;
             }
         }
 
         @media (max-width: 480px) {
             .header-content {
-                padding: 50px 20px 40px;
+                padding: 40px 15px 30px;
             }
 
             .header h1 {
-                font-size: 28px;
+                font-size: 26px;
+                line-height: 1.2;
+            }
+
+            .header p {
+                font-size: 15px;
+            }
+
+            .main-container {
+                margin: -25px auto 25px;
+                padding: 0 12px;
             }
 
             .form-content {
-                padding: 30px 20px;
+                padding: 20px 15px;
+            }
+
+            .form-section {
+                padding: 20px 0;
+                margin-bottom: 25px;
+            }
+
+            .section-header {
+                margin-bottom: 18px;
+                padding-bottom: 10px;
+            }
+
+            .section-title {
+                font-size: 17px;
+            }
+
+            .section-number {
+                width: 30px;
+                height: 30px;
+                font-size: 13px;
+            }
+
+            .position-card-header {
+                padding: 18px 15px;
+            }
+
+            .position-card-header h2 {
+                font-size: 20px;
+            }
+
+            .job-description {
+                padding: 18px 15px;
+            }
+
+            .job-section h3 {
+                font-size: 16px;
+            }
+
+            .job-section li {
+                font-size: 13px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="date"],
+            input[type="number"],
+            select,
+            textarea {
+                padding: 12px 14px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .radio-card {
+                padding: 12px;
+            }
+
+            .file-upload-label {
+                padding: 25px 15px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 16px;
+                font-size: 16px;
+            }
+
+            .progress-info {
+                padding: 10px 12px;
+            }
+
+            .nav-sidebar {
+                padding: 15px;
+            }
+
+            .video-instructions {
+                padding: 15px;
             }
 
             .save-indicator {
