@@ -2854,17 +2854,52 @@
                                             <li><strong>Quality:</strong> Ensure good lighting and clear audio</li>
                                         </ul>
                                     </div>
-                                    <div class="file-upload-wrapper" style="margin-top: 20px;">
-                                        <div class="file-upload">
-                                            <input type="file" id="video1" name="video1" accept="video/*">
-                                            <label for="video1" class="file-upload-label">
-                                                <div class="file-upload-text">Click to upload video</div>
-                                                <div class="file-upload-hint">Maximum file size: 100MB<br>Supported formats: MP4, MOV, AVI, WMV, WEBM</div>
-                                            </label>
+
+                                    <!-- Video Recording Options -->
+                                    <div class="video-recording-container">
+                                        <div class="video-recording-options">
+                                            <div class="video-option-btn" id="recordOption" onclick="switchToRecord()">
+                                                🎥 Record Video
+                                            </div>
+                                            <div class="video-option-btn active" id="uploadOption" onclick="switchToUpload()">
+                                                📤 Upload Video
+                                            </div>
                                         </div>
-                                        <div id="fileSelected" class="file-selected" style="display: none;">
-                                            <span class="file-selected-name" id="fileName"></span>
-                                            <button type="button" class="file-selected-remove" id="removeFile">×</button>
+
+                                        <!-- Upload Option -->
+                                        <div id="uploadSection" class="file-upload-wrapper">
+                                            <div class="file-upload">
+                                                <input type="file" id="video1" name="video1" accept="video/*">
+                                                <label for="video1" class="file-upload-label">
+                                                    <div class="file-upload-text">Click to upload video</div>
+                                                    <div class="file-upload-hint">Maximum file size: 100MB<br>Supported formats: MP4, MOV, AVI, WMV, WEBM</div>
+                                                </label>
+                                            </div>
+                                            <div id="fileSelected" class="file-selected" style="display: none;">
+                                                <span class="file-selected-name" id="fileName"></span>
+                                                <button type="button" class="file-selected-remove" id="removeFile">×</button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Record Option -->
+                                        <div id="recordSection" class="video-preview-container" style="display: none;">
+                                            <video id="videoPreview" class="video-preview" autoplay muted playsinline></video>
+                                            <div class="recording-controls">
+                                                <button type="button" class="recording-btn record" id="startRecordBtn" onclick="startRecording()">
+                                                    🎬 Start Recording
+                                                </button>
+                                                <button type="button" class="recording-btn stop" id="stopRecordBtn" onclick="stopRecording()" style="display: none;">
+                                                    ⏹ Stop Recording
+                                                </button>
+                                                <button type="button" class="recording-btn use" id="useRecordBtn" onclick="useRecordedVideo()" style="display: none;">
+                                                    ✅ Use This Video
+                                                </button>
+                                                <button type="button" class="recording-btn retry" id="retryRecordBtn" onclick="retryRecording()" style="display: none;">
+                                                    🔄 Record Again
+                                                </button>
+                                                <div class="recording-timer" id="recordingTimer" style="display: none;">00:00</div>
+                                            </div>
+                                            <div id="recordingStatus" class="recording-status" style="display: none;"></div>
                                         </div>
                                     </div>
                                 </div>
