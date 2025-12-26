@@ -178,16 +178,33 @@ app.post('/api/submit-application', upload.fields([
         };
 
         // Save to JSON file
-        const dataFile = path.join(__dirname, 'data', 'applications.json');
+        const dataDir = path.join(__dirname, 'data');
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+        }
+        
+        const dataFile = path.join(dataDir, 'applications.json');
         let applications = [];
         
         if (fs.existsSync(dataFile)) {
-            const fileContent = fs.readFileSync(dataFile, 'utf8');
-            applications = JSON.parse(fileContent);
+            try {
+                const fileContent = fs.readFileSync(dataFile, 'utf8');
+                if (fileContent && fileContent.trim() !== '') {
+                    applications = JSON.parse(fileContent);
+                    if (!Array.isArray(applications)) {
+                        console.warn('Applications file is not an array, resetting');
+                        applications = [];
+                    }
+                }
+            } catch (parseError) {
+                console.error('Error parsing applications file:', parseError);
+                applications = [];
+            }
         }
         
         applications.push(applicationData);
-        fs.writeFileSync(dataFile, JSON.stringify(applications, null, 2));
+        fs.writeFileSync(dataFile, JSON.stringify(applications, null, 2), 'utf8');
+        console.log(`Application saved: ${applicationData.id} (Total: ${applications.length})`);
 
         res.json({
             success: true,
