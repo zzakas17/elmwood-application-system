@@ -207,12 +207,27 @@ app.post('/api/submit-application', upload.fields([
         }
         
         applications.push(applicationData);
-        fs.writeFileSync(dataFile, JSON.stringify(applications, null, 2), 'utf8');
-        console.log(`✅ Application saved: ${applicationData.id}`);
-        console.log(`   Name: ${applicationData.personalInfo?.fullName}`);
-        console.log(`   Email: ${applicationData.personalInfo?.email}`);
-        console.log(`   Total applications: ${applications.length}`);
-        console.log(`   File location: ${dataFile}`);
+        
+        // Write with error handling
+        try {
+            fs.writeFileSync(dataFile, JSON.stringify(applications, null, 2), 'utf8');
+            console.log(`✅ Application saved: ${applicationData.id}`);
+            console.log(`   Name: ${applicationData.personalInfo?.fullName}`);
+            console.log(`   Email: ${applicationData.personalInfo?.email}`);
+            console.log(`   Total applications: ${applications.length}`);
+            console.log(`   File location: ${dataFile}`);
+            console.log(`   File size: ${fs.statSync(dataFile).size} bytes`);
+            
+            // Verify it was written correctly
+            const verifyContent = fs.readFileSync(dataFile, 'utf8');
+            const verifyApps = JSON.parse(verifyContent);
+            if (verifyApps.length !== applications.length) {
+                console.error(`⚠️ WARNING: File write verification failed! Expected ${applications.length}, got ${verifyApps.length}`);
+            }
+        } catch (writeError) {
+            console.error('❌ CRITICAL: Failed to write application file:', writeError);
+            throw writeError;
+        }
 
         res.json({
             success: true,
