@@ -1731,10 +1731,13 @@
                     <h2>About Elmwood & Company</h2>
                     <p>Elmwood & Company is a U.S.-based industrial real estate brokerage specializing in the acquisition, disposition, and leasing of industrial properties including warehouses, distribution centers, manufacturing facilities, and logistics hubs.</p>
                 </div>
+                <button class="job-description-toggle" onclick="toggleCompanyDetails()">View Company Details</button>
                 <div class="company-details">
+                    <div class="job-description-content company-content">
                     <div class="company-section">
                         <h3>Our Work Environment</h3>
                         <p>We operate in a fast-paced, detail-oriented environment where accuracy and professionalism are paramount. Our team collaborates closely to ensure seamless transaction coordination from initial contract execution through closing. Every document, deadline, and communication matters in ensuring successful outcomes for our clients.</p>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -2437,30 +2440,55 @@
     <script>
         // Toggle job description on mobile
         function toggleJobDescription() {
-            const toggle = document.querySelector('.job-description-toggle');
-            const content = document.querySelector('.job-description-content');
-            if (content && toggle) {
-                if (content.classList.contains('collapsed')) {
-                    content.classList.remove('collapsed');
-                    toggle.textContent = 'Hide Job Details';
-                    toggle.classList.remove('collapsed');
+            const toggles = document.querySelectorAll('.job-description-toggle');
+            const contents = document.querySelectorAll('.job-description-content');
+            const jobToggle = toggles[toggles.length - 1]; // Last toggle is for job description
+            const jobContent = contents[contents.length - 1]; // Last content is for job description
+            
+            if (jobContent && jobToggle) {
+                if (jobContent.classList.contains('collapsed')) {
+                    jobContent.classList.remove('collapsed');
+                    jobToggle.textContent = 'Hide Job Details';
+                    jobToggle.classList.remove('collapsed');
                 } else {
-                    content.classList.add('collapsed');
-                    toggle.textContent = 'View Job Details';
-                    toggle.classList.add('collapsed');
+                    jobContent.classList.add('collapsed');
+                    jobToggle.textContent = 'View Job Details';
+                    jobToggle.classList.add('collapsed');
                 }
             }
         }
 
-        // Initialize job description as collapsed on mobile
+        // Toggle company details on mobile
+        function toggleCompanyDetails() {
+            const toggles = document.querySelectorAll('.job-description-toggle');
+            const contents = document.querySelectorAll('.company-content');
+            const companyToggle = toggles[0]; // First toggle is for company
+            const companyContent = contents[0]; // First content is for company
+            
+            if (companyContent && companyToggle) {
+                if (companyContent.classList.contains('collapsed')) {
+                    companyContent.classList.remove('collapsed');
+                    companyToggle.textContent = 'Hide Company Details';
+                    companyToggle.classList.remove('collapsed');
+                } else {
+                    companyContent.classList.add('collapsed');
+                    companyToggle.textContent = 'View Company Details';
+                    companyToggle.classList.add('collapsed');
+                }
+            }
+        }
+
+        // Initialize sections as collapsed on mobile
         window.addEventListener('load', function() {
             if (window.innerWidth <= 768) {
-                const content = document.querySelector('.job-description-content');
-                const toggle = document.querySelector('.job-description-toggle');
-                if (content && toggle) {
-                    content.classList.add('collapsed');
-                    toggle.classList.add('collapsed');
-                }
+                const contents = document.querySelectorAll('.job-description-content');
+                const toggles = document.querySelectorAll('.job-description-toggle');
+                contents.forEach((content, index) => {
+                    if (content && toggles[index]) {
+                        content.classList.add('collapsed');
+                        toggles[index].classList.add('collapsed');
+                    }
+                });
             }
         });
 
