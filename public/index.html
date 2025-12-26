@@ -66,8 +66,9 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
             box-shadow: var(--shadow-sm);
         }
 
@@ -294,24 +295,28 @@
         }
 
         .position-card-header {
-            background: var(--bg-white);
-            padding: 32px 40px;
-            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--bg-white) 0%, rgba(248, 250, 252, 1) 100%);
+            padding: 40px 48px;
+            border-bottom: 1px solid var(--border-light);
         }
 
         .position-card-header h2 {
-            font-size: 26px;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 8px;
-            letter-spacing: -0.4px;
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
         }
 
         .position-card-header p {
             color: var(--text-secondary);
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.7;
             margin: 0;
+            font-weight: 400;
         }
 
         .company-details {
@@ -1121,15 +1126,17 @@
         }
 
         .message.success {
-            background: #d1fae5;
+            background: linear-gradient(135deg, var(--success-light) 0%, #d1fae5 100%);
             color: #065f46;
-            border: 1px solid #10b981;
+            border-color: var(--success);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
         }
 
         .message.error {
-            background: #fee2e2;
+            background: linear-gradient(135deg, var(--error-light) 0%, #fee2e2 100%);
             color: #991b1b;
-            border: 1px solid var(--error);
+            border-color: var(--error);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
         }
 
         /* Auto-save indicator */
@@ -1138,14 +1145,16 @@
             bottom: 24px;
             right: 24px;
             background: var(--bg-white);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px 20px;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 14px 24px;
             box-shadow: var(--shadow-lg);
             font-size: 14px;
             color: var(--text-secondary);
             display: none;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
         }
 
         .save-indicator.show {
@@ -1175,16 +1184,82 @@
         /* Footer */
         .footer {
             text-align: center;
-            padding: 40px 20px;
-            color: var(--text-light);
-            font-size: 14px;
+            padding: 50px 40px;
+            color: var(--text-secondary);
+            font-size: 13px;
             background: var(--bg-white);
-            border-top: 1px solid var(--border);
-            margin-top: 60px;
+            border-top: 2px solid var(--border-light);
+            margin-top: 80px;
+            line-height: 1.8;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            margin-bottom: 24px;
+        }
+
+        .footer-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer h4 {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
         }
 
         .footer strong {
-            color: var(--primary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .disclaimer-box {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .disclaimer-box strong {
+            color: var(--text-primary);
             font-weight: 600;
         }
 
@@ -2212,7 +2287,29 @@
                     </div>
 
                     <div class="footer">
-                        <p>Questions? Contact us at <strong>zac@elmwood.co</strong></p>
+                        <div class="footer-content">
+                            <div class="footer-section">
+                                <h4>Contact</h4>
+                                <p>Questions about this position or the application process?</p>
+                                <p>Email: <strong>zac@elmwood.co</strong></p>
+                            </div>
+                            
+                            <div class="disclaimer-box">
+                                <p><strong>Equal Opportunity Employer:</strong> Elmwood & Company is an equal opportunity employer. We consider all qualified applicants for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, age, disability, or any other protected status.</p>
+                                
+                                <p style="margin-top: 12px;"><strong>Data Privacy & Collection:</strong> By submitting this application, you consent to the collection, processing, and storage of your personal information, including but not limited to your name, contact information, resume, cover letter, video submissions, and responses to application questions. This information will be used solely for recruitment and hiring purposes. Your data will be kept confidential and will not be shared with third parties except as necessary for the recruitment process.</p>
+                                
+                                <p style="margin-top: 12px;"><strong>Application Acknowledgment:</strong> You acknowledge that all information provided in this application is true and accurate to the best of your knowledge. Any misrepresentation or omission of material facts may result in disqualification from consideration or termination of employment if discovered after hiring.</p>
+                                
+                                <p style="margin-top: 12px;"><strong>No Guarantee of Employment:</strong> Submission of this application does not guarantee employment or create any contractual obligation. Elmwood & Company reserves the right to reject any application, discontinue the recruitment process, or modify job requirements at any time.</p>
+                            </div>
+                            
+                            <div class="footer-links">
+                                <a href="mailto:zac@elmwood.co">Contact</a>
+                                <span>•</span>
+                                <span style="color: var(--text-light);">© 2024 Elmwood & Company. All rights reserved.</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
