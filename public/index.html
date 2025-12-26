@@ -1733,33 +1733,93 @@
             .nav-sidebar {
                 position: relative;
                 top: 0;
-                margin-bottom: 16px;
-                padding: 16px;
-                border-radius: 10px;
-                max-height: 300px;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
+                margin-bottom: 20px;
+                padding: 0;
+                border-radius: 12px;
+                background: var(--bg-white);
+                border: 2px solid var(--border-light);
+                box-shadow: var(--shadow-sm);
+                overflow: hidden;
+            }
+
+            .nav-sidebar-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 16px 18px;
+                background: var(--bg-light);
+                border-bottom: 2px solid var(--border-light);
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+                user-select: none;
+            }
+
+            .nav-sidebar-header:active {
+                background: var(--border-light);
             }
 
             .nav-sidebar h3 {
-                font-size: 13px;
-                margin-bottom: 10px;
+                font-size: 14px;
+                margin: 0;
                 font-weight: 700;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
+                color: var(--primary);
+            }
+
+            .nav-toggle-icon {
+                font-size: 18px;
+                color: var(--primary);
+                transition: transform 0.3s ease;
+                font-weight: 600;
+            }
+
+            .nav-sidebar.collapsed .nav-toggle-icon {
+                transform: rotate(180deg);
+            }
+
+            .nav-sidebar-content {
+                max-height: 400px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-sidebar.collapsed .nav-sidebar-content {
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            .nav-list {
+                padding: 12px;
+                margin: 0;
+            }
+
+            .nav-item {
+                margin-bottom: 6px;
             }
 
             .nav-link {
-                padding: 14px 12px;
-                font-size: 13px;
-                min-height: 44px;
+                padding: 14px 16px;
+                font-size: 14px;
+                min-height: 48px;
                 display: flex;
                 align-items: center;
                 -webkit-tap-highlight-color: transparent;
+                border-radius: 8px;
+                font-weight: 500;
             }
 
             .nav-link:active {
                 background: var(--bg-light);
+                transform: scale(0.98);
+            }
+
+            .nav-link.active {
+                background: rgba(26, 61, 92, 0.1);
+                color: var(--primary);
+                font-weight: 600;
+                border-left: 4px solid var(--primary);
             }
 
             .video-instructions {
@@ -1862,6 +1922,96 @@
                 padding: 12px 16px;
                 font-size: 13px;
                 border-radius: 8px;
+            }
+
+            /* Additional mobile optimizations */
+            .form-section:first-of-type {
+                padding-top: 10px;
+            }
+
+            .section-divider {
+                display: none;
+            }
+
+            /* Better spacing for file uploads */
+            .file-upload-wrapper + .file-upload-wrapper {
+                margin-top: 20px;
+            }
+
+            /* Optimize dropdowns on mobile */
+            select {
+                background-size: 14px;
+                padding-right: 44px;
+            }
+
+            /* Better message display */
+            .message {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            /* Optimize character counters */
+            .char-counter {
+                position: relative;
+                margin-top: 4px;
+            }
+
+            /* Better error display */
+            .error-message {
+                word-wrap: break-word;
+                line-height: 1.4;
+            }
+
+            /* Optimize radio cards spacing */
+            .fit-question {
+                margin-bottom: 24px;
+            }
+
+            .fit-question-label {
+                font-size: 14px;
+                line-height: 1.5;
+                margin-bottom: 14px;
+            }
+
+            /* Better video instructions */
+            .video-instructions {
+                margin-top: 20px;
+            }
+
+            /* Optimize document guidelines */
+            .document-guidelines {
+                padding: 16px;
+                margin-bottom: 20px;
+                border-radius: 10px;
+            }
+
+            .document-guidelines h4 {
+                font-size: 15px;
+                margin-bottom: 12px;
+            }
+
+            .document-guidelines ul {
+                padding-left: 20px;
+            }
+
+            .document-guidelines li {
+                font-size: 13px;
+                line-height: 1.6;
+                margin-bottom: 8px;
+            }
+
+            /* Better footer on mobile */
+            .footer {
+                padding: 24px 16px;
+            }
+
+            /* Hide desktop-only elements */
+            .nav-link::before {
+                display: none;
+            }
+
+            .nav-link:hover {
+                padding-left: 16px;
             }
         }
 
@@ -2066,9 +2216,14 @@
 
             <div class="content-layout">
                 <!-- Navigation Sidebar -->
-                <nav class="nav-sidebar">
-                    <h3>Application Sections</h3>
-                    <ul class="nav-list" id="navList"></ul>
+                <nav class="nav-sidebar" id="navSidebar">
+                    <div class="nav-sidebar-header" onclick="toggleNavSidebar()">
+                        <h3>Application Sections</h3>
+                        <span class="nav-toggle-icon">▼</span>
+                    </div>
+                    <div class="nav-sidebar-content">
+                        <ul class="nav-list" id="navList"></ul>
+                    </div>
                 </nav>
 
                 <!-- Form Card -->
@@ -2746,9 +2901,18 @@
             }
         }
 
+        // Toggle navigation sidebar on mobile
+        function toggleNavSidebar() {
+            const sidebar = document.getElementById('navSidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('collapsed');
+            }
+        }
+
         // Initialize sections as collapsed on mobile
         window.addEventListener('load', function() {
             if (window.innerWidth <= 768) {
+                // Collapse job description sections
                 const contents = document.querySelectorAll('.job-description-content');
                 const toggles = document.querySelectorAll('.job-description-toggle');
                 contents.forEach((content, index) => {
@@ -2757,6 +2921,12 @@
                         toggles[index].classList.add('collapsed');
                     }
                 });
+                
+                // Collapse navigation sidebar by default on mobile
+                const navSidebar = document.getElementById('navSidebar');
+                if (navSidebar) {
+                    navSidebar.classList.add('collapsed');
+                }
             }
         });
 
@@ -3146,7 +3316,15 @@
                     const targetId = link.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
                     if (targetSection) {
-                        const offset = 100;
+                        // Close nav sidebar on mobile after clicking
+                        if (window.innerWidth <= 768) {
+                            const navSidebar = document.getElementById('navSidebar');
+                            if (navSidebar) {
+                                navSidebar.classList.add('collapsed');
+                            }
+                        }
+                        
+                        const offset = window.innerWidth <= 768 ? 140 : 100;
                         const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - offset;
                         window.scrollTo({
                             top: targetPosition,
