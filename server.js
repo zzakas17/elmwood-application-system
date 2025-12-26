@@ -105,6 +105,10 @@ app.post('/api/submit-application', upload.fields([
     { name: 'coverLetter', maxCount: 1 },
     { name: 'portfolioFiles', maxCount: 10 }
 ]), (req, res) => {
+    console.log('=== Application Submission Received ===');
+    console.log('Body keys:', Object.keys(req.body));
+    console.log('Files:', req.files ? Object.keys(req.files) : 'No files');
+    
     try {
         const applicationData = {
             id: Date.now().toString(),
@@ -204,7 +208,11 @@ app.post('/api/submit-application', upload.fields([
         
         applications.push(applicationData);
         fs.writeFileSync(dataFile, JSON.stringify(applications, null, 2), 'utf8');
-        console.log(`Application saved: ${applicationData.id} (Total: ${applications.length})`);
+        console.log(`✅ Application saved: ${applicationData.id}`);
+        console.log(`   Name: ${applicationData.personalInfo?.fullName}`);
+        console.log(`   Email: ${applicationData.personalInfo?.email}`);
+        console.log(`   Total applications: ${applications.length}`);
+        console.log(`   File location: ${dataFile}`);
 
         res.json({
             success: true,
@@ -212,10 +220,12 @@ app.post('/api/submit-application', upload.fields([
             applicationId: applicationData.id
         });
     } catch (error) {
-        console.error('Error processing application:', error);
+        console.error('❌ Error processing application:', error);
+        console.error('Error stack:', error.stack);
         res.status(500).json({
             success: false,
-            message: 'Error submitting application. Please try again.'
+            message: 'Error submitting application. Please try again.',
+            error: error.message
         });
     }
 });
