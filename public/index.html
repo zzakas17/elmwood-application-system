@@ -3330,7 +3330,21 @@
         }
 
         async function initializeCamera() {
+            const videoOverlay = document.getElementById('videoOverlay');
+            const videoPreview = document.getElementById('videoPreview');
+            const startBtn = document.getElementById('startRecordBtn');
+            const statusDiv = document.getElementById('recordingStatus');
+            
             try {
+                // Show loading state
+                if (videoOverlay) videoOverlay.style.display = 'flex';
+                if (startBtn) startBtn.style.display = 'none';
+                if (statusDiv) {
+                    statusDiv.textContent = 'Requesting camera access...';
+                    statusDiv.className = 'recording-status';
+                    statusDiv.style.display = 'block';
+                }
+                
                 const stream = await navigator.mediaDevices.getUserMedia({ 
                     video: { 
                         width: { ideal: 1280 },
@@ -3341,21 +3355,45 @@
                 });
                 
                 recordingStream = stream;
-                const videoPreview = document.getElementById('videoPreview');
+                
                 if (videoPreview) {
                     videoPreview.srcObject = stream;
+                    videoPreview.onloadedmetadata = () => {
+                        if (videoOverlay) videoOverlay.style.display = 'none';
+                        if (startBtn) startBtn.style.display = 'flex';
+                        if (statusDiv) statusDiv.style.display = 'none';
+                    };
+                } else {
+                    if (videoOverlay) videoOverlay.style.display = 'none';
+                    if (startBtn) startBtn.style.display = 'flex';
                 }
-                
-                document.getElementById('startRecordBtn').style.display = 'inline-block';
-                document.getElementById('recordingStatus').style.display = 'none';
             } catch (error) {
                 console.error('Error accessing camera:', error);
-                if (globalShowMessage) {
-                    globalShowMessage('Unable to access camera. Please check permissions and try again, or use the upload option.', 'error');
+                if (videoOverlay) videoOverlay.style.display = 'none';
+                
+                let errorMsg = 'Unable to access camera. ';
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    errorMsg += 'Please allow camera and microphone permissions in your browser settings.';
+                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                    errorMsg += 'No camera found. Please connect a camera or use the upload option.';
                 } else {
-                    alert('Unable to access camera. Please check permissions and try again, or use the upload option.');
+                    errorMsg += 'Please check your camera settings and try again, or use the upload option.';
                 }
-                switchToUpload();
+                
+                if (statusDiv) {
+                    statusDiv.textContent = errorMsg;
+                    statusDiv.className = 'recording-status error';
+                    statusDiv.style.display = 'block';
+                }
+                
+                if (globalShowMessage) {
+                    globalShowMessage(errorMsg, 'error');
+                }
+                
+                // Auto-switch to upload after 3 seconds
+                setTimeout(() => {
+                    switchToUpload();
+                }, 3000);
             }
         }
 
