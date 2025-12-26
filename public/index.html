@@ -1177,6 +1177,52 @@
             font-weight: 500;
         }
 
+        /* Start Application Button */
+        .start-application-btn {
+            display: none;
+        }
+
+        .job-description-toggle {
+            display: none;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .job-description-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .job-description-toggle::after {
+            content: ' ▼';
+            font-size: 12px;
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .job-description-toggle.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .job-description-content {
+            transition: all 0.3s ease;
+        }
+
+        .job-description-content.collapsed {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+
         .save-indicator.show {
             display: block;
             animation: slideUp 0.3s ease;
@@ -1312,6 +1358,50 @@
         }
 
         @media (max-width: 768px) {
+            .start-application-btn {
+                display: block;
+                position: sticky;
+                top: 60px;
+                z-index: 99;
+                background: var(--primary-gradient);
+                color: white;
+                border: none;
+                padding: 16px 24px;
+                border-radius: 0;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                width: 100%;
+                box-shadow: var(--shadow-md);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: all 0.3s ease;
+            }
+
+            .start-application-btn:hover {
+                background: var(--primary-gradient-hover);
+            }
+
+            .position-card {
+                margin-bottom: 16px;
+            }
+
+            .position-card-header {
+                padding: 20px 18px;
+            }
+
+            .job-description-toggle {
+                display: block;
+            }
+
+            .job-description {
+                padding: 0;
+            }
+
+            .job-description-content {
+                padding: 0 18px 18px;
+            }
+
             .header-content {
                 padding: 50px 20px 40px;
             }
@@ -1649,12 +1739,16 @@
                 </div>
             </div>
 
+            <button class="start-application-btn" onclick="document.getElementById('section-1').scrollIntoView({behavior: 'smooth', block: 'start'});">Start Application</button>
+
             <div class="position-card" style="margin-top: 30px;">
                 <div class="position-card-header">
                     <h2>Position: Marketing & Operations Coordinator</h2>
                     <p>Full-time remote role supporting industrial real estate brokerage operations</p>
                 </div>
+                <button class="job-description-toggle" onclick="toggleJobDescription()">View Job Details</button>
                 <div class="job-description">
+                    <div class="job-description-content">
                     <div class="job-section">
                         <h3>Key Responsibilities</h3>
                         <ul>
@@ -1694,6 +1788,7 @@
                             <li><strong>Impact & Visibility:</strong> Your work directly supports major transactions and client relationships, giving you meaningful visibility into the business</li>
                             <li><strong>Skill Development:</strong> Opportunity to master marketing design, transaction coordination, CRM systems, and client communication in a fast-paced environment</li>
                         </ul>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -2340,6 +2435,35 @@
     <div class="save-indicator" id="saveIndicator"></div>
 
     <script>
+        // Toggle job description on mobile
+        function toggleJobDescription() {
+            const toggle = document.querySelector('.job-description-toggle');
+            const content = document.querySelector('.job-description-content');
+            if (content && toggle) {
+                if (content.classList.contains('collapsed')) {
+                    content.classList.remove('collapsed');
+                    toggle.textContent = 'Hide Job Details';
+                    toggle.classList.remove('collapsed');
+                } else {
+                    content.classList.add('collapsed');
+                    toggle.textContent = 'View Job Details';
+                    toggle.classList.add('collapsed');
+                }
+            }
+        }
+
+        // Initialize job description as collapsed on mobile
+        window.addEventListener('load', function() {
+            if (window.innerWidth <= 768) {
+                const content = document.querySelector('.job-description-content');
+                const toggle = document.querySelector('.job-description-toggle');
+                if (content && toggle) {
+                    content.classList.add('collapsed');
+                    toggle.classList.add('collapsed');
+                }
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('applicationForm');
             const messageDiv = document.getElementById('message');
