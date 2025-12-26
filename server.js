@@ -208,16 +208,36 @@ app.get('/api/applications', (req, res) => {
     try {
         const dataFile = path.join(__dirname, 'data', 'applications.json');
         
+        // Ensure data directory exists
+        const dataDir = path.join(__dirname, 'data');
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+        }
+        
         if (fs.existsSync(dataFile)) {
             const fileContent = fs.readFileSync(dataFile, 'utf8');
+            // Handle empty file
+            if (!fileContent || fileContent.trim() === '') {
+                console.log('Applications file is empty, returning empty array');
+                return res.json([]);
+            }
             const applications = JSON.parse(fileContent);
-            res.json(applications);
+            // Ensure it's an array
+            const appsArray = Array.isArray(applications) ? applications : [];
+            console.log(`Returning ${appsArray.length} applications`);
+            res.setHeader('Content-Type', 'application/json');
+            res.json(appsArray);
         } else {
+            console.log('Applications file does not exist, returning empty array');
+            // Create empty file
+            fs.writeFileSync(dataFile, '[]', 'utf8');
+            res.setHeader('Content-Type', 'application/json');
             res.json([]);
         }
     } catch (error) {
         console.error('Error reading applications:', error);
-        res.status(500).json({ error: 'Error retrieving applications' });
+        res.status(500).setHeader('Content-Type', 'application/json');
+        res.json({ error: 'Error retrieving applications', message: error.message });
     }
 });
 
