@@ -2995,6 +2995,218 @@
             }
         }
 
+        // Video Recording Functions
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let recordedBlob = null;
+        let recordingStream = null;
+        let recordingTimerInterval = null;
+        let recordingStartTime = null;
+
+        function switchToRecord() {
+            document.getElementById('recordOption').classList.add('active');
+            document.getElementById('uploadOption').classList.remove('active');
+            document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('recordSection').style.display = 'block';
+            document.getElementById('recordSection').classList.add('active');
+            
+            // Clear any uploaded file
+            const videoInput = document.getElementById('video1');
+            if (videoInput) videoInput.value = '';
+            const fileSelected = document.getElementById('fileSelected');
+            if (fileSelected) fileSelected.style.display = 'none';
+            
+            initializeCamera();
+        }
+
+        function switchToUpload() {
+            document.getElementById('uploadOption').classList.add('active');
+            document.getElementById('recordOption').classList.remove('active');
+            document.getElementById('recordSection').style.display = 'none';
+            document.getElementById('uploadSection').style.display = 'block';
+            
+            // Stop camera if recording
+            stopCamera();
+        }
+
+        async function initializeCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    }, 
+                    audio: true 
+                });
+                
+                recordingStream = stream;
+                const videoPreview = document.getElementById('videoPreview');
+                if (videoPreview) {
+                    videoPreview.srcObject = stream;
+                }
+                
+                document.getElementById('startRecordBtn').style.display = 'inline-block';
+                document.getElementById('recordingStatus').style.display = 'none';
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                showMessage('Unable to access camera. Please check permissions and try again, or use the upload option.', 'error');
+                switchToUpload();
+            }
+        }
+
+        function startRecording() {
+            if (!recordingStream) {
+                initializeCamera();
+                return;
+            }
+
+            recordedChunks = [];
+            const options = { mimeType: 'video/webm;codecs=vp9,opus' };
+            
+            try {
+                mediaRecorder = new MediaRecorder(recordingStream, options);
+            } catch (e) {
+                // Fallback to default
+                mediaRecorder = new MediaRecorder(recordingStream);
+            }
+
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                const videoPreview = document.getElementById('videoPreview');
+                if (videoPreview) {
+                    videoPreview.srcObject = null;
+                    videoPreview.src = URL.createObjectURL(recordedBlob);
+                    videoPreview.controls = true;
+                    videoPreview.muted = false;
+                }
+                
+                document.getElementById('stopRecordBtn').style.display = 'none';
+                document.getElementById('useRecordBtn').style.display = 'inline-block';
+                document.getElementById('retryRecordBtn').style.display = 'inline-block';
+                document.getElementById('recordingTimer').style.display = 'none';
+                document.getElementById('recordingStatus').textContent = 'Recording stopped. Review your video below.';
+                document.getElementById('recordingStatus').className = 'recording-status stopped';
+                document.getElementById('recordingStatus').style.display = 'block';
+            };
+
+            mediaRecorder.start();
+            recordingStartTime = Date.now();
+            
+            document.getElementById('startRecordBtn').style.display = 'none';
+            document.getElementById('stopRecordBtn').style.display = 'inline-block';
+            document.getElementById('startRecordBtn').classList.add('recording');
+            document.getElementById('recordingTimer').style.display = 'block';
+            document.getElementById('recordingStatus').textContent = 'Recording in progress...';
+            document.getElementById('recordingStatus').className = 'recording-status recording';
+            document.getElementById('recordingStatus').style.display = 'block';
+
+            // Start timer
+            recordingTimerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('recordingTimer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Warn at 60 seconds
+                if (elapsed >= 60) {
+                    document.getElementById('recordingStatus').textContent = '⚠️ Recording over 1 minute. Please keep it under 1 minute.';
+                }
+            }, 1000);
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                recordingStream.getTracks().forEach(track => track.stop());
+            }
+            
+            if (recordingTimerInterval) {
+                clearInterval(recordingTimerInterval);
+                recordingTimerInterval = null;
+            }
+            
+            document.getElementById('startRecordBtn').classList.remove('recording');
+        }
+
+        function useRecordedVideo() {
+            if (!recordedBlob) {
+                showMessage('No video recorded. Please record a video first.', 'error');
+                return;
+            }
+
+            // Convert blob to file
+            const file = new File([recordedBlob], `video-${Date.now()}.webm`, { type: 'video/webm' });
+            
+            // Create a FileList-like object and assign to input
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            const videoInput = document.getElementById('video1');
+            videoInput.files = dataTransfer.files;
+
+            // Show file selected
+            const fileSelected = document.getElementById('fileSelected');
+            const fileName = document.getElementById('fileName');
+            if (fileSelected && fileName) {
+                fileName.textContent = file.name;
+                fileSelected.style.display = 'flex';
+            }
+
+            // Switch to upload view to show the file
+            switchToUpload();
+            showMessage('Video recorded successfully! You can review it in the upload section.', 'success');
+            
+            updateProgress();
+            autoSave();
+        }
+
+        function retryRecording() {
+            recordedBlob = null;
+            recordedChunks = [];
+            
+            const videoPreview = document.getElementById('videoPreview');
+            if (videoPreview) {
+                videoPreview.src = '';
+                videoPreview.controls = false;
+            }
+            
+            document.getElementById('useRecordBtn').style.display = 'none';
+            document.getElementById('retryRecordBtn').style.display = 'none';
+            document.getElementById('recordingStatus').style.display = 'none';
+            
+            initializeCamera();
+        }
+
+        function stopCamera() {
+            if (recordingStream) {
+                recordingStream.getTracks().forEach(track => track.stop());
+                recordingStream = null;
+            }
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+            if (recordingTimerInterval) {
+                clearInterval(recordingTimerInterval);
+                recordingTimerInterval = null;
+            }
+            
+            const videoPreview = document.getElementById('videoPreview');
+            if (videoPreview) {
+                videoPreview.srcObject = null;
+                videoPreview.src = '';
+            }
+        }
+
+        // Clean up camera on page unload
+        window.addEventListener('beforeunload', stopCamera);
+
         // Initialize sections as collapsed on mobile
         window.addEventListener('load', function() {
             if (window.innerWidth <= 768) {
