@@ -230,6 +230,50 @@ app.post('/api/submit-application', upload.fields([
     }
 });
 
+// Diagnostic endpoint
+app.get('/api/health', (req, res) => {
+    const dataFile = path.join(__dirname, 'data', 'applications.json');
+    const dataDir = path.join(__dirname, 'data');
+    
+    const info = {
+        server: 'running',
+        dataDirectory: {
+            exists: fs.existsSync(dataDir),
+            path: dataDir
+        },
+        dataFile: {
+            exists: fs.existsSync(dataFile),
+            path: dataFile,
+            size: fs.existsSync(dataFile) ? fs.statSync(dataFile).size : 0
+        },
+        applications: {
+            count: 0
+        }
+    };
+    
+    if (fs.existsSync(dataFile)) {
+        try {
+            const content = fs.readFileSync(dataFile, 'utf8');
+            if (content && content.trim()) {
+                const apps = JSON.parse(content);
+                info.applications.count = Array.isArray(apps) ? apps.length : 0;
+                if (apps.length > 0) {
+                    info.applications.latest = {
+                        id: apps[apps.length - 1].id,
+                        name: apps[apps.length - 1].personalInfo?.fullName,
+                        email: apps[apps.length - 1].personalInfo?.email,
+                        submittedAt: apps[apps.length - 1].submittedAt
+                    };
+                }
+            }
+        } catch (e) {
+            info.error = e.message;
+        }
+    }
+    
+    res.json(info);
+});
+
 // Get all applications (admin endpoint)
 app.get('/api/applications', (req, res) => {
     try {
