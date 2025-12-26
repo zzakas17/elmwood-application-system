@@ -278,6 +278,90 @@ app.get('/api/portfolio/:filename', (req, res) => {
     }
 });
 
+// Update application rating
+app.post('/api/applications/:id/rating', (req, res) => {
+    try {
+        const { id } = req.params;
+        const { rating } = req.body;
+        const dataFile = path.join(__dirname, 'data', 'applications.json');
+        
+        if (!fs.existsSync(dataFile)) {
+            return res.status(404).json({ error: 'No applications found' });
+        }
+        
+        let applications = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+        const appIndex = applications.findIndex(app => app.id === id);
+        
+        if (appIndex === -1) {
+            return res.status(404).json({ error: 'Application not found' });
+        }
+        
+        applications[appIndex].rating = parseInt(rating);
+        fs.writeFileSync(dataFile, JSON.stringify(applications, null, 2));
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error updating rating:', error);
+        res.status(500).json({ error: 'Error updating rating' });
+    }
+});
+
+// Update application notes
+app.post('/api/applications/:id/notes', (req, res) => {
+    try {
+        const { id } = req.params;
+        const { notes } = req.body;
+        const dataFile = path.join(__dirname, 'data', 'applications.json');
+        
+        if (!fs.existsSync(dataFile)) {
+            return res.status(404).json({ error: 'No applications found' });
+        }
+        
+        let applications = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+        const appIndex = applications.findIndex(app => app.id === id);
+        
+        if (appIndex === -1) {
+            return res.status(404).json({ error: 'Application not found' });
+        }
+        
+        applications[appIndex].notes = notes;
+        fs.writeFileSync(dataFile, JSON.stringify(applications, null, 2));
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error updating notes:', error);
+        res.status(500).json({ error: 'Error updating notes' });
+    }
+});
+
+// Update application status
+app.post('/api/applications/:id/status', (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        const dataFile = path.join(__dirname, 'data', 'applications.json');
+        
+        if (!fs.existsSync(dataFile)) {
+            return res.status(404).json({ error: 'No applications found' });
+        }
+        
+        let applications = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+        const appIndex = applications.findIndex(app => app.id === id);
+        
+        if (appIndex === -1) {
+            return res.status(404).json({ error: 'Application not found' });
+        }
+        
+        applications[appIndex].status = status;
+        fs.writeFileSync(dataFile, JSON.stringify(applications, null, 2));
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error updating status:', error);
+        res.status(500).json({ error: 'Error updating status' });
+    }
+});
+
 // Error handling middleware
 app.use((error, req, res, next) => {
     if (error instanceof multer.MulterError) {

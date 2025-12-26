@@ -31,6 +31,8 @@
             --success-light: #d1fae5;
             --error: #ef4444;
             --error-light: #fee2e2;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
             --warning: #f59e0b;
             --warning-light: #fef3c7;
             --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -617,6 +619,28 @@
 
         .char-counter.error {
             color: var(--error);
+        }
+
+        .message.info {
+            background: var(--info-light);
+            border-color: var(--info);
+            color: var(--info);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         input[type="text"],
@@ -2923,7 +2947,10 @@
                 
                 submitBtn.disabled = true;
                 submitBtn.classList.add('loading');
-                submitBtn.textContent = 'Submitting...';
+                submitBtn.innerHTML = '<span class="spinner"></span> Submitting Application...';
+                
+                // Show upload progress
+                showMessage('Uploading files and submitting your application...', 'info');
 
                 const formData = new FormData(form);
 
@@ -2937,19 +2964,13 @@
 
                     if (data.success) {
                         localStorage.removeItem('applicationDraft');
-                        showMessage(`✓ Application submitted successfully! Your application ID is ${data.applicationId}. We have received your application and will review it carefully. You will be contacted via email if we would like to move forward with your candidacy. Thank you for your interest in Elmwood & Company.`, 'success');
-                        form.reset();
-                        fileSelected.style.display = 'none';
-                        resumeSelected.style.display = 'none';
-                        coverLetterSelected.style.display = 'none';
-                        portfolioFiles.innerHTML = '';
-                        document.querySelectorAll('input[type="radio"]').forEach(radio => {
-                            radio.checked = false;
-                        });
-                        updateProgress();
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        // Redirect to success page
+                        window.location.href = `/success.html?id=${data.applicationId}`;
                     } else {
                         showMessage(data.message || 'We encountered an error processing your application. Please try again or contact zac@elmwood.co for assistance.', 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('loading');
+                        submitBtn.textContent = 'Submit Application';
                     }
                 } catch (error) {
                     showMessage('Network error. Please check your connection and try again.', 'error');

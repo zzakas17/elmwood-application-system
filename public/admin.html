@@ -291,6 +291,93 @@
             margin-bottom: 10px;
         }
 
+        .rating-section {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .rating-section h4 {
+            color: #1a3d5c;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .star {
+            font-size: 28px;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #fbbf24;
+        }
+
+        .star.filled {
+            color: #fbbf24;
+        }
+
+        .notes-section {
+            margin-top: 15px;
+        }
+
+        .notes-section textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .notes-section textarea:focus {
+            outline: none;
+            border-color: #1a3d5c;
+        }
+
+        .save-notes-btn {
+            background: #1a3d5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .save-notes-btn:hover {
+            background: #2a5d7a;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-new { background: #dbeafe; color: #1e40af; }
+        .status-reviewing { background: #fef3c7; color: #92400e; }
+        .status-interview { background: #ddd6fe; color: #5b21b6; }
+        .status-hired { background: #d1fae5; color: #065f46; }
+        .status-rejected { background: #fee2e2; color: #991b1b; }
+
         .refresh-indicator {
             display: inline-block;
             margin-left: 10px;
@@ -375,6 +462,7 @@
                         <th onclick="sortTable('email')">Email</th>
                         <th onclick="sortTable('location')">Location</th>
                         <th onclick="sortTable('experience')">Experience</th>
+                        <th onclick="sortTable('rating')">Rating</th>
                         <th>Videos</th>
                         <th>CRE</th>
                     </tr>
@@ -458,13 +546,24 @@
                 const hasVideo = app.videos && app.videos.video1;
                 const hasCRE = app.experience?.creExperience && app.experience.creExperience !== 'none';
 
+                const status = app.status || 'new';
+                const statusBadges = {
+                    'new': '<span class="status-badge status-new">New</span>',
+                    'reviewing': '<span class="status-badge status-reviewing">Reviewing</span>',
+                    'interview': '<span class="status-badge status-interview">Interview</span>',
+                    'hired': '<span class="status-badge status-hired">Hired</span>',
+                    'rejected': '<span class="status-badge status-rejected">Rejected</span>'
+                };
+                const rating = app.rating ? '★'.repeat(app.rating) + '☆'.repeat(5 - app.rating) : '-';
+
                 return `
                     <tr onclick="showApplicationDetails('${app.id}')">
                         <td>${date}</td>
-                        <td>${name}</td>
+                        <td>${name} ${statusBadges[status] || ''}</td>
                         <td>${email}</td>
                         <td>${location}</td>
                         <td>${experience} years</td>
+                        <td>${rating}</td>
                         <td>${hasVideo ? '<span class="badge badge-video">Yes</span>' : '<span>-</span>'}</td>
                         <td>${hasCRE ? '<span class="badge badge-cre">Yes</span>' : '<span>-</span>'}</td>
                     </tr>
@@ -498,6 +597,9 @@
                 } else if (column === 'experience') {
                     aVal = parseInt(a.experience?.yearsOfExperience || 0);
                     bVal = parseInt(b.experience?.yearsOfExperience || 0);
+                } else if (column === 'rating') {
+                    aVal = a.rating || 0;
+                    bVal = b.rating || 0;
                 }
 
                 if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
@@ -594,8 +696,103 @@
                 html += '</div></div>';
             }
 
+            // Rating & Notes Section
+            const rating = app.rating || 0;
+            const notes = app.notes || '';
+            const status = app.status || 'new';
+            
+            html += `<div class="rating-section">
+                <h4>Evaluation</h4>
+                <div class="star-rating" data-app-id="${app.id}">
+                    ${[1,2,3,4,5].map(i => `<span class="star ${i <= rating ? 'filled' : ''}" data-rating="${i}">★</span>`).join('')}
+                </div>
+                <div class="notes-section">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #1a3d5c;">Notes:</label>
+                    <textarea id="notes-${app.id}" placeholder="Add your notes about this candidate...">${notes}</textarea>
+                    <button class="save-notes-btn" onclick="saveNotes('${app.id}')">Save Notes</button>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #1a3d5c;">Status:</label>
+                    <select id="status-${app.id}" onchange="updateStatus('${app.id}')" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px;">
+                        <option value="new" ${status === 'new' ? 'selected' : ''}>New</option>
+                        <option value="reviewing" ${status === 'reviewing' ? 'selected' : ''}>Under Review</option>
+                        <option value="interview" ${status === 'interview' ? 'selected' : ''}>Interview</option>
+                        <option value="hired" ${status === 'hired' ? 'selected' : ''}>Hired</option>
+                        <option value="rejected" ${status === 'rejected' ? 'selected' : ''}>Not Selected</option>
+                    </select>
+                </div>
+            </div>`;
+
             modalBody.innerHTML = html;
             modal.style.display = 'block';
+
+            // Setup star rating
+            setupStarRating(app.id);
+        }
+
+        function setupStarRating(appId) {
+            const stars = document.querySelectorAll(`[data-app-id="${appId}"] .star`);
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    saveRating(appId, rating);
+                });
+            });
+        }
+
+        async function saveRating(appId, rating) {
+            try {
+                const response = await fetch(`/api/applications/${appId}/rating`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rating })
+                });
+                if (response.ok) {
+                    const app = applications.find(a => a.id === appId);
+                    if (app) app.rating = rating;
+                    setupStarRating(appId);
+                }
+            } catch (error) {
+                console.error('Error saving rating:', error);
+            }
+        }
+
+        async function saveNotes(appId) {
+            const notes = document.getElementById(`notes-${appId}`).value;
+            try {
+                const response = await fetch(`/api/applications/${appId}/notes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ notes })
+                });
+                if (response.ok) {
+                    const app = applications.find(a => a.id === appId);
+                    if (app) app.notes = notes;
+                    alert('Notes saved successfully!');
+                }
+            } catch (error) {
+                console.error('Error saving notes:', error);
+                alert('Error saving notes. Please try again.');
+            }
+        }
+
+        async function updateStatus(appId) {
+            const status = document.getElementById(`status-${appId}`).value;
+            try {
+                const response = await fetch(`/api/applications/${appId}/status`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                if (response.ok) {
+                    const app = applications.find(a => a.id === appId);
+                    if (app) app.status = status;
+                    renderTable();
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert('Error updating status. Please try again.');
+            }
         }
 
         function closeModal() {
