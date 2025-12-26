@@ -545,10 +545,15 @@
         function renderTable() {
             const tbody = document.getElementById('applicationsTableBody');
             
+            if (!tbody) {
+                console.error('Table body element not found');
+                return;
+            }
+            
             if (filteredApplications.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="7" class="empty-state">
+                        <td colspan="8" class="empty-state">
                             <h3>No applications found</h3>
                             <p>Try adjusting your search</p>
                         </td>
