@@ -714,12 +714,62 @@
             html += `<div class="detail-row"><span class="detail-label">Document Types:</span><span class="detail-value">${formatValue(app.additional?.documentTypes)}</span></div>`;
             html += '</div>';
 
+            // Documents Section
+            html += '<div class="detail-section"><h3>Uploaded Documents</h3>';
+            
             // Video
             if (app.videos && app.videos.video1) {
-                html += '<div class="detail-section"><h3>Video Introduction</h3><div class="video-container">';
-                html += `<video controls><source src="/api/videos/${app.videos.video1}" type="video/mp4">Your browser does not support the video tag.</video>`;
+                html += '<div style="margin-bottom: 20px;">';
+                html += '<strong style="display: block; margin-bottom: 8px; color: #1a3d5c;">Video Introduction:</strong>';
+                html += '<div class="video-container">';
+                html += `<video controls style="max-width: 100%; border-radius: 8px;"><source src="/api/videos/${app.videos.video1}" type="video/mp4">Your browser does not support the video tag.</video>`;
+                html += `<div style="margin-top: 8px;"><a href="/api/videos/${app.videos.video1}" target="_blank" style="color: #1a3d5c; text-decoration: none; font-weight: 500;">📥 Download Video</a></div>`;
                 html += '</div></div>';
+            } else {
+                html += '<div style="margin-bottom: 20px;"><strong style="display: block; margin-bottom: 8px; color: #1a3d5c;">Video Introduction:</strong><span style="color: #999;">Not provided</span></div>';
             }
+            
+            // Resume
+            if (app.documents && app.documents.resume) {
+                html += '<div style="margin-bottom: 20px;">';
+                html += '<strong style="display: block; margin-bottom: 8px; color: #1a3d5c;">Resume:</strong>';
+                html += `<a href="/api/documents/${app.documents.resume}" target="_blank" style="color: #1a3d5c; text-decoration: none; font-weight: 500; padding: 8px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: inline-block;">📄 View Resume</a>`;
+                html += ` <a href="/api/documents/${app.documents.resume}" download style="color: #1a3d5c; text-decoration: none; font-weight: 500; padding: 8px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: inline-block; margin-left: 8px;">📥 Download</a>`;
+                html += '</div>';
+            } else {
+                html += '<div style="margin-bottom: 20px;"><strong style="display: block; margin-bottom: 8px; color: #1a3d5c;">Resume:</strong><span style="color: #999;">Not provided</span></div>';
+            }
+            
+            // Cover Letter
+            if (app.documents && app.documents.coverLetter) {
+                html += '<div style="margin-bottom: 20px;">';
+                html += '<strong style="display: block; margin-bottom: 8px; color: #1a3d5c;">Cover Letter:</strong>';
+                html += `<a href="/api/documents/${app.documents.coverLetter}" target="_blank" style="color: #1a3d5c; text-decoration: none; font-weight: 500; padding: 8px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: inline-block;">📄 View Cover Letter</a>`;
+                html += ` <a href="/api/documents/${app.documents.coverLetter}" download style="color: #1a3d5c; text-decoration: none; font-weight: 500; padding: 8px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: inline-block; margin-left: 8px;">📥 Download</a>`;
+                html += '</div>';
+            } else {
+                html += '<div style="margin-bottom: 20px;"><strong style="display: block; margin-bottom: 8px; color: #1a3d5c;">Cover Letter:</strong><span style="color: #999;">Not provided</span></div>';
+            }
+            
+            // Portfolio Files
+            if (app.portfolio && Array.isArray(app.portfolio) && app.portfolio.length > 0) {
+                html += '<div style="margin-bottom: 20px;">';
+                html += '<strong style="display: block; margin-bottom: 12px; color: #1a3d5c;">Design Portfolio:</strong>';
+                html += '<div style="display: flex; flex-direction: column; gap: 8px;">';
+                app.portfolio.forEach((filename, index) => {
+                    html += `<div style="padding: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">`;
+                    html += `<span style="font-weight: 500;">${filename}</span>`;
+                    html += `<div>`;
+                    html += `<a href="/api/portfolio/${filename}" target="_blank" style="color: #1a3d5c; text-decoration: none; font-weight: 500; margin-right: 8px;">View</a>`;
+                    html += `<a href="/api/portfolio/${filename}" download style="color: #1a3d5c; text-decoration: none; font-weight: 500;">Download</a>`;
+                    html += `</div></div>`;
+                });
+                html += '</div></div>';
+            } else {
+                html += '<div style="margin-bottom: 20px;"><strong style="display: block; margin-bottom: 8px; color: #1a3d5c;">Design Portfolio:</strong><span style="color: #999;">Not provided</span></div>';
+            }
+            
+            html += '</div>';
 
             // Rating & Notes Section
             const rating = app.rating || 0;
