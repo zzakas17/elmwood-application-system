@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Portal - Elmwood & Company</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a3d5c;
+            --primary-dark: #0f2538;
+            --primary-light: #2a5d7a;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --success: #10b981;
+            --error: #dc3545;
+            --warning: #f59e0b;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+            --shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 4px 16px 0 rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: -0.01em;
+        }
+
+        .application-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-info {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .progress-percentage {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 0;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 70px 40px 50px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+            font-weight: 400;
+            letter-spacing: -0.2px;
+        }
+
+        /* Main Container */
+        .main-container {
+            flex: 1;
+            max-width: 1200px;
+            margin: -50px auto 60px;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Section visibility animations */
+        .form-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* Navigation Sidebar */
+        .nav-sidebar {
+            position: sticky;
+            top: 80px;
+            align-self: start;
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-sidebar h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: var(--primary);
+            transition: height 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+            padding-left: 15px;
+        }
+
+        .nav-link:hover::before {
+            height: 60%;
+        }
+
+        .nav-link.active {
+            background: rgba(26, 61, 92, 0.08);
+            color: var(--primary);
+            font-weight: 500;
+            border-left: 3px solid var(--primary);
+            padding-left: 9px;
+        }
+
+        .nav-link.completed::before {
+            content: '✓';
+            margin-right: 8px;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .nav-link.completed.active::before {
+            color: var(--primary);
+        }
+
+        /* Layout */
+        .content-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* Position Card */
+        .position-card {
+            background: var(--bg-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .position-card:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .position-card-header {
+            background: var(--bg-white);
+            padding: 32px 40px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .position-card-header h2 {
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.4px;
+        }
+
+        .position-card-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .company-details {
+            padding: 32px 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .company-section {
+            margin-bottom: 32px;
+        }
+
+        .company-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .company-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.2px;
+        }
+
+        .company-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .company-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .company-section li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .company-section li::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 14px;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .job-description {
+            padding: 32px 40px;
+        }
+
+        .job-section {
+            margin-bottom: 32px;
+        }
+
+        .job-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .job-section h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .job-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .job-section li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .job-section li::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 14px;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .job-note {
+            margin-top: 32px;
+            padding: 18px 24px;
+            background: #f8f9fa;
+            border-left: 3px solid var(--primary);
+            border-radius: 4px;
+        }
+
+        .job-note p {
+            margin: 0;
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .job-note strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: var(--bg-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .form-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-content {
+            padding: 40px 50px;
+            position: relative;
+        }
+
+        /* Section Dividers */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 60px 0;
+            border: none;
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 40px;
+            scroll-margin-top: 100px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            padding: 30px 0;
+            position: relative;
+        }
+
+        .form-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .form-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 50px;
+            height: 1px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .form-section:hover .section-header::after {
+            width: 80px;
+        }
+
+        .section-number {
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.3px;
+        }
+
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .required {
+            color: var(--error);
+            font-weight: 700;
+        }
+
+        .field-help-text {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .char-counter {
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: right;
+            margin-top: 4px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .char-counter.warning {
+            color: var(--warning);
+        }
+
+        .char-counter.error {
+            color: var(--error);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            background: var(--bg-white);
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 61, 92, 0.1);
+        }
+
+        input:hover:not(:disabled),
+        select:hover:not(:disabled),
+        textarea:hover:not(:disabled) {
+            border-color: #cbd5e0;
+        }
+
+        input.error,
+        select.error,
+        textarea.error {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+        }
+
+        input.error:focus,
+        select.error:focus,
+        textarea.error:focus {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+        }
+
+        .error-message {
+            font-size: 13px;
+            color: var(--error);
+            margin-top: 6px;
+            display: none;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 130px;
+            line-height: 1.7;
+        }
+
+        /* File Upload */
+        .file-upload-wrapper {
+            position: relative;
+        }
+
+        .file-upload {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 30px;
+            border: 1px dashed var(--border);
+            border-radius: 6px;
+            background: var(--bg-light);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .file-upload-label:hover {
+            background: #f1f3f5;
+            border-color: var(--primary);
+        }
+
+        .file-upload-text {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .file-upload-hint {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .file-selected {
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .file-selected-name {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-selected-name::before {
+            content: '✓';
+            background: var(--success);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .file-selected-remove {
+            background: none;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .file-selected-remove:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .portfolio-files {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .portfolio-file-item {
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .portfolio-file-name {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .portfolio-file-remove {
+            background: none;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .portfolio-file-remove:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .video-instructions {
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .video-instructions h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .video-instructions ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .video-instructions li {
+            padding: 6px 0 6px 20px;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .video-instructions li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .video-instructions strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .video-instructions > div {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .video-instructions > div > div ul {
+            margin-top: 8px;
+        }
+
+        .video-instructions > div > div ul li {
+            padding: 4px 0 4px 20px;
+            font-size: 13px;
+        }
+
+        /* Fit Assessment - Radio Cards */
+        .fit-question {
+            margin-bottom: 24px;
+        }
+
+        .fit-question-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .radio-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .radio-card {
+            position: relative;
+            cursor: pointer;
+            display: block;
+        }
+
+        .radio-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-card-content {
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg-white);
+            transition: all 0.2s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .radio-card:hover .radio-card-content {
+            border-color: var(--primary);
+        }
+
+        .radio-card input[type="radio"]:checked + .radio-card-content {
+            border-color: var(--primary);
+            background: rgba(26, 61, 92, 0.03);
+        }
+
+        .radio-card input[type="radio"]:checked + .radio-card-content::before {
+            content: '✓';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--primary);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .radio-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .radio-card-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Checkbox Group */
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--bg-white);
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--primary);
+            background: rgba(26, 61, 92, 0.02);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-item input[type="checkbox"]:checked + span {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .checkbox-item:has(input[type="checkbox"]:checked) {
+            border-color: var(--primary);
+            background: rgba(26, 61, 92, 0.05);
+        }
+
+        /* Submit Section */
+        .submit-section {
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
+            position: relative;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: var(--primary-dark);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            background: var(--primary-dark);
+        }
+
+        .submit-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .submit-btn.loading {
+            color: transparent;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid white;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Messages */
+        .message {
+            padding: 18px 24px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            display: none;
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid var(--error);
+        }
+
+        /* Auto-save indicator */
+        .save-indicator {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 20px;
+            box-shadow: var(--shadow-lg);
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: none;
+            z-index: 1000;
+        }
+
+        .save-indicator.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        .save-indicator.saving {
+            color: var(--primary);
+        }
+
+        .save-indicator.saved {
+            color: var(--success);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+            font-size: 14px;
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+        }
+
+        .footer strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .main-container {
+                padding: 0 30px;
+            }
+
+            .form-content {
+                padding: 40px 45px;
+            }
+
+            .job-description {
+                padding: 24px 30px;
+            }
+
+            .radio-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 60px 30px 50px;
+            }
+
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .header p {
+                font-size: 18px;
+            }
+
+            .main-container {
+                margin: -40px auto 40px;
+                padding: 0 20px;
+            }
+
+            .form-content {
+                padding: 35px 25px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .section-number {
+                width: 36px;
+                height: 36px;
+                font-size: 15px;
+            }
+
+            .position-card-header {
+                padding: 24px 25px;
+            }
+
+            .position-card-header h2 {
+                font-size: 24px;
+            }
+
+            .radio-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .job-description {
+                padding: 24px 25px;
+            }
+
+            .job-section h3 {
+                font-size: 18px;
+            }
+
+            .progress-info {
+                padding: 12px 20px;
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 50px 20px 40px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .form-content {
+                padding: 30px 20px;
+            }
+
+            .save-indicator {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="application-wrapper">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-info">
+                <span class="progress-text">Application Progress</span>
+                <span class="progress-percentage" id="progressPercentage">0%</span>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header-content">
+                <h1>Elmwood & Company</h1>
+                <p>Marketing & Operations Coordinator Application</p>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <div class="position-card">
+                <div class="position-card-header">
+                    <h2>About Elmwood & Company</h2>
+                    <p>Elmwood & Company is a U.S.-based industrial real estate brokerage specializing in the acquisition, disposition, and leasing of industrial properties including warehouses, distribution centers, manufacturing facilities, and logistics hubs.</p>
+                </div>
+                <div class="company-details">
+                    <div class="company-section">
+                        <h3>Our Work Environment</h3>
+                        <p>We operate in a fast-paced, detail-oriented environment where accuracy and professionalism are paramount. Our team collaborates closely to ensure seamless transaction coordination from initial contract execution through closing. Every document, deadline, and communication matters in ensuring successful outcomes for our clients.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="position-card" style="margin-top: 30px;">
+                <div class="position-card-header">
+                    <h2>Position: Marketing & Operations Coordinator</h2>
+                    <p>Full-time remote role supporting industrial real estate brokerage operations</p>
+                </div>
+                <div class="job-description">
+                    <div class="job-section">
+                        <h3>Key Responsibilities</h3>
+                        <ul>
+                            <li><strong>Marketing & Design (Primary Focus):</strong> Create and design professional marketing materials including offering memorandums, property listings, presentations, brochures, and digital graphics</li>
+                            <li><strong>Design & Branding:</strong> Design and edit professional graphics and collateral using tools such as Canva, Adobe InDesign, Illustrator, or similar design platforms</li>
+                            <li><strong>Content Creation:</strong> Prepare compelling property marketing materials, presentations, and visual content for client meetings and property listings</li>
+                            <li><strong>Operations Support:</strong> Coordinate real estate transactions from contract execution through closing</li>
+                            <li><strong>Documentation & Coordination:</strong> Manage transaction documentation, timelines, due diligence materials, and key deadlines</li>
+                            <li><strong>CRM & Database Management:</strong> Maintain CRM databases, update deal status, and generate internal reports</li>
+                            <li><strong>Client Communication:</strong> Communicate regularly with clients, brokers, attorneys, lenders, and title companies</li>
+                            <li><strong>Process Improvement:</strong> Assist in developing and improving internal systems, workflows, and operational processes</li>
+                        </ul>
+                    </div>
+                    <div class="job-section">
+                        <h3>Qualifications</h3>
+                        <ul>
+                            <li><strong>Marketing & Design Experience (Highly Valued):</strong> Strong portfolio demonstrating ability to create professional marketing materials, presentations, and graphics</li>
+                            <li><strong>Design Software Proficiency:</strong> Working knowledge of Canva, Adobe InDesign, Illustrator, Photoshop, or similar design platforms (required)</li>
+                            <li><strong>Real Estate Experience (Preferred but Not Required):</strong> 3–5 years of experience in real estate operations, transaction coordination, marketing, or a related role</li>
+                            <li><strong>Excellent English Communication:</strong> Both written and verbal communication skills</li>
+                            <li><strong>Organizational Skills:</strong> Strong attention to detail and ability to manage multiple projects</li>
+                            <li><strong>Microsoft Office:</strong> Proficiency in PowerPoint and Excel</li>
+                            <li><strong>CRM Systems:</strong> Experience with CRM systems and database management (preferred)</li>
+                            <li><strong>Technical Requirements:</strong> Reliable high-speed internet connection and a professional home office environment</li>
+                            <li><strong>Availability:</strong> Work with meaningful overlap during U.S. business hours</li>
+                        </ul>
+                    </div>
+                    <div class="job-note">
+                        <p><strong>Note:</strong> <strong>Marketing and design skills are our top priority.</strong> If you don't have direct real estate experience, we encourage you to apply! We're looking for candidates with strong marketing, design, and creative skills who can learn the real estate operations aspect. Please describe your marketing/design experience, portfolio work, and any transferable skills from project coordination, operations, marketing, or administrative roles.</p>
+                    </div>
+                    <div class="job-section" style="margin-top: 32px;">
+                        <h3>Why This Role Is A Great Opportunity</h3>
+                        <ul>
+                            <li><strong>Direct Access to Leadership:</strong> Work directly with the CEO and Senior Brokers, gaining exposure to high-level decision-making and strategic thinking</li>
+                            <li><strong>Institutional Client Exposure:</strong> Support transactions and relationships with institutional clients, providing valuable experience in enterprise-level real estate</li>
+                            <li><strong>Professional Growth:</strong> Develop expertise in industrial real estate while building relationships with industry leaders</li>
+                            <li><strong>Impact & Visibility:</strong> Your work directly supports major transactions and client relationships, giving you meaningful visibility into the business</li>
+                            <li><strong>Skill Development:</strong> Opportunity to master marketing design, transaction coordination, CRM systems, and client communication in a fast-paced environment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-layout">
+                <!-- Navigation Sidebar -->
+                <nav class="nav-sidebar">
+                    <h3>Application Sections</h3>
+                    <ul class="nav-list" id="navList"></ul>
+                </nav>
+
+                <!-- Form Card -->
+                <div class="form-card">
+                    <div class="form-content">
+                        <noscript>
+                            <div class="message error" style="display: block;">
+                                <strong>JavaScript is required</strong> for this application form to work properly.
+                            </div>
+                        </noscript>
+
+                        <div id="message" class="message"></div>
+
+                        <form id="applicationForm" enctype="multipart/form-data">
+                            <!-- Personal Information -->
+                            <div class="form-section" id="section-1" data-section="1">
+                                <div class="section-header">
+                                    <div class="section-number">1</div>
+                                    <h3 class="section-title">Personal Information</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="fullName">Full Name <span class="required">*</span></label>
+                                        <input type="text" id="fullName" name="fullName" required>
+                                        <div class="error-message" id="fullName-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Address <span class="required">*</span></label>
+                                        <input type="email" id="email" name="email" required>
+                                        <div class="error-message" id="email-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number <span class="required">*</span></label>
+                                        <input type="tel" id="phone" name="phone" required>
+                                        <div class="error-message" id="phone-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="location">Location (City, Country) <span class="required">*</span></label>
+                                        <input type="text" id="location" name="location" required>
+                                        <div class="error-message" id="location-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Education -->
+                            <div class="form-section" id="section-2" data-section="2">
+                                <div class="section-header">
+                                    <div class="section-number">2</div>
+                                    <h3 class="section-title">Education</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="highestEducation">Highest Level of Education <span class="required">*</span></label>
+                                        <select id="highestEducation" name="highestEducation" required>
+                                            <option value="">Select...</option>
+                                            <option value="high-school">High School Diploma</option>
+                                            <option value="some-college">Some College</option>
+                                            <option value="associates">Associate's Degree</option>
+                                            <option value="bachelors">Bachelor's Degree</option>
+                                            <option value="masters">Master's Degree</option>
+                                            <option value="phd">PhD/Doctorate</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <div class="error-message" id="highestEducation-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="educationField">Field of Study</label>
+                                        <input type="text" id="educationField" name="educationField" placeholder="e.g., Business Administration, Real Estate, Communications">
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="institution">Institution Name</label>
+                                        <input type="text" id="institution" name="institution" placeholder="e.g., University Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="graduationYear">Graduation Year</label>
+                                        <input type="number" id="graduationYear" name="graduationYear" min="1950" max="2030" placeholder="e.g., 2020">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gpa">GPA (Optional)</label>
+                                        <input type="text" id="gpa" name="gpa" placeholder="e.g., 3.5 or 3.5/4.0">
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="additionalEducation">Additional Education, Certifications, or Training</label>
+                                        <textarea id="additionalEducation" name="additionalEducation" placeholder="List any relevant certifications, professional development courses, or additional training (e.g., Real Estate License, Project Management Certification, etc.)" maxlength="1000"></textarea>
+                                        <div class="char-counter" id="additionalEducation-counter">0 / 1000 characters</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Professional Experience -->
+                            <div class="form-section" id="section-3" data-section="3">
+                                <div class="section-header">
+                                    <div class="section-number">3</div>
+                                    <h3 class="section-title">Professional Experience</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="marketingDesignExperience">Years of Marketing/Design Experience <span class="required">*</span></label>
+                                        <select id="marketingDesignExperience" name="marketingDesignExperience" required>
+                                            <option value="">Select...</option>
+                                            <option value="0-1">Less than 1 year</option>
+                                            <option value="1-2">1-2 years</option>
+                                            <option value="3-5">3-5 years</option>
+                                            <option value="5+">5+ years</option>
+                                        </select>
+                                        <div class="error-message" id="marketingDesignExperience-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="creExperience">Commercial Real Estate Experience <span class="required">*</span></label>
+                                        <select id="creExperience" name="creExperience" required>
+                                            <option value="">Select...</option>
+                                            <option value="none">No commercial real estate experience</option>
+                                            <option value="1-2">1-2 years</option>
+                                            <option value="3-5">3-5 years</option>
+                                            <option value="5+">5+ years</option>
+                                        </select>
+                                        <div class="error-message" id="creExperience-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="previousRole">Current/Previous Role/Position <span class="required">*</span></label>
+                                        <input type="text" id="previousRole" name="previousRole" placeholder="e.g., Marketing Coordinator, Graphic Designer, Operations Manager, Transaction Coordinator" required>
+                                        <div class="error-message" id="previousRole-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="marketingExperience">Describe your marketing and design experience. What types of marketing materials, graphics, or presentations have you created? <span class="required">*</span></label>
+                                        <textarea id="marketingExperience" name="marketingExperience" placeholder="Please describe your experience creating marketing materials, presentations, graphics, brochures, or other design work. Include details about the types of projects, tools you've used, and the impact of your work. If you have a portfolio, you'll be able to upload samples later in this application." required maxlength="2000"></textarea>
+                                        <div class="char-counter" id="marketingExperience-counter">0 / 2000 characters</div>
+                                        <div class="error-message" id="marketingExperience-error"></div>
+                                    </div>
+                                    <div class="form-group full-width" id="realEstateExperienceSection" style="display: none;">
+                                        <label for="transactionExperience">If you have real estate experience, describe your experience coordinating transactions from contract to closing <span class="required">*</span></label>
+                                        <textarea id="transactionExperience" name="transactionExperience" placeholder="Include details about managing timelines, due diligence, documentation, and stakeholder communication." maxlength="2000"></textarea>
+                                        <div class="char-counter" id="transactionExperience-counter">0 / 2000 characters</div>
+                                        <div class="error-message" id="transactionExperience-error"></div>
+                                    </div>
+                                    <div class="form-group full-width" id="transferableExperienceSection">
+                                        <label for="transferableExperience">If you don't have real estate experience, describe relevant transferable experiences that demonstrate your ability to succeed in this role <span class="required">*</span></label>
+                                        <textarea id="transferableExperience" name="transferableExperience" placeholder="Describe experiences from project coordination, operations management, marketing, administrative support, or similar roles. Focus on skills like managing deadlines, coordinating with multiple stakeholders, attention to detail, and creating professional deliverables." required maxlength="2000"></textarea>
+                                        <div class="char-counter" id="transferableExperience-counter">0 / 2000 characters</div>
+                                        <div class="error-message" id="transferableExperience-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Technical Skills -->
+                            <div class="form-section" id="section-4" data-section="4">
+                                <div class="section-header">
+                                    <div class="section-number">4</div>
+                                    <h3 class="section-title">Technical Skills & Software</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="microsoftOffice">Microsoft Office Proficiency <span class="required">*</span></label>
+                                        <select id="microsoftOffice" name="microsoftOffice" required>
+                                            <option value="">Select...</option>
+                                            <option value="expert">Expert (Advanced Excel, PowerPoint)</option>
+                                            <option value="proficient">Proficient (Strong Excel, PowerPoint)</option>
+                                            <option value="intermediate">Intermediate (Basic Excel, PowerPoint)</option>
+                                            <option value="beginner">Beginner</option>
+                                        </select>
+                                        <div class="error-message" id="microsoftOffice-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="crmSystems">CRM Systems Experience <span class="required">*</span></label>
+                                        <select id="crmSystems" name="crmSystems" required>
+                                            <option value="">Select...</option>
+                                            <option value="expert">Expert (Multiple systems, advanced features)</option>
+                                            <option value="proficient">Proficient (Strong experience with 1-2 systems)</option>
+                                            <option value="intermediate">Intermediate (Basic CRM experience)</option>
+                                            <option value="beginner">Beginner</option>
+                                        </select>
+                                        <div class="error-message" id="crmSystems-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="crmExperience">Which CRM systems have you used? Please describe your experience <span class="required">*</span></label>
+                                        <textarea id="crmExperience" name="crmExperience" placeholder="e.g., Salesforce, HubSpot, Buildout, CoStar, or others. Describe your experience with database management, deal tracking, and reporting." required maxlength="1500"></textarea>
+                                        <div class="char-counter" id="crmExperience-counter">0 / 1500 characters</div>
+                                        <div class="error-message" id="crmExperience-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="designTools">Design & Graphics Software Experience <span class="required">*</span></label>
+                                        <div class="checkbox-group">
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" name="designTools" value="Canva">
+                                                <span>Canva</span>
+                                            </label>
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" name="designTools" value="Adobe InDesign">
+                                                <span>Adobe InDesign</span>
+                                            </label>
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" name="designTools" value="Adobe Illustrator">
+                                                <span>Adobe Illustrator</span>
+                                            </label>
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" name="designTools" value="Adobe Photoshop">
+                                                <span>Adobe Photoshop</span>
+                                            </label>
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" name="designTools" value="Other">
+                                                <span>Other Design Tools</span>
+                                            </label>
+                                        </div>
+                                        <div class="error-message" id="designTools-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="marketingMaterials">Describe your experience creating marketing materials (offering memorandums, property listings, presentations) <span class="required">*</span></label>
+                                        <textarea id="marketingMaterials" name="marketingMaterials" placeholder="Include examples of materials you've created and your design process" required maxlength="2000"></textarea>
+                                        <div class="char-counter" id="marketingMaterials-counter">0 / 2000 characters</div>
+                                        <div class="error-message" id="marketingMaterials-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Availability & Work Schedule -->
+                            <div class="form-section" id="section-5" data-section="5">
+                                <div class="section-header">
+                                    <div class="section-number">5</div>
+                                    <h3 class="section-title">Availability & Work Schedule</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="timezone">Your Timezone <span class="required">*</span></label>
+                                        <input type="text" id="timezone" name="timezone" placeholder="e.g., EST, PST, GMT+5, IST" required>
+                                        <div class="error-message" id="timezone-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="usHoursOverlap">Can you work with meaningful overlap during U.S. business hours (9 AM - 5 PM EST)? <span class="required">*</span></label>
+                                        <select id="usHoursOverlap" name="usHoursOverlap" required>
+                                            <option value="">Select...</option>
+                                            <option value="full">Yes, full overlap (4+ hours)</option>
+                                            <option value="partial">Yes, partial overlap (2-4 hours)</option>
+                                            <option value="minimal">Minimal overlap (1-2 hours)</option>
+                                            <option value="no">No overlap possible</option>
+                                        </select>
+                                        <div class="error-message" id="usHoursOverlap-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hoursPerWeek">Hours Per Week Available <span class="required">*</span></label>
+                                        <input type="number" id="hoursPerWeek" name="hoursPerWeek" min="30" max="50" value="40" required>
+                                        <div class="error-message" id="hoursPerWeek-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="startDate">Earliest Start Date <span class="required">*</span></label>
+                                        <input type="date" id="startDate" name="startDate" required>
+                                        <div class="error-message" id="startDate-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="workEnvironment">Describe your home office setup and work environment <span class="required">*</span></label>
+                                        <textarea id="workEnvironment" name="workEnvironment" placeholder="Include details about your workspace, internet connection, and ability to maintain a professional environment" required maxlength="1000"></textarea>
+                                        <div class="char-counter" id="workEnvironment-counter">0 / 1000 characters</div>
+                                        <div class="error-message" id="workEnvironment-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Communication & Language -->
+                            <div class="form-section" id="section-6" data-section="6">
+                                <div class="section-header">
+                                    <div class="section-number">6</div>
+                                    <h3 class="section-title">Communication & Language Skills</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="englishProficiency">English Proficiency Level <span class="required">*</span></label>
+                                        <select id="englishProficiency" name="englishProficiency" required>
+                                            <option value="">Select...</option>
+                                            <option value="native">Native</option>
+                                            <option value="fluent">Fluent (Professional/Business level)</option>
+                                            <option value="professional">Professional (Strong written & verbal)</option>
+                                            <option value="intermediate">Intermediate</option>
+                                        </select>
+                                        <div class="error-message" id="englishProficiency-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="stakeholderCommunication">Describe your experience communicating with various stakeholders (clients, brokers, attorneys, lenders, title companies) <span class="required">*</span></label>
+                                        <textarea id="stakeholderCommunication" name="stakeholderCommunication" placeholder="Include examples of how you've managed communication with different parties in real estate transactions" required maxlength="2000"></textarea>
+                                        <div class="char-counter" id="stakeholderCommunication-counter">0 / 2000 characters</div>
+                                        <div class="error-message" id="stakeholderCommunication-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Technical Infrastructure -->
+                            <div class="form-section" id="section-7" data-section="7">
+                                <div class="section-header">
+                                    <div class="section-number">7</div>
+                                    <h3 class="section-title">Technical Infrastructure</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="internetSpeed">Internet Speed (Mbps) <span class="required">*</span></label>
+                                        <input type="number" id="internetSpeed" name="internetSpeed" min="0" placeholder="e.g., 50, 100, 200" required>
+                                        <div class="error-message" id="internetSpeed-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hasBackupPower">Do you have backup power (UPS/generator)? <span class="required">*</span></label>
+                                        <select id="hasBackupPower" name="hasBackupPower" required>
+                                            <option value="">Select...</option>
+                                            <option value="yes">Yes</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                        <div class="error-message" id="hasBackupPower-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Compensation -->
+                            <div class="form-section" id="section-8" data-section="8">
+                                <div class="section-header">
+                                    <div class="section-number">8</div>
+                                    <h3 class="section-title">Compensation</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="expectedRate">Desired Hourly Rate (USD) <span class="required">*</span></label>
+                                        <input type="number" id="expectedRate" name="expectedRate" min="0" step="0.01" placeholder="e.g., 10.00" required>
+                                        <div class="error-message" id="expectedRate-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="currencyPreference">Currency Preference <span class="required">*</span></label>
+                                        <select id="currencyPreference" name="currencyPreference" required>
+                                            <option value="">Select...</option>
+                                            <option value="USD">USD</option>
+                                            <option value="EUR">EUR</option>
+                                            <option value="GBP">GBP</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <div class="error-message" id="currencyPreference-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Role-Specific Questions -->
+                            <div class="form-section" id="section-9" data-section="9">
+                                <div class="section-header">
+                                    <div class="section-number">9</div>
+                                    <h3 class="section-title">Role-Specific Experience</h3>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group full-width">
+                                        <label for="transactionCoordination">Describe your experience managing transaction documentation, timelines, and due diligence materials (or relevant transferable experience) <span class="required">*</span></label>
+                                        <textarea id="transactionCoordination" name="transactionCoordination" placeholder="If you have direct experience, include specific examples of how you've tracked deadlines, organized documents, and ensured nothing falls through the cracks. If not, describe similar experiences managing complex projects, documentation, or processes." required maxlength="2000"></textarea>
+                                        <div class="char-counter" id="transactionCoordination-counter">0 / 2000 characters</div>
+                                        <div class="error-message" id="transactionCoordination-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="systemsWorkflows">Describe your experience developing or improving internal systems, workflows, and operational processes <span class="required">*</span></label>
+                                        <textarea id="systemsWorkflows" name="systemsWorkflows" placeholder="Share examples of process improvements you've implemented or systems you've helped optimize. This can be from any industry or role." required maxlength="2000"></textarea>
+                                        <div class="char-counter" id="systemsWorkflows-counter">0 / 2000 characters</div>
+                                        <div class="error-message" id="systemsWorkflows-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="complexDeal">Describe a complex real estate transaction or project you've coordinated (or similar complex project/deal) <span class="required">*</span></label>
+                                        <textarea id="complexDeal" name="complexDeal" placeholder="If you have real estate experience, include details about challenges faced, how you managed multiple stakeholders, and the outcome. If not, describe a similarly complex project or deal you've managed with multiple moving parts and stakeholders." required maxlength="2000"></textarea>
+                                        <div class="char-counter" id="complexDeal-counter">0 / 2000 characters</div>
+                                        <div class="error-message" id="complexDeal-error"></div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="whyHireYou">Why are you interested in this role at Elmwood & Company? <span class="required">*</span></label>
+                                        <textarea id="whyHireYou" name="whyHireYou" placeholder="What draws you to this position and how does it align with your career goals?" required maxlength="1500"></textarea>
+                                        <div class="char-counter" id="whyHireYou-counter">0 / 1500 characters</div>
+                                        <div class="error-message" id="whyHireYou-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Documents -->
+                            <div class="form-section" id="section-10" data-section="10">
+                                <div class="section-header">
+                                    <div class="section-number">10</div>
+                                    <h3 class="section-title">Documents</h3>
+                                </div>
+                                
+                                <div class="form-group full-width" style="margin-bottom: 32px;">
+                                    <div class="video-instructions">
+                                        <h4>Document Guidelines</h4>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
+                                            <div>
+                                                <strong>Resume:</strong>
+                                                <ul style="margin-top: 8px;">
+                                                    <li>Include your full work history</li>
+                                                    <li>Highlight relevant real estate, operations, or transaction coordination experience</li>
+                                                    <li>List technical skills and software proficiencies</li>
+                                                    <li>Keep it professional and well-formatted</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <strong>Cover Letter:</strong>
+                                                <ul style="margin-top: 8px;">
+                                                    <li>Explain why you're interested in this role</li>
+                                                    <li>Describe how your experience aligns with the position</li>
+                                                    <li>Highlight what makes you a strong candidate</li>
+                                                    <li>Keep it concise (1-2 pages recommended)</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Resume <span class="required">*</span></label>
+                                        <div class="file-upload-wrapper">
+                                            <div class="file-upload">
+                                                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                                                <label for="resume" class="file-upload-label">
+                                                    <div class="file-upload-text">Upload Resume</div>
+                                                    <div class="file-upload-hint">PDF, DOC, or DOCX<br>Max 10MB</div>
+                                                </label>
+                                            </div>
+                                            <div id="resumeSelected" class="file-selected" style="display: none;">
+                                                <span class="file-selected-name" id="resumeFileName"></span>
+                                                <button type="button" class="file-selected-remove" id="removeResume">×</button>
+                                            </div>
+                                        </div>
+                                        <div class="error-message" id="resume-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Cover Letter <span class="required">*</span></label>
+                                        <div class="file-upload-wrapper">
+                                            <div class="file-upload">
+                                                <input type="file" id="coverLetter" name="coverLetter" accept=".pdf,.doc,.docx" required>
+                                                <label for="coverLetter" class="file-upload-label">
+                                                    <div class="file-upload-text">Upload Cover Letter</div>
+                                                    <div class="file-upload-hint">PDF, DOC, or DOCX<br>Max 10MB</div>
+                                                </label>
+                                            </div>
+                                            <div id="coverLetterSelected" class="file-selected" style="display: none;">
+                                                <span class="file-selected-name" id="coverLetterFileName"></span>
+                                                <button type="button" class="file-selected-remove" id="removeCoverLetter">×</button>
+                                            </div>
+                                        </div>
+                                        <div class="error-message" id="coverLetter-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Assessment -->
+                            <div class="form-section" id="section-11" data-section="11">
+                                <div class="section-header">
+                                    <div class="section-number">11</div>
+                                    <h3 class="section-title">Additional Assessment</h3>
+                                </div>
+                                
+                                <div class="form-group full-width">
+                                    <label for="difficultSituation">Describe a time when you overcame a difficult project or challenging situation at work. What was the situation, how did you handle it, and what was the outcome? <span class="required">*</span></label>
+                                    <textarea id="difficultSituation" name="difficultSituation" placeholder="Provide a specific example that demonstrates your problem-solving abilities, resilience, and how you handle challenges. Include details about the situation, your approach, and the results." required maxlength="2000"></textarea>
+                                    <div class="char-counter" id="difficultSituation-counter">0 / 2000 characters</div>
+                                    <div class="error-message" id="difficultSituation-error"></div>
+                                </div>
+
+                                <div class="fit-question">
+                                    <label class="fit-question-label">How do you handle high-pressure situations with tight deadlines? <span class="required">*</span></label>
+                                    <div class="radio-cards">
+                                        <label class="radio-card">
+                                            <input type="radio" name="dealWithPressure" value="calm" required>
+                                            <div class="radio-card-content">
+                                                <div class="radio-card-title">Stay Calm & Prioritize</div>
+                                                <div class="radio-card-desc">I maintain composure, assess priorities, and tackle tasks systematically</div>
+                                            </div>
+                                        </label>
+                                        <label class="radio-card">
+                                            <input type="radio" name="dealWithPressure" value="energized" required>
+                                            <div class="radio-card-content">
+                                                <div class="radio-card-title">Thrive Under Pressure</div>
+                                                <div class="radio-card-desc">Pressure energizes me and helps me focus on delivering results</div>
+                                            </div>
+                                        </label>
+                                        <label class="radio-card">
+                                            <input type="radio" name="dealWithPressure" value="strategic" required>
+                                            <div class="radio-card-content">
+                                                <div class="radio-card-title">Strategic Problem-Solving</div>
+                                                <div class="radio-card-desc">I break down challenges, identify critical path items, and execute efficiently</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="error-message" id="dealWithPressure-error"></div>
+                                </div>
+
+                                <div class="fit-question">
+                                    <label class="fit-question-label">How do you prefer to communicate with senior leadership and clients? <span class="required">*</span></label>
+                                    <div class="radio-cards">
+                                        <label class="radio-card">
+                                            <input type="radio" name="communicationPreference" value="direct" required>
+                                            <div class="radio-card-content">
+                                                <div class="radio-card-title">Direct & Concise</div>
+                                                <div class="radio-card-desc">Get straight to the point with key information</div>
+                                            </div>
+                                        </label>
+                                        <label class="radio-card">
+                                            <input type="radio" name="communicationPreference" value="detailed" required>
+                                            <div class="radio-card-content">
+                                                <div class="radio-card-title">Detailed & Thorough</div>
+                                                <div class="radio-card-desc">Provide comprehensive context and background</div>
+                                            </div>
+                                        </label>
+                                        <label class="radio-card">
+                                            <input type="radio" name="communicationPreference" value="collaborative" required>
+                                            <div class="radio-card-content">
+                                                <div class="radio-card-title">Collaborative Discussion</div>
+                                                <div class="radio-card-desc">Engage in dialogue to ensure alignment</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="error-message" id="communicationPreference-error"></div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="timeManagement">How do you manage multiple deadlines and competing priorities? <span class="required">*</span></label>
+                                    <select id="timeManagement" name="timeManagement" required>
+                                        <option value="">Select...</option>
+                                        <option value="prioritize">Prioritize by urgency and importance, tackle one at a time</option>
+                                        <option value="multitask">Multitask efficiently across multiple projects</option>
+                                        <option value="plan">Create detailed plans and schedules, track everything systematically</option>
+                                        <option value="flexible">Adapt flexibly as priorities shift, communicate changes proactively</option>
+                                    </select>
+                                    <div class="error-message" id="timeManagement-error"></div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="attentionToDetail">How do you ensure accuracy and attention to detail in your work? <span class="required">*</span></label>
+                                    <select id="attentionToDetail" name="attentionToDetail" required>
+                                        <option value="">Select...</option>
+                                        <option value="double-check">Double-check everything before submitting</option>
+                                        <option value="checklists">Use checklists and systematic review processes</option>
+                                        <option value="peer-review">Have others review my work when possible</option>
+                                        <option value="methodical">Work methodically and carefully from the start</option>
+                                    </select>
+                                    <div class="error-message" id="attentionToDetail-error"></div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="careerGoals">Where do you see yourself in 2-3 years? How does this role fit into your career goals? <span class="required">*</span></label>
+                                    <textarea id="careerGoals" name="careerGoals" placeholder="Describe your career aspirations and how working at Elmwood & Company aligns with your goals" required maxlength="1500"></textarea>
+                                    <div class="char-counter" id="careerGoals-counter">0 / 1500 characters</div>
+                                    <div class="error-message" id="careerGoals-error"></div>
+                                </div>
+                            </div>
+
+                            <!-- Design Portfolio -->
+                            <div class="form-section" id="section-12" data-section="12">
+                                <div class="section-header">
+                                    <div class="section-number">12</div>
+                                    <h3 class="section-title">Design Portfolio & Work Samples</h3>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Upload Design Work / Portfolio Samples (Optional but Recommended)</label>
+                                    <p class="field-help-text">Please upload examples of marketing materials, presentations, graphics, or other design work you've created. This could include offering memorandums, property listings, presentations, brochures, or similar professional materials.</p>
+                                    <div class="file-upload-wrapper">
+                                        <div class="file-upload">
+                                            <input type="file" id="portfolio" name="portfolioFiles" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip" multiple>
+                                            <label for="portfolio" class="file-upload-label">
+                                                <div class="file-upload-text">Click to upload portfolio files</div>
+                                                <div class="file-upload-hint">PDF, DOC, DOCX, JPG, PNG, or ZIP<br>Max 10MB per file • Multiple files allowed</div>
+                                            </label>
+                                        </div>
+                                        <div id="portfolioFiles" class="portfolio-files"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Video Introduction -->
+                            <div class="form-section" id="section-13" data-section="13">
+                                <div class="section-header">
+                                    <div class="section-number">13</div>
+                                    <h3 class="section-title">Video Introduction</h3>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Video Introduction (Optional but Recommended)</label>
+                                    <div class="video-instructions">
+                                        <h4>Video Guidelines</h4>
+                                        <ul>
+                                            <li><strong>Length:</strong> Keep your video under one minute</li>
+                                            <li><strong>Content:</strong> Explain why you believe you would be successful in this role</li>
+                                            <li><strong>Focus:</strong> Highlight your relevant experience, skills, and what makes you a strong fit for this position</li>
+                                            <li><strong>Quality:</strong> Ensure good lighting and clear audio</li>
+                                        </ul>
+                                    </div>
+                                    <div class="file-upload-wrapper" style="margin-top: 20px;">
+                                        <div class="file-upload">
+                                            <input type="file" id="video1" name="video1" accept="video/*">
+                                            <label for="video1" class="file-upload-label">
+                                                <div class="file-upload-text">Click to upload video</div>
+                                                <div class="file-upload-hint">Maximum file size: 100MB<br>Supported formats: MP4, MOV, AVI, WMV, WEBM</div>
+                                            </label>
+                                        </div>
+                                        <div id="fileSelected" class="file-selected" style="display: none;">
+                                            <span class="file-selected-name" id="fileName"></span>
+                                            <button type="button" class="file-selected-remove" id="removeFile">×</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="submit-section">
+                                <button type="submit" class="submit-btn" id="submitBtn">
+                                    Submit Application
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="footer">
+                        <p>Questions? Contact us at <strong>zac@elmwood.co</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-save Indicator -->
+    <div class="save-indicator" id="saveIndicator"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('applicationForm');
+            const messageDiv = document.getElementById('message');
+            const submitBtn = document.getElementById('submitBtn');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercentage = document.getElementById('progressPercentage');
+            const saveIndicator = document.getElementById('saveIndicator');
+            const navList = document.getElementById('navList');
+
+            // Section navigation
+            const sections = [
+                { id: 1, title: 'Personal Information' },
+                { id: 2, title: 'Education' },
+                { id: 3, title: 'Professional Experience' },
+                { id: 4, title: 'Technical Skills' },
+                { id: 5, title: 'Availability' },
+                { id: 6, title: 'Communication' },
+                { id: 7, title: 'Technical Infrastructure' },
+                { id: 8, title: 'Compensation' },
+                { id: 9, title: 'Role-Specific Experience' },
+                { id: 10, title: 'Documents' },
+                { id: 11, title: 'Additional Assessment' },
+                { id: 12, title: 'Design Portfolio' },
+                { id: 13, title: 'Video Introduction' }
+            ];
+
+            // Build navigation
+            sections.forEach(section => {
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+                const a = document.createElement('a');
+                a.href = `#section-${section.id}`;
+                a.className = 'nav-link';
+                a.textContent = `${section.id}. ${section.title}`;
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById(`section-${section.id}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+                li.appendChild(a);
+                navList.appendChild(li);
+            });
+
+            // Progress tracking
+            function updateProgress() {
+                const requiredFields = form.querySelectorAll('[required]');
+                const filledFields = Array.from(requiredFields).filter(field => {
+                    if (field.type === 'checkbox' || field.type === 'radio') {
+                        const name = field.name;
+                        return form.querySelector(`[name="${name}"]:checked`);
+                    }
+                    if (field.type === 'file') {
+                        return field.files && field.files.length > 0;
+                    }
+                    return field.value.trim() !== '';
+                });
+                
+                const progress = Math.round((filledFields.length / requiredFields.length) * 100);
+                progressFill.style.width = progress + '%';
+                progressPercentage.textContent = progress + '%';
+
+                // Update nav links
+                sections.forEach(section => {
+                    const sectionEl = document.getElementById(`section-${section.id}`);
+                    const navLink = navList.querySelector(`a[href="#section-${section.id}"]`);
+                    if (sectionEl) {
+                        const sectionFields = sectionEl.querySelectorAll('[required]');
+                        const sectionFilled = Array.from(sectionFields).filter(field => {
+                            if (field.type === 'checkbox' || field.type === 'radio') {
+                                const name = field.name;
+                                return form.querySelector(`[name="${name}"]:checked`);
+                            }
+                            if (field.type === 'file') {
+                                return field.files && field.files.length > 0;
+                            }
+                            return field.value.trim() !== '';
+                        });
+                        if (sectionFilled.length === sectionFields.length && sectionFields.length > 0) {
+                            navLink.classList.add('completed');
+                        } else {
+                            navLink.classList.remove('completed');
+                        }
+                    }
+                });
+            }
+
+            // Character counters
+            const textareas = form.querySelectorAll('textarea[maxlength]');
+            textareas.forEach(textarea => {
+                const maxLength = parseInt(textarea.getAttribute('maxlength'));
+                const counter = document.getElementById(textarea.id + '-counter');
+                if (counter) {
+                    function updateCounter() {
+                        const length = textarea.value.length;
+                        const remaining = maxLength - length;
+                        counter.textContent = `${length} / ${maxLength} characters${remaining < 100 ? ` (${remaining} remaining)` : ''}`;
+                        counter.classList.remove('warning', 'error');
+                        if (length > maxLength * 0.9) {
+                            counter.classList.add('warning');
+                        }
+                        if (length >= maxLength) {
+                            counter.classList.add('error');
+                        }
+                    }
+                    textarea.addEventListener('input', updateCounter);
+                    updateCounter();
+                }
+            });
+
+            // Auto-save to localStorage
+            let saveTimeout;
+            function autoSave() {
+                clearTimeout(saveTimeout);
+                saveIndicator.textContent = 'Saving...';
+                saveIndicator.className = 'save-indicator show saving';
+                
+                saveTimeout = setTimeout(() => {
+                    const formData = new FormData(form);
+                    const data = {};
+                    for (let [key, value] of formData.entries()) {
+                        if (data[key]) {
+                            if (Array.isArray(data[key])) {
+                                data[key].push(value);
+                            } else {
+                                data[key] = [data[key], value];
+                            }
+                        } else {
+                            data[key] = value;
+                        }
+                    }
+                    localStorage.setItem('applicationDraft', JSON.stringify(data));
+                    saveIndicator.textContent = 'Draft saved';
+                    saveIndicator.className = 'save-indicator show saved';
+                    setTimeout(() => {
+                        saveIndicator.classList.remove('show');
+                    }, 2000);
+                }, 1000);
+            }
+
+            // Load draft
+            const draft = localStorage.getItem('applicationDraft');
+            if (draft) {
+                try {
+                    const data = JSON.parse(draft);
+                    Object.keys(data).forEach(key => {
+                        const field = form.querySelector(`[name="${key}"]`);
+                        if (field) {
+                            if (field.type === 'checkbox' || field.type === 'radio') {
+                                if (Array.isArray(data[key])) {
+                                    data[key].forEach(val => {
+                                        const option = form.querySelector(`[name="${key}"][value="${val}"]`);
+                                        if (option) option.checked = true;
+                                    });
+                                } else {
+                                    const option = form.querySelector(`[name="${key}"][value="${data[key]}"]`);
+                                    if (option) option.checked = true;
+                                }
+                            } else if (field.type !== 'file') {
+                                field.value = data[key];
+                            }
+                        }
+                    });
+                    updateProgress();
+                } catch (e) {
+                    console.error('Error loading draft:', e);
+                }
+            }
+
+            // Form validation
+            function validateField(field) {
+                const errorEl = document.getElementById(field.id + '-error');
+                if (!field.checkValidity()) {
+                    field.classList.add('error');
+                    if (errorEl) {
+                        let message = field.validationMessage;
+                        // Customize validation messages
+                        if (field.validity.valueMissing) {
+                            message = 'This field is required';
+                        } else if (field.validity.typeMismatch) {
+                            if (field.type === 'email') {
+                                message = 'Please enter a valid email address';
+                            }
+                        } else if (field.validity.tooLong) {
+                            message = `Maximum ${field.maxLength} characters allowed`;
+                        }
+                        errorEl.textContent = message;
+                        errorEl.classList.add('show');
+                    }
+                    return false;
+                } else {
+                    field.classList.remove('error');
+                    if (errorEl) {
+                        errorEl.classList.remove('show');
+                        errorEl.textContent = '';
+                    }
+                    return true;
+                }
+            }
+
+            // Real-time validation
+            form.querySelectorAll('input, select, textarea').forEach(field => {
+                field.addEventListener('blur', () => {
+                    validateField(field);
+                    updateProgress();
+                });
+                field.addEventListener('input', () => {
+                    if (field.classList.contains('error')) {
+                        validateField(field);
+                    }
+                    updateProgress();
+                    autoSave();
+                });
+                field.addEventListener('change', () => {
+                    validateField(field);
+                    updateProgress();
+                    autoSave();
+                });
+            });
+
+            // Show/hide real estate experience section based on CRE experience
+            const creExperienceSelect = document.getElementById('creExperience');
+            const realEstateSection = document.getElementById('realEstateExperienceSection');
+            const transferableSection = document.getElementById('transferableExperienceSection');
+            
+            if (creExperienceSelect && realEstateSection && transferableSection) {
+                creExperienceSelect.addEventListener('change', function() {
+                    if (this.value === 'none' || this.value === '') {
+                        realEstateSection.style.display = 'none';
+                        transferableSection.style.display = 'block';
+                        document.getElementById('transactionExperience').removeAttribute('required');
+                        document.getElementById('transferableExperience').setAttribute('required', 'required');
+                    } else {
+                        realEstateSection.style.display = 'block';
+                        transferableSection.style.display = 'none';
+                        document.getElementById('transactionExperience').setAttribute('required', 'required');
+                        document.getElementById('transferableExperience').removeAttribute('required');
+                    }
+                });
+            }
+
+            // File upload handlers
+            const videoInput = document.getElementById('video1');
+            const resumeInput = document.getElementById('resume');
+            const coverLetterInput = document.getElementById('coverLetter');
+            const portfolioInput = document.getElementById('portfolio');
+            const fileSelected = document.getElementById('fileSelected');
+            const resumeSelected = document.getElementById('resumeSelected');
+            const coverLetterSelected = document.getElementById('coverLetterSelected');
+            const portfolioFiles = document.getElementById('portfolioFiles');
+            const fileName = document.getElementById('fileName');
+            const resumeFileName = document.getElementById('resumeFileName');
+            const coverLetterFileName = document.getElementById('coverLetterFileName');
+            const removeFile = document.getElementById('removeFile');
+            const removeResume = document.getElementById('removeResume');
+            const removeCoverLetter = document.getElementById('removeCoverLetter');
+
+            function setupFileUpload(input, selectedDiv, fileNameEl, removeBtn, maxSize, fileType) {
+                if (!input) return;
+                
+                input.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        if (file.size > maxSize) {
+                            showMessage(`File "${file.name}" is too large. Maximum size is ${maxSize / (1024 * 1024)}MB.`, 'error');
+                            e.target.value = '';
+                            selectedDiv.style.display = 'none';
+                        } else {
+                            fileNameEl.textContent = file.name;
+                            selectedDiv.style.display = 'flex';
+                            updateProgress();
+                            autoSave();
+                        }
+                    } else {
+                        selectedDiv.style.display = 'none';
+                    }
+                });
+
+                if (removeBtn) {
+                    removeBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        input.value = '';
+                        selectedDiv.style.display = 'none';
+                        updateProgress();
+                        autoSave();
+                    });
+                }
+            }
+
+            setupFileUpload(videoInput, fileSelected, fileName, removeFile, 100 * 1024 * 1024, 'video');
+            setupFileUpload(resumeInput, resumeSelected, resumeFileName, removeResume, 10 * 1024 * 1024, 'document');
+            setupFileUpload(coverLetterInput, coverLetterSelected, coverLetterFileName, removeCoverLetter, 10 * 1024 * 1024, 'document');
+
+            // Portfolio files (multiple files)
+            if (portfolioInput) {
+                portfolioInput.addEventListener('change', (e) => {
+                    const files = Array.from(e.target.files);
+                    portfolioFiles.innerHTML = '';
+                    
+                    files.forEach((file, index) => {
+                        const maxSize = 10 * 1024 * 1024; // 10MB
+                        if (file.size > maxSize) {
+                            showMessage(`File "${file.name}" is too large. Maximum size is 10MB.`, 'error');
+                            return;
+                        }
+                        
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'portfolio-file-item';
+                        fileItem.innerHTML = `
+                            <span class="portfolio-file-name">${file.name}</span>
+                            <button type="button" class="portfolio-file-remove" data-index="${index}">×</button>
+                        `;
+                        portfolioFiles.appendChild(fileItem);
+                    });
+                    autoSave();
+                });
+
+                portfolioFiles.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('portfolio-file-remove')) {
+                        const index = parseInt(e.target.getAttribute('data-index'));
+                        const dt = new DataTransfer();
+                        const files = Array.from(portfolioInput.files);
+                        files.splice(index, 1);
+                        files.forEach(file => dt.items.add(file));
+                        portfolioInput.files = dt.files;
+                        portfolioInput.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+
+            function showMessage(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+                messageDiv.style.display = 'block';
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            // Active section tracking with animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -70% 0px',
+                threshold: 0
+            };
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        const sectionId = entry.target.id;
+                        navList.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.form-section').forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // Fade in sections on scroll with stagger
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 50);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            });
+
+            document.querySelectorAll('.form-section').forEach(section => {
+                fadeObserver.observe(section);
+            });
+
+            // Smooth scroll for navigation
+            navList.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        const offset = 100;
+                        const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - offset;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Form submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Validate all fields
+                let isValid = true;
+                form.querySelectorAll('[required]').forEach(field => {
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
+                });
+
+                // Check design tools
+                const designTools = form.querySelectorAll('[name="designTools"]:checked');
+                if (designTools.length === 0) {
+                    const errorEl = document.getElementById('designTools-error');
+                    if (errorEl) {
+                        errorEl.textContent = 'Please select at least one design tool';
+                        errorEl.classList.add('show');
+                    }
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    showMessage('Please complete all required fields before submitting.', 'error');
+                    const firstError = form.querySelector('.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstError.focus();
+                    }
+                    return;
+                }
+                
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+                submitBtn.textContent = 'Submitting...';
+
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch('/api/submit-application', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        localStorage.removeItem('applicationDraft');
+                        showMessage(`Application submitted successfully! Your application ID is ${data.applicationId}. We will review your application and get back to you soon.`, 'success');
+                        form.reset();
+                        fileSelected.style.display = 'none';
+                        resumeSelected.style.display = 'none';
+                        coverLetterSelected.style.display = 'none';
+                        portfolioFiles.innerHTML = '';
+                        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                            radio.checked = false;
+                        });
+                        updateProgress();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        showMessage(data.message || 'Error submitting application. Please try again.', 'error');
+                    }
+                } catch (error) {
+                    showMessage('Network error. Please check your connection and try again.', 'error');
+                    console.error('Error:', error);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    submitBtn.textContent = 'Submit Application';
+                }
+            });
+
+            // Initial progress update
+            updateProgress();
+        });
+    </script>
+</body>
+</html>

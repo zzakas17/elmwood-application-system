@@ -14,39 +14,82 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Create necessary directories
-const dirs = ['uploads', 'uploads/videos', 'data'];
+const dirs = ['uploads', 'uploads/videos', 'uploads/documents', 'uploads/portfolio', 'data'];
 dirs.forEach(dir => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
 });
 
-// Configure multer for video uploads
+// Configure multer for all file types
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/videos/');
+        // Route files to different directories based on field name
+        if (file.fieldname === 'video1') {
+            cb(null, 'uploads/videos/');
+        } else if (file.fieldname === 'resume' || file.fieldname === 'coverLetter') {
+            cb(null, 'uploads/documents/');
+        } else if (file.fieldname === 'portfolioFiles') {
+            cb(null, 'uploads/portfolio/');
+        } else {
+            cb(null, 'uploads/');
+        }
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
+        const ext = path.extname(file.originalname);
+        let prefix = '';
+        
+        if (file.fieldname === 'video1') {
+            prefix = 'video-';
+        } else if (file.fieldname === 'resume') {
+            prefix = 'resume-';
+        } else if (file.fieldname === 'coverLetter') {
+            prefix = 'coverletter-';
+        } else if (file.fieldname === 'portfolioFiles') {
+            prefix = 'portfolio-';
+        }
+        
+        cb(null, prefix + uniqueSuffix + ext);
     }
 });
 
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 100 * 1024 * 1024 // 100MB limit
+        fileSize: 100 * 1024 * 1024 // 100MB limit (applies to all files)
     },
     fileFilter: (req, file, cb) => {
-        const allowedTypes = /mp4|mov|avi|wmv|webm/;
-        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-        const mimetype = allowedTypes.test(file.mimetype);
+        const ext = path.extname(file.originalname).toLowerCase();
         
-        if (mimetype && extname) {
-            return cb(null, true);
-        } else {
-            cb(new Error('Only video files are allowed (mp4, mov, avi, wmv, webm)'));
+        // Video files
+        if (file.fieldname === 'video1') {
+            const allowedTypes = /\.(mp4|mov|avi|wmv|webm)$/;
+            if (allowedTypes.test(ext)) {
+                return cb(null, true);
+            }
+            return cb(new Error('Only video files are allowed (mp4, mov, avi, wmv, webm)'));
         }
+        
+        // Document files
+        if (file.fieldname === 'resume' || file.fieldname === 'coverLetter') {
+            const allowedTypes = /\.(pdf|doc|docx)$/;
+            if (allowedTypes.test(ext)) {
+                return cb(null, true);
+            }
+            return cb(new Error('Only PDF, DOC, or DOCX files are allowed'));
+        }
+        
+        // Portfolio files
+        if (file.fieldname === 'portfolioFiles') {
+            const allowedTypes = /\.(pdf|doc|docx|jpg|jpeg|png|zip)$/;
+            if (allowedTypes.test(ext)) {
+                return cb(null, true);
+            }
+            return cb(new Error('Only PDF, DOC, DOCX, JPG, PNG, or ZIP files are allowed for portfolio'));
+        }
+        
+        cb(null, true);
     }
 });
 
@@ -58,7 +101,9 @@ app.get('/', (req, res) => {
 // Handle form submission
 app.post('/api/submit-application', upload.fields([
     { name: 'video1', maxCount: 1 },
-    { name: 'video2', maxCount: 1 }
+    { name: 'resume', maxCount: 1 },
+    { name: 'coverLetter', maxCount: 1 },
+    { name: 'portfolioFiles', maxCount: 10 }
 ]), (req, res) => {
     try {
         const applicationData = {
@@ -70,38 +115,65 @@ app.post('/api/submit-application', upload.fields([
                 phone: req.body.phone,
                 location: req.body.location
             },
+            education: {
+                highestEducation: req.body.highestEducation,
+                educationField: req.body.educationField,
+                institution: req.body.institution,
+                graduationYear: req.body.graduationYear,
+                gpa: req.body.gpa,
+                additionalEducation: req.body.additionalEducation
+            },
             experience: {
-                yearsOfExperience: req.body.yearsOfExperience,
+                marketingDesignExperience: req.body.marketingDesignExperience,
                 creExperience: req.body.creExperience,
                 previousRole: req.body.previousRole,
-                tools: req.body.tools ? req.body.tools.split(',').map(s => s.trim()) : [],
-                strengths: req.body.strengths ? req.body.strengths.split(',').map(s => s.trim()) : []
+                marketingExperience: req.body.marketingExperience,
+                transactionExperience: req.body.transactionExperience,
+                transferableExperience: req.body.transferableExperience
+            },
+            technical: {
+                microsoftOffice: req.body.microsoftOffice,
+                crmSystems: req.body.crmSystems,
+                crmExperience: req.body.crmExperience,
+                designTools: req.body.designTools ? (Array.isArray(req.body.designTools) ? req.body.designTools : [req.body.designTools]) : [],
+                marketingMaterials: req.body.marketingMaterials,
+                englishProficiency: req.body.englishProficiency,
+                stakeholderCommunication: req.body.stakeholderCommunication,
+                internetSpeed: req.body.internetSpeed,
+                hasBackupPower: req.body.hasBackupPower === 'yes'
+            },
+            roleSpecific: {
+                transactionCoordination: req.body.transactionCoordination,
+                systemsWorkflows: req.body.systemsWorkflows,
+                complexDeal: req.body.complexDeal,
+                whyHireYou: req.body.whyHireYou
             },
             availability: {
                 timezone: req.body.timezone,
+                usHoursOverlap: req.body.usHoursOverlap,
                 hoursPerWeek: req.body.hoursPerWeek,
-                startDate: req.body.startDate
+                startDate: req.body.startDate,
+                workEnvironment: req.body.workEnvironment
             },
             rates: {
                 expectedRate: req.body.expectedRate,
                 currencyPreference: req.body.currencyPreference
             },
-            technical: {
-                englishProficiency: req.body.englishProficiency,
-                internetSpeed: req.body.internetSpeed,
-                hasBackupPower: req.body.hasBackupPower === 'yes',
-                crmExperience: req.body.crmExperience
-            },
-            additional: {
-                whyHireYou: req.body.whyHireYou,
-                challenges: req.body.challenges,
-                dealExample: req.body.dealExample,
-                marketingExp: req.body.marketingExp ? req.body.marketingExp.split(',').map(s => s.trim()) : [],
-                documentTypes: req.body.documentTypes ? req.body.documentTypes.split(',').map(s => s.trim()) : []
-            },
             videos: {
-                video1: req.files?.video1 ? req.files.video1[0].filename : null,
-                video2: req.files?.video2 ? req.files.video2[0].filename : null
+                video1: req.files?.video1 ? req.files.video1[0].filename : null
+            },
+            documents: {
+                resume: req.files?.resume ? req.files.resume[0].filename : null,
+                coverLetter: req.files?.coverLetter ? req.files.coverLetter[0].filename : null
+            },
+            portfolio: req.files?.portfolioFiles ? req.files.portfolioFiles.map(file => file.filename) : [],
+            fitAssessment: {
+                difficultSituation: req.body.difficultSituation,
+                dealWithPressure: req.body.dealWithPressure,
+                communicationPreference: req.body.communicationPreference,
+                timeManagement: req.body.timeManagement,
+                attentionToDetail: req.body.attentionToDetail,
+                careerGoals: req.body.careerGoals
             }
         };
 
@@ -181,6 +253,28 @@ app.get('/api/videos/:filename', (req, res) => {
         res.sendFile(videoPath);
     } else {
         res.status(404).json({ error: 'Video not found' });
+    }
+});
+
+// Serve document files
+app.get('/api/documents/:filename', (req, res) => {
+    const docPath = path.join(__dirname, 'uploads', 'documents', req.params.filename);
+    
+    if (fs.existsSync(docPath)) {
+        res.sendFile(docPath);
+    } else {
+        res.status(404).json({ error: 'Document not found' });
+    }
+});
+
+// Serve portfolio files
+app.get('/api/portfolio/:filename', (req, res) => {
+    const portfolioPath = path.join(__dirname, 'uploads', 'portfolio', req.params.filename);
+    
+    if (fs.existsSync(portfolioPath)) {
+        res.sendFile(portfolioPath);
+    } else {
+        res.status(404).json({ error: 'Portfolio file not found' });
     }
 });
 
