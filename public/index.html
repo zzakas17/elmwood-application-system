@@ -67,6 +67,55 @@
             overflow-x: hidden;
         }
 
+        /* Portal Top Bar */
+        .portal-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .security-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .portal-topbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .portal-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .portal-brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portal-brand-name {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            letter-spacing: 0.2px;
+        }
+
         h1 {
             font-size: var(--font-size-4xl);
             font-weight: var(--font-weight-semibold);
@@ -606,10 +655,36 @@
             .scroll-indicator {
                 display: none;
             }
+
+            .portal-topbar-content {
+                padding: 14px 20px;
+            }
+
+            .portal-brand-name {
+                font-size: var(--font-size-base);
+            }
+
+            .security-indicator {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Portal Top Bar -->
+    <div class="portal-topbar">
+        <div class="portal-topbar-content">
+            <div class="portal-brand">
+                <div class="portal-brand-text">
+                    <div class="portal-brand-name">Secure Application Portal</div>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="security-indicator">SSL Secured</div>
+            </div>
+        </div>
+    </div>
+
     <div class="header">
         <div class="header-content">
             <h1>Director - Marketing & Operations</h1>
