@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Submitted - Industrial Real Estate Brokerage</title>
+    <title>Application Submitted - Commercial Real Estate Brokerage</title>
     <style>
         * {
             margin: 0;
@@ -237,13 +237,13 @@
             const receipt = {
                 applicationId: appId || 'N/A',
                 submittedAt: new Date().toLocaleString(),
-                company: 'Industrial Real Estate Brokerage',
+                company: 'Commercial Real Estate Brokerage',
                 position: 'Director - Marketing & Operations',
                 status: 'Received'
             };
 
             const receiptText = `
-INDUSTRIAL REAL ESTATE BROKERAGE
+COMMERCIAL REAL ESTATE BROKERAGE
 Application Receipt
 
 Application ID: ${receipt.applicationId}
@@ -260,7 +260,7 @@ Next Steps:
 - You can expect to hear from us within 1-2 weeks
 
 
-© 2024 Industrial Real Estate Brokerage. All rights reserved.
+© 2024 Commercial Real Estate Brokerage. All rights reserved.
             `.trim();
 
             const blob = new Blob([receiptText], { type: 'text/plain' });

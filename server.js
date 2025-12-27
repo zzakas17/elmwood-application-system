@@ -286,7 +286,7 @@ app.post('/api/submit-application', upload.fields([
             await sendEmail(emailConfig.to, managerSubject, managerHtml, managerHtml.replace(/<[^>]*>/g, ''));
 
             // Confirmation email to candidate
-            const candidateSubject = 'Application Received - Industrial Real Estate Brokerage';
+            const candidateSubject = 'Application Received - Commercial Real Estate Brokerage';
             const candidateHtml = `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <h2 style="color: #1a3d5c;">Thank You for Your Application</h2>
