@@ -149,8 +149,7 @@ app.post('/api/submit-application', upload.fields([
                 hasBackupPower: req.body.hasBackupPower === 'yes'
             },
             roleSpecific: {
-                transactionCoordination: req.body.transactionCoordination,
-                systemsWorkflows: req.body.systemsWorkflows,
+                transactionCoordination: req.body.transactionCoordination, // Combined with systemsWorkflows
                 whyHireYou: req.body.careerGoals // Combined with careerGoals
             },
             availability: {

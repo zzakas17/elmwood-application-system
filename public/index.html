@@ -3495,17 +3495,10 @@
                                 </div>
                                 <div class="form-grid">
                                     <div class="form-group full-width">
-                                        <label for="transactionCoordination">Describe your experience managing complex transactions or projects, including documentation, timelines, due diligence, and stakeholder coordination (or relevant transferable experience) <span class="required">*</span></label>
-                                        <textarea id="transactionCoordination" name="transactionCoordination" placeholder="If you have real estate experience, include details about managing transaction documentation, timelines, due diligence materials, and coordinating with multiple stakeholders. If not, describe similar complex projects you've managed with multiple moving parts, deadlines, documentation, and stakeholder coordination. Include specific examples of challenges faced and outcomes achieved." required maxlength="2500"></textarea>
-                                        <div class="char-counter" id="transactionCoordination-counter">0 / 2500 characters</div>
+                                        <label for="transactionCoordination">Describe your experience managing complex transactions or projects, including documentation, timelines, due diligence, stakeholder coordination, and any experience improving systems and workflows (or relevant transferable experience) <span class="required">*</span></label>
+                                        <textarea id="transactionCoordination" name="transactionCoordination" placeholder="If you have real estate experience, include details about managing transaction documentation, timelines, due diligence materials, and coordinating with multiple stakeholders. If not, describe similar complex projects you've managed. Also share examples of process improvements you've implemented or systems you've helped optimize, and your approach to maintaining accuracy and attention to detail. Include specific examples of challenges faced and outcomes achieved." required maxlength="3000"></textarea>
+                                        <div class="char-counter" id="transactionCoordination-counter">0 / 3000 characters</div>
                                         <div class="error-message" id="transactionCoordination-error"></div>
-                                    </div>
-
-                                    <div class="form-group full-width">
-                                        <label for="systemsWorkflows">Describe your experience improving systems and workflows, and your approach to ensuring accuracy and attention to detail in your work <span class="required">*</span></label>
-                                        <textarea id="systemsWorkflows" name="systemsWorkflows" placeholder="Share examples of process improvements you've implemented or systems you've helped optimize. Also describe your approach to maintaining accuracy and attention to detail, including any processes, habits, or techniques you use to minimize errors. This can be from any industry or role." required maxlength="2500"></textarea>
-                                        <div class="char-counter" id="systemsWorkflows-counter">0 / 2500 characters</div>
-                                        <div class="error-message" id="systemsWorkflows-error"></div>
                                     </div>
 
                                     <div class="form-group full-width">
@@ -5133,6 +5126,7 @@
             }
 
             // Setup character counters for all textarea fields
+            setupCharCounter('transactionCoordination', 3000);
             setupCharCounter('communicationPreference', 2000);
             setupCharCounter('timeManagement', 2500);
             setupCharCounter('careerGoals', 2000);
