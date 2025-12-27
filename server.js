@@ -505,22 +505,36 @@ app.post('/api/submit-application', upload.fields([
             throw writeError;
         }
 
-        // Send email notifications (async, don't block response)
+        // Generate PDF and send email notifications (async, don't block response)
         (async () => {
-            // Email to hiring manager
-            const managerSubject = `New Application: ${applicationData.personalInfo?.fullName || 'Unknown'}`;
-            const managerHtml = `
-                <h2>New Application Received</h2>
-                <p><strong>Name:</strong> ${applicationData.personalInfo?.fullName || 'N/A'}</p>
-                <p><strong>Email:</strong> ${applicationData.personalInfo?.email || 'N/A'}</p>
-                <p><strong>Phone:</strong> ${applicationData.personalInfo?.phoneFull || (applicationData.personalInfo?.countryCode ? applicationData.personalInfo.countryCode + ' ' : '') + (applicationData.personalInfo?.phone || 'N/A')}</p>
-                <p><strong>Location:</strong> ${applicationData.personalInfo?.location || 'N/A'}</p>
-                <p><strong>Experience:</strong> ${applicationData.experience?.marketingDesignExperience || 'N/A'}</p>
-                <p><strong>Application ID:</strong> ${applicationData.id}</p>
-                <p><strong>Submitted:</strong> ${new Date(applicationData.submittedAt).toLocaleString()}</p>
-                <p><a href="${process.env.APP_URL || 'http://localhost:3000'}/admin.html">View in Admin Dashboard</a></p>
-            `;
-            await sendEmail(emailConfig.to, managerSubject, managerHtml, managerHtml.replace(/<[^>]*>/g, ''));
+            try {
+                // Generate PDF
+                console.log('📄 Generating PDF for application...');
+                const pdfBuffer = await generateApplicationPDF(applicationData);
+                console.log('✅ PDF generated successfully');
+                
+                // Email to hiring manager with PDF attachment
+                const managerSubject = `New Application: ${applicationData.personalInfo?.fullName || 'Unknown'}`;
+                const managerHtml = `
+                    <h2>New Application Received</h2>
+                    <p><strong>Name:</strong> ${applicationData.personalInfo?.fullName || 'N/A'}</p>
+                    <p><strong>Email:</strong> ${applicationData.personalInfo?.email || 'N/A'}</p>
+                    <p><strong>Phone:</strong> ${applicationData.personalInfo?.phoneFull || (applicationData.personalInfo?.countryCode ? applicationData.personalInfo.countryCode + ' ' : '') + (applicationData.personalInfo?.phone || 'N/A')}</p>
+                    <p><strong>Location:</strong> ${applicationData.personalInfo?.location || 'N/A'}</p>
+                    <p><strong>Experience:</strong> ${applicationData.experience?.marketingDesignExperience || 'N/A'}</p>
+                    <p><strong>Application ID:</strong> ${applicationData.id}</p>
+                    <p><strong>Submitted:</strong> ${new Date(applicationData.submittedAt).toLocaleString()}</p>
+                    <p><strong>📎 Full application details attached as PDF</strong></p>
+                    <p><a href="${process.env.APP_URL || 'http://localhost:3000'}/admin.html">View in Admin Dashboard</a></p>
+                `;
+                await sendEmailWithPDF(
+                    emailConfig.to, 
+                    managerSubject, 
+                    managerHtml, 
+                    managerHtml.replace(/<[^>]*>/g, ''),
+                    pdfBuffer,
+                    applicationData.personalInfo?.fullName || 'Unknown'
+                );
 
                 // Confirmation email to candidate (no PDF needed)
                 const candidateSubject = 'Application Received - Commercial Real Estate Brokerage';
