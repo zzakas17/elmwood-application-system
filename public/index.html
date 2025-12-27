@@ -296,6 +296,122 @@
             background: var(--primary-dark);
         }
 
+        .footer {
+            text-align: center;
+            padding: var(--space-3xl) var(--space-2xl);
+            color: var(--text-primary);
+            font-size: var(--font-size-base);
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
+            margin-top: var(--space-5xl);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: var(--font-weight-medium);
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .footer-links span {
+            color: var(--text-light);
+        }
+
+        .preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-modal.active {
+            display: flex;
+        }
+
+        .preview-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: var(--bg-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .preview-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .preview-modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        .preview-modal-body {
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 0;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+
         @media (max-width: 768px) {
             .header-content {
                 padding: 35px 20px 30px;
@@ -408,5 +524,129 @@
 
         <a href="application.html" class="start-application-btn">Click Here to Start Application</a>
     </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" onclick="event.preventDefault(); showPrivacyModal(); return false;">Privacy Policy</a>
+                <span>•</span>
+                <a href="#" onclick="event.preventDefault(); showTermsModal(); return false;">Terms of Service</a>
+                <span>•</span>
+                <span style="color: var(--text-light);">© 2024 Commercial Real Estate Brokerage. All rights reserved.</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Terms of Service Modal
+        function showTermsModal() {
+            const modal = document.createElement('div');
+            modal.id = 'termsModal';
+            modal.className = 'preview-modal active';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="preview-modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+                    <button class="preview-modal-close" onclick="closeTermsModal()">×</button>
+                    <div class="preview-modal-body" style="padding: 30px;">
+                        <h2 style="font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 24px;">Terms of Service</h2>
+                        <div style="line-height: 1.8; color: var(--text-secondary);">
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">Application Acknowledgment</h3>
+                            <p style="margin-bottom: 16px;">You acknowledge that all information provided in this application is true and accurate to the best of your knowledge. Any misrepresentation or omission of material facts may result in disqualification from consideration or termination of contract if discovered after engagement.</p>
+                            
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">No Guarantee of Engagement</h3>
+                            <p style="margin-bottom: 16px;">Submission of this application does not guarantee contract engagement or create any contractual obligation. We reserve the right to reject any application, discontinue the recruitment process, or modify role requirements at any time.</p>
+                            
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">Application Process</h3>
+                            <p style="margin-bottom: 16px;">The company reserves the right to contact or not contact applicants at any stage of the recruitment process. Selected candidates will advance through a structured interview process. The company is under no obligation to fill the position or to hire any applicant.</p>
+                            
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">Duties and Responsibilities</h3>
+                            <p style="margin-bottom: 16px;">The duties and responsibilities described in this job posting are not exhaustive and additional assignments, duties, or responsibilities may be required of this position. Assignments, duties, and responsibilities may be changed at any time, with or without notice, by the company in its sole discretion.</p>
+                            
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">Equal Employment Opportunity</h3>
+                            <p style="margin-bottom: 16px;">We are committed to providing equal employment opportunities to all employees and applicants for employment without regard to race, color, creed, religion, sex, pregnancy, national origin, ancestry, citizenship status, age, marital or partnership status, sexual orientation, gender identity or expression, disability, genetic predisposition, veteran or military status, status as a victim of domestic violence, a sex offense or stalking, or any other class or status in accordance with applicable federal, state and local laws. This policy applies to all terms and conditions of employment, including but not limited to hiring, placement, promotion, termination, transfer, leave of absence, compensation, and training.</p>
+                        </div>
+                        <div style="margin-top: 24px; text-align: right;">
+                            <button type="button" class="btn btn-primary" onclick="closeTermsModal()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTermsModal() {
+            const modal = document.getElementById('termsModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Privacy Policy Modal
+        function showPrivacyModal() {
+            const modal = document.createElement('div');
+            modal.id = 'privacyModal';
+            modal.className = 'preview-modal active';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="preview-modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+                    <button class="preview-modal-close" onclick="closePrivacyModal()">×</button>
+                    <div class="preview-modal-body" style="padding: 30px;">
+                        <h2 style="font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 24px;">Privacy Policy</h2>
+                        <div style="line-height: 1.8; color: var(--text-secondary);">
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">Data Protection & Privacy</h3>
+                            <p style="margin-bottom: 16px;">We are committed to protecting your personal information. All data is processed in accordance with applicable data protection regulations. Your information is used solely for recruitment purposes and is not shared with unauthorized third parties.</p>
+                            
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">Data Privacy & Collection</h3>
+                            <p style="margin-bottom: 16px;">By submitting this application, you consent to the collection, processing, and storage of your personal information, including but not limited to your name, contact information, resume, video submissions, and responses to application questions. This information will be used solely for recruitment and hiring purposes. Your data will be kept confidential and will not be shared with third parties except as necessary for the recruitment process. You have the right to request access, correction, or deletion of your data at any time.</p>
+                            
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">Data Retention</h3>
+                            <p style="margin-bottom: 16px;">We retain application data for a period of 24 months from the date of submission, unless you request earlier deletion. If you are engaged, your application data will be retained as part of your employment records in accordance with applicable legal requirements. If you are not selected, your data will be securely deleted after the retention period, unless you have provided explicit consent for us to retain it for future opportunities.</p>
+                            
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">International Data Transfers (GDPR)</h3>
+                            <p style="margin-bottom: 16px;">If you are located in the European Economic Area (EEA), United Kingdom, or other jurisdictions with data protection laws, you have additional rights under applicable regulations, including the right to data portability, the right to object to processing, and the right to lodge a complaint with a supervisory authority. We process your data based on your consent and our legitimate interest in evaluating candidates for employment opportunities.</p>
+                            
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 24px; margin-bottom: 12px;">Security & Encryption</h3>
+                            <p style="margin-bottom: 16px;">All data transmitted through this portal is encrypted using industry-standard SSL/TLS protocols. Your information is stored securely and accessed only by authorized personnel involved in the recruitment process.</p>
+                        </div>
+                        <div style="margin-top: 24px; text-align: right;">
+                            <button type="button" class="btn btn-primary" onclick="closePrivacyModal()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePrivacyModal() {
+            const modal = document.getElementById('privacyModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeTermsModal();
+                closePrivacyModal();
+            }
+        });
+
+        // Close modals on outside click
+        document.addEventListener('click', (e) => {
+            const termsModal = document.getElementById('termsModal');
+            const privacyModal = document.getElementById('privacyModal');
+            if (termsModal && e.target === termsModal) {
+                closeTermsModal();
+            }
+            if (privacyModal && e.target === privacyModal) {
+                closePrivacyModal();
+            }
+        });
+    </script>
 </body>
 </html>
