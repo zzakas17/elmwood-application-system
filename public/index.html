@@ -4291,7 +4291,7 @@
                         // Redirect to success page
                         window.location.href = `/success.html?id=${data.applicationId}`;
                     } else {
-                        showMessage(data.message || 'We encountered an error processing your application. Please try again or contact zac@elmwood.co for assistance.', 'error');
+                        showMessage(data.message || 'We encountered an error processing your application. Please try again or contact careers@elmwood.co for assistance.', 'error');
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('loading');
                         submitBtn.textContent = 'Submit Application';
