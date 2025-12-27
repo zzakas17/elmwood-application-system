@@ -81,6 +81,22 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
+        .security-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .security-indicator::before {
+            content: '🔒';
+            font-size: 12px;
+        }
+
         .portal-topbar-content {
             max-width: 1400px;
             margin: 0 auto;
@@ -3077,7 +3093,10 @@
                         <div class="portal-brand-subtitle">Application Portal</div>
                     </div>
                 </div>
-                <div class="progress-percentage" id="progressPercentage" style="font-size: 14px; font-weight: 600; color: var(--text-primary); letter-spacing: 0.3px;">0% Complete</div>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div class="security-indicator">Secure Connection</div>
+                    <div class="progress-percentage" id="progressPercentage" style="font-size: 14px; font-weight: 600; color: var(--text-primary); letter-spacing: 0.3px;">0% Complete</div>
+                </div>
             </div>
         </div>
 
@@ -3183,20 +3202,26 @@
                             <div class="portal-welcome-features">
                                 <div class="portal-feature">
                                     <div class="portal-feature-content">
-                                        <h4>Auto-Save Enabled</h4>
-                                        <p>Your progress is automatically saved to your browser. You can return anytime to continue (files must be re-uploaded)</p>
+                                        <h4>🔒 Secure & Encrypted</h4>
+                                        <p>All data is transmitted over encrypted connections and stored securely. Your information is protected with industry-standard security measures.</p>
                                     </div>
                                 </div>
                                 <div class="portal-feature">
                                     <div class="portal-feature-content">
-                                        <h4>Secure & Confidential</h4>
-                                        <p>All information is encrypted and handled with strict confidentiality</p>
+                                        <h4>💾 Auto-Save Enabled</h4>
+                                        <p>Your progress is automatically saved to your browser. You can return anytime to continue (files must be re-uploaded).</p>
                                     </div>
                                 </div>
                                 <div class="portal-feature">
                                     <div class="portal-feature-content">
-                                        <h4>Complete at Your Pace</h4>
-                                        <p>Take your time—you can return to complete sections later</p>
+                                        <h4>🔐 Confidential Processing</h4>
+                                        <p>All applications are reviewed by authorized personnel only. Your information is kept strictly confidential and used solely for recruitment purposes.</p>
+                                    </div>
+                                </div>
+                                <div class="portal-feature">
+                                    <div class="portal-feature-content">
+                                        <h4>⏱️ Complete at Your Pace</h4>
+                                        <p>Take your time—you can return to complete sections later. We recommend completing the application in one session for best results.</p>
                                     </div>
                                 </div>
                             </div>
@@ -3759,7 +3784,15 @@
                                         Submit Application
                                     </button>
                                 </div>
-                                <p class="submit-section-note" style="font-size: 12px; color: var(--text-primary); margin-top: 8px;">Your application will be reviewed by our hiring team. We typically respond within 1-2 weeks.</p>
+                                <div style="margin-top: 16px; padding: 16px; background: var(--bg-light); border-left: 3px solid var(--primary); border-radius: 0;">
+                                    <p style="font-size: 13px; color: var(--text-primary); margin-bottom: 8px; font-weight: 600;">What Happens Next?</p>
+                                    <ul style="font-size: 12px; color: var(--text-secondary); line-height: 1.7; margin: 0; padding-left: 20px;">
+                                        <li>Your application will be reviewed by our hiring team</li>
+                                        <li>We typically respond within 1-2 weeks</li>
+                                        <li>Selected candidates will be contacted via email</li>
+                                        <li>You will receive a confirmation email with your Application ID upon submission</li>
+                                    </ul>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -3767,18 +3800,28 @@
                     <div class="footer">
                         <div class="footer-content">
                             <div class="footer-section">
-                                <h4>Contact</h4>
-                                <p>Questions about this position or the application process?</p>
+                                <h4>Application Process</h4>
+                                <p style="margin-bottom: 12px;">All applications are reviewed by our hiring team. We typically respond within 1-2 weeks. Selected candidates will be contacted via the email address provided in your application.</p>
+                                <p style="font-size: 13px; color: var(--text-light);">Application ID will be provided upon successful submission for your records.</p>
                             </div>
                             
-                            <div class="disclaimer-box">
-                                <p><strong>Equal Opportunity:</strong> We are committed to equal opportunity. We consider all qualified applicants without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, age, disability, or any other protected status.</p>
+                            <div class="footer-section">
+                                <h4>Data Protection & Privacy</h4>
+                                <p style="font-size: 13px; line-height: 1.7; color: var(--text-secondary);">We are committed to protecting your personal information. All data is processed in accordance with applicable data protection regulations. Your information is used solely for recruitment purposes and is not shared with unauthorized third parties.</p>
+                            </div>
+                            
+                            <div class="disclaimer-box" style="background: var(--bg-light); border: 1px solid var(--border-light); padding: 24px; border-radius: 0; margin-top: 24px;">
+                                <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px;">Legal & Compliance</h4>
                                 
-                                <p style="margin-top: 12px;"><strong>Data Privacy & Collection:</strong> By submitting this application, you consent to the collection, processing, and storage of your personal information, including but not limited to your name, contact information, resume, cover letter, video submissions, and responses to application questions. This information will be used solely for recruitment and hiring purposes. Your data will be kept confidential and will not be shared with third parties except as necessary for the recruitment process.</p>
+                                <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Equal Opportunity:</strong> We are committed to equal opportunity. We consider all qualified applicants without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, age, disability, or any other protected status.</p>
                                 
-                                <p style="margin-top: 12px;"><strong>Application Acknowledgment:</strong> You acknowledge that all information provided in this application is true and accurate to the best of your knowledge. Any misrepresentation or omission of material facts may result in disqualification from consideration or termination of contract if discovered after engagement.</p>
+                                <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Data Privacy & Collection:</strong> By submitting this application, you consent to the collection, processing, and storage of your personal information, including but not limited to your name, contact information, resume, cover letter, video submissions, and responses to application questions. This information will be used solely for recruitment and hiring purposes. Your data will be kept confidential and will not be shared with third parties except as necessary for the recruitment process. You have the right to request access, correction, or deletion of your data at any time.</p>
                                 
-                                <p style="margin-top: 12px;"><strong>No Guarantee of Engagement:</strong> Submission of this application does not guarantee contract engagement or create any contractual obligation. We reserve the right to reject any application, discontinue the recruitment process, or modify role requirements at any time.</p>
+                                <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Security & Encryption:</strong> All data transmitted through this portal is encrypted using industry-standard SSL/TLS protocols. Your information is stored securely and accessed only by authorized personnel involved in the recruitment process.</p>
+                                
+                                <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Application Acknowledgment:</strong> You acknowledge that all information provided in this application is true and accurate to the best of your knowledge. Any misrepresentation or omission of material facts may result in disqualification from consideration or termination of contract if discovered after engagement.</p>
+                                
+                                <p style="line-height: 1.7;"><strong>No Guarantee of Engagement:</strong> Submission of this application does not guarantee contract engagement or create any contractual obligation. We reserve the right to reject any application, discontinue the recruitment process, or modify role requirements at any time.</p>
                             </div>
                             
                             <div class="footer-links">
@@ -5103,7 +5146,10 @@
                         showMessage(data.message || 'We encountered an error processing your application. Please try again.', 'error');
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('loading');
-                        submitBtn.textContent = 'Submit Application';
+                        const submitBtnText = document.getElementById('submitBtnText');
+                        const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+                        if (submitBtnText) submitBtnText.textContent = 'Submit Application Securely';
+                        if (submitBtnSpinner) submitBtnSpinner.style.display = 'none';
                     }
                 } catch (error) {
                     showMessage('Network error. Please check your connection and try again.', 'error');
