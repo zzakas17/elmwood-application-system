@@ -5,6 +5,7 @@ const fs = require('fs');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const PDFDocument = require('pdfkit');
+const archiver = require('archiver');
 
 // Load environment variables from .env file if it exists
 try {

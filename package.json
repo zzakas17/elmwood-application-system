@@ -16,6 +16,7 @@
   "author": "Elmwood & Co.",
   "license": "MIT",
   "dependencies": {
+    "archiver": "^7.0.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^4.18.2",
