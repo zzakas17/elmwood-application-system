@@ -3592,6 +3592,17 @@
                                         <input type="text" id="location" name="location" required>
                                         <div class="error-message" id="location-error"></div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="linkedin">
+                                            LinkedIn Profile (Optional)
+                                            <span class="help-tooltip">
+                                                <span class="help-icon">?</span>
+                                                <span class="help-tooltip-content">Share your LinkedIn profile URL if you have one</span>
+                                            </span>
+                                        </label>
+                                        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                                        <div class="error-message" id="linkedin-error"></div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -4934,6 +4945,8 @@
                         } else if (field.validity.typeMismatch) {
                             if (field.type === 'email') {
                                 message = 'Please enter a valid email address';
+                            } else if (field.type === 'url') {
+                                message = 'Please enter a valid URL (e.g., https://linkedin.com/in/yourprofile)';
                             }
                         } else if (field.validity.tooLong) {
                             message = `Maximum ${field.maxLength} characters allowed`;

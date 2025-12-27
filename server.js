@@ -117,7 +117,8 @@ app.post('/api/submit-application', upload.fields([
                 fullName: req.body.fullName,
                 email: req.body.email,
                 phone: req.body.phone,
-                location: req.body.location
+                location: req.body.location,
+                linkedin: req.body.linkedin || null
             },
             education: {
                 highestEducation: req.body.highestEducation,
