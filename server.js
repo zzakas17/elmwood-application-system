@@ -196,30 +196,9 @@ app.post('/api/submit-application', upload.fields([
                 managementExperience: req.body.managementExperience,
                 managementExample: req.body.managementExample || null
             },
-            references: {
-                reference1: {
-                    name: req.body.reference1Name || null,
-                    title: req.body.reference1Title || null,
-                    company: req.body.reference1Company || null,
-                    email: req.body.reference1Email || null,
-                    phone: req.body.reference1Phone || null,
-                    relationship: req.body.reference1Relationship || null
-                },
-                reference2: {
-                    name: req.body.reference2Name || null,
-                    title: req.body.reference2Title || null,
-                    company: req.body.reference2Company || null,
-                    email: req.body.reference2Email || null,
-                    phone: req.body.reference2Phone || null,
-                    relationship: req.body.reference2Relationship || null
-                }
-            },
             accommodations: req.body.accommodations || null,
             consent: {
-                accuracy: req.body.consentAccuracy === 'on',
-                privacy: req.body.consentPrivacy === 'on',
-                terms: req.body.consentTerms === 'on',
-                dataProcessing: req.body.consentDataProcessing === 'on',
+                termsPrivacy: req.body.consentTermsPrivacy === 'on',
                 consentedAt: new Date().toISOString()
             },
             availability: {
