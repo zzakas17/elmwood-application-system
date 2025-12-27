@@ -55,6 +55,48 @@ const storage = multer.diskStorage({
     }
 });
 
+// Email configuration
+const emailConfig = {
+    to: process.env.ADMIN_EMAIL || 'zac@elmwood.co', // Where to send application notifications
+    enabled: process.env.EMAIL_ENABLED !== 'false' // Default to enabled if not explicitly disabled
+};
+
+// Email transporter setup (only if email is enabled)
+let transporter = null;
+if (emailConfig.enabled && process.env.EMAIL_HOST) {
+    transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: parseInt(process.env.EMAIL_PORT || '587'),
+        secure: process.env.EMAIL_SECURE === 'true',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
+}
+
+// Send email function
+async function sendEmail(to, subject, html, text) {
+    if (!emailConfig.enabled || !transporter) {
+        console.log('📧 Email disabled or not configured, skipping email to:', to);
+        return;
+    }
+
+    try {
+        await transporter.sendMail({
+            from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+            to: to,
+            subject: subject,
+            html: html,
+            text: text || html.replace(/<[^>]*>/g, '')
+        });
+        console.log('✅ Email sent successfully to:', to);
+    } catch (error) {
+        console.error('❌ Error sending email:', error);
+        throw error;
+    }
+}
+
 const upload = multer({
     storage: storage,
     limits: {
@@ -257,7 +299,7 @@ app.post('/api/submit-application', upload.fields([
                         <li>Please check your email regularly, including your spam folder</li>
                         <li>You can expect to hear from us within 1-2 weeks</li>
                     </ul>
-                    <p style="margin-top: 30px;">If you have any questions, please contact us at <a href="mailto:careers@realestatebrokerage.com">careers@realestatebrokerage.com</a></p>
+                    <p style="margin-top: 30px;">If you have any questions, we will contact you via the email address you provided in your application.</p>
                     <p style="margin-top: 30px; color: #666; font-size: 12px;">This is an automated confirmation. Please do not reply to this email.</p>
                 </div>
             `;

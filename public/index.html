@@ -3769,7 +3769,6 @@
                             <div class="footer-section">
                                 <h4>Contact</h4>
                                 <p>Questions about this position or the application process?</p>
-                                <p>Email: <strong>careers@realestatebrokerage.com</strong></p>
                             </div>
                             
                             <div class="disclaimer-box">
@@ -3783,9 +3782,7 @@
                             </div>
                             
                             <div class="footer-links">
-                                <a href="mailto:careers@realestatebrokerage.com">Contact</a>
-                                <span>•</span>
-                                <a href="#" onclick="event.preventDefault(); alert('Privacy Policy: We collect and process your application data solely for recruitment purposes. Your information is kept confidential and will not be shared with third parties without your consent. You may request access, correction, or deletion of your data at any time by contacting careers@realestatebrokerage.com'); return false;">Privacy Policy</a>
+                                <a href="#" onclick="event.preventDefault(); alert('Privacy Policy: We collect and process your application data solely for recruitment purposes. Your information is kept confidential and will not be shared with third parties without your consent.'); return false;">Privacy Policy</a>
                                 <span>•</span>
                                 <a href="#" onclick="event.preventDefault(); alert('Terms of Service: By submitting this application, you agree that all information provided is accurate and complete. You understand that submission does not guarantee contract engagement and that we reserve the right to reject any application at our discretion.'); return false;">Terms</a>
                                 <span>•</span>
@@ -5103,7 +5100,7 @@
                         // Redirect to success page
                         window.location.href = `/success.html?id=${data.applicationId}`;
                     } else {
-                        showMessage(data.message || 'We encountered an error processing your application. Please try again or contact careers@realestatebrokerage.com for assistance.', 'error');
+                        showMessage(data.message || 'We encountered an error processing your application. Please try again.', 'error');
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('loading');
                         submitBtn.textContent = 'Submit Application';
