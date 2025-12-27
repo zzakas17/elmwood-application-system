@@ -3613,83 +3613,31 @@
                                     <div class="error-message" id="difficultSituation-error"></div>
                                 </div>
 
-                                <div class="fit-question">
-                                    <label class="fit-question-label">How do you handle high-pressure situations with tight deadlines? <span class="required">*</span></label>
-                                    <div class="radio-cards">
-                                        <label class="radio-card">
-                                            <input type="radio" name="dealWithPressure" value="calm" required>
-                                            <div class="radio-card-content">
-                                                <div class="radio-card-title">Stay Calm & Prioritize</div>
-                                                <div class="radio-card-desc">I maintain composure, assess priorities, and tackle tasks systematically</div>
-                                            </div>
-                                        </label>
-                                        <label class="radio-card">
-                                            <input type="radio" name="dealWithPressure" value="energized" required>
-                                            <div class="radio-card-content">
-                                                <div class="radio-card-title">Thrive Under Pressure</div>
-                                                <div class="radio-card-desc">Pressure energizes me and helps me focus on delivering results</div>
-                                            </div>
-                                        </label>
-                                        <label class="radio-card">
-                                            <input type="radio" name="dealWithPressure" value="strategic" required>
-                                            <div class="radio-card-content">
-                                                <div class="radio-card-title">Strategic Problem-Solving</div>
-                                                <div class="radio-card-desc">I break down challenges, identify critical path items, and execute efficiently</div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    <div class="error-message" id="dealWithPressure-error"></div>
-                                </div>
-
-                                <div class="fit-question">
-                                    <label class="fit-question-label">How do you prefer to communicate with senior leadership and clients? <span class="required">*</span></label>
-                                    <div class="radio-cards">
-                                        <label class="radio-card">
-                                            <input type="radio" name="communicationPreference" value="direct" required>
-                                            <div class="radio-card-content">
-                                                <div class="radio-card-title">Direct & Concise</div>
-                                                <div class="radio-card-desc">Get straight to the point with key information</div>
-                                            </div>
-                                        </label>
-                                        <label class="radio-card">
-                                            <input type="radio" name="communicationPreference" value="detailed" required>
-                                            <div class="radio-card-content">
-                                                <div class="radio-card-title">Detailed & Thorough</div>
-                                                <div class="radio-card-desc">Provide comprehensive context and background</div>
-                                            </div>
-                                        </label>
-                                        <label class="radio-card">
-                                            <input type="radio" name="communicationPreference" value="collaborative" required>
-                                            <div class="radio-card-content">
-                                                <div class="radio-card-title">Collaborative Discussion</div>
-                                                <div class="radio-card-desc">Engage in dialogue to ensure alignment</div>
-                                            </div>
-                                        </label>
-                                    </div>
+                                <div class="form-group full-width">
+                                    <label for="communicationPreference">How do you prefer to communicate with senior leadership and clients? Describe your communication style and approach. <span class="required">*</span></label>
+                                    <textarea id="communicationPreference" name="communicationPreference" placeholder="Describe your communication style, how you adapt your communication for different audiences, and your approach to ensuring clarity and effectiveness." required maxlength="1000"></textarea>
+                                    <div class="char-counter" id="communicationPreference-counter">0 / 1000 characters</div>
                                     <div class="error-message" id="communicationPreference-error"></div>
                                 </div>
 
                                 <div class="form-group full-width">
-                                    <label for="timeManagement">How do you manage multiple deadlines and competing priorities? <span class="required">*</span></label>
-                                    <select id="timeManagement" name="timeManagement" required>
-                                        <option value="">Select...</option>
-                                        <option value="prioritize">Prioritize by urgency and importance, tackle one at a time</option>
-                                        <option value="multitask">Multitask efficiently across multiple projects</option>
-                                        <option value="plan">Create detailed plans and schedules, track everything systematically</option>
-                                        <option value="flexible">Adapt flexibly as priorities shift, communicate changes proactively</option>
-                                    </select>
+                                    <label for="phoneExperience">Are you comfortable speaking on the phone and do you have experience making calls to customers, vendors, clients, or other stakeholders? Please describe your experience. <span class="required">*</span></label>
+                                    <textarea id="phoneExperience" name="phoneExperience" placeholder="Describe your comfort level with phone communication, any relevant experience making professional calls, and how you handle phone interactions with various stakeholders." required maxlength="1000"></textarea>
+                                    <div class="char-counter" id="phoneExperience-counter">0 / 1000 characters</div>
+                                    <div class="error-message" id="phoneExperience-error"></div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="timeManagement">How do you manage multiple deadlines and competing priorities? Describe your approach and any strategies you use. <span class="required">*</span></label>
+                                    <textarea id="timeManagement" name="timeManagement" placeholder="Explain your approach to managing multiple projects, deadlines, and competing priorities. Include any tools, methods, or strategies you use." required maxlength="1000"></textarea>
+                                    <div class="char-counter" id="timeManagement-counter">0 / 1000 characters</div>
                                     <div class="error-message" id="timeManagement-error"></div>
                                 </div>
 
                                 <div class="form-group full-width">
-                                    <label for="attentionToDetail">How do you ensure accuracy and attention to detail in your work? <span class="required">*</span></label>
-                                    <select id="attentionToDetail" name="attentionToDetail" required>
-                                        <option value="">Select...</option>
-                                        <option value="double-check">Double-check everything before submitting</option>
-                                        <option value="checklists">Use checklists and systematic review processes</option>
-                                        <option value="peer-review">Have others review my work when possible</option>
-                                        <option value="methodical">Work methodically and carefully from the start</option>
-                                    </select>
+                                    <label for="attentionToDetail">How do you ensure accuracy and attention to detail in your work? Describe your process. <span class="required">*</span></label>
+                                    <textarea id="attentionToDetail" name="attentionToDetail" placeholder="Explain your approach to maintaining accuracy and attention to detail. Include any processes, habits, or techniques you use to minimize errors." required maxlength="1000"></textarea>
+                                    <div class="char-counter" id="attentionToDetail-counter">0 / 1000 characters</div>
                                     <div class="error-message" id="attentionToDetail-error"></div>
                                 </div>
 
@@ -5205,6 +5153,38 @@
                     submitBtn.textContent = originalText;
                 }
             });
+
+            // Character counters for textareas
+            function setupCharCounter(textareaId, maxLength) {
+                const textarea = document.getElementById(textareaId);
+                const counter = document.getElementById(`${textareaId}-counter`);
+                if (textarea && counter) {
+                    const updateCounter = () => {
+                        const length = textarea.value.length;
+                        counter.textContent = `${length} / ${maxLength} characters`;
+                        if (length > maxLength * 0.9) {
+                            counter.classList.add('warning');
+                        } else {
+                            counter.classList.remove('warning');
+                        }
+                        if (length > maxLength) {
+                            counter.classList.add('error');
+                        } else {
+                            counter.classList.remove('error');
+                        }
+                    };
+                    textarea.addEventListener('input', updateCounter);
+                    updateCounter(); // Initialize
+                }
+            }
+
+            // Setup character counters for all textarea fields
+            setupCharCounter('difficultSituation', 2000);
+            setupCharCounter('communicationPreference', 1000);
+            setupCharCounter('phoneExperience', 1000);
+            setupCharCounter('timeManagement', 1000);
+            setupCharCounter('attentionToDetail', 1000);
+            setupCharCounter('careerGoals', 1500);
 
             // Initial progress update
             updateProgress();

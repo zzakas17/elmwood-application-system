@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         // Route files to different directories based on field name
         if (file.fieldname === 'video1') {
-            cb(null, 'uploads/videos/');
+        cb(null, 'uploads/videos/');
         } else if (file.fieldname === 'resume' || file.fieldname === 'coverLetter') {
             cb(null, 'uploads/documents/');
         } else if (file.fieldname === 'portfolioFiles') {
@@ -85,7 +85,7 @@ const upload = multer({
         if (file.fieldname === 'portfolioFiles') {
             const allowedTypes = /\.(pdf|doc|docx|jpg|jpeg|png|zip)$/;
             if (allowedTypes.test(ext)) {
-                return cb(null, true);
+            return cb(null, true);
             }
             return cb(new Error('Only PDF, DOC, DOCX, JPG, PNG, or ZIP files are allowed for portfolio'));
         }
@@ -154,13 +154,13 @@ app.post('/api/submit-application', upload.fields([
                 complexDeal: req.body.complexDeal,
                 whyHireYou: req.body.whyHireYou
             },
-                    availability: {
-                        timezone: req.body.timezone,
+            availability: {
+                timezone: req.body.timezone,
                         usHoursOverlap: req.body.usHoursOverlap,
                         hoursPerWeek: '40', // Full-time position
                         startDate: req.body.startDate,
                         workEnvironment: req.body.workEnvironment
-                    },
+            },
             rates: {
                 expectedRate: req.body.expectedRate,
                 currencyPreference: req.body.currencyPreference
@@ -175,8 +175,8 @@ app.post('/api/submit-application', upload.fields([
             portfolio: req.files?.portfolioFiles ? req.files.portfolioFiles.map(file => file.filename) : [],
             fitAssessment: {
                 difficultSituation: req.body.difficultSituation,
-                dealWithPressure: req.body.dealWithPressure,
                 communicationPreference: req.body.communicationPreference,
+                phoneExperience: req.body.phoneExperience,
                 timeManagement: req.body.timeManagement,
                 attentionToDetail: req.body.attentionToDetail,
                 careerGoals: req.body.careerGoals
@@ -194,9 +194,9 @@ app.post('/api/submit-application', upload.fields([
         
         if (fs.existsSync(dataFile)) {
             try {
-                const fileContent = fs.readFileSync(dataFile, 'utf8');
+            const fileContent = fs.readFileSync(dataFile, 'utf8');
                 if (fileContent && fileContent.trim() !== '') {
-                    applications = JSON.parse(fileContent);
+            applications = JSON.parse(fileContent);
                     if (!Array.isArray(applications)) {
                         console.warn('Applications file is not an array, resetting');
                         applications = [];
