@@ -160,7 +160,8 @@ app.post('/api/submit-application', upload.fields([
                 phone: req.body.phone,
                 phoneFull: (req.body.countryCode || '') + (req.body.phone || ''),
                 location: req.body.location,
-                linkedin: req.body.linkedin || null
+                linkedin: req.body.linkedin || null,
+                personalWebsite: req.body.personalWebsite || null
             },
             education: {
                 highestEducation: req.body.highestEducation,
