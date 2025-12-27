@@ -202,9 +202,9 @@ app.post('/api/submit-application', upload.fields([
                         workEnvironment: req.body.workEnvironment
             },
             rates: {
-                expectedRate: req.body.expectedRate,
-                        currencyPreference: 'USD' // Always USD
-                    },
+                expectedRate: null, // Compensation is now in job description ($6-7/hour)
+                currencyPreference: 'USD' // Always USD
+            },
             videos: {
                 video1: req.files?.video1 ? req.files.video1[0].filename : null
             },
