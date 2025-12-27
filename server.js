@@ -134,9 +134,14 @@ const upload = multer({
     }
 });
 
-// Serve the application form
+// Serve the landing page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Serve the application form
+app.get('/application.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'application.html'));
 });
 
 // Handle form submission
