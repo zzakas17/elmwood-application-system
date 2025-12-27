@@ -161,10 +161,10 @@ app.post('/api/submit-application', upload.fields([
                         startDate: req.body.startDate,
                         workEnvironment: req.body.workEnvironment
             },
-            rates: {
-                expectedRate: req.body.expectedRate,
-                currencyPreference: req.body.currencyPreference
-            },
+                    rates: {
+                        expectedRate: req.body.expectedRate,
+                        currencyPreference: 'USD' // Always USD
+                    },
             videos: {
                 video1: req.files?.video1 ? req.files.video1[0].filename : null
             },
