@@ -202,7 +202,7 @@
         <h1>Application Submitted Successfully!</h1>
         <div class="application-id" id="applicationId">Loading...</div>
         <p class="message">
-            Thank you for your interest in the Director - Marketing & Operations position at Elmwood & Company. 
+            Thank you for your interest in the Director - Marketing & Operations position. 
             We have received your application and will review it carefully.
         </p>
 
@@ -272,7 +272,7 @@ Questions? Contact us at careers@realestatebrokerage.com
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `elmwood-application-receipt-${appId || Date.now()}.txt`;
+            a.download = `application-receipt-${appId || Date.now()}.txt`;
             a.click();
             window.URL.revokeObjectURL(url);
         }
