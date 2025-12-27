@@ -4171,13 +4171,13 @@
                                                 <span class="file-selected-name" id="fileName"></span>
                                                 <button type="button" class="file-selected-remove" id="removeFile">×</button>
                                             </div>
-                                            <div id="videoPreview" class="file-preview-container"></div>
+                                            <div id="videoUploadPreview" class="file-preview-container"></div>
                                         </div>
 
                                         <!-- Record Option -->
                                         <div id="recordSection" class="video-preview-container" style="display: none;">
                                             <div class="video-preview-wrapper">
-                                                <video id="videoPreview" class="video-preview" autoplay muted playsinline></video>
+                                                <video id="videoRecordPreview" class="video-preview" autoplay muted playsinline></video>
                                                 <div class="video-overlay" id="videoOverlay" style="display: none;">
                                                     <div class="video-loading">
                                                         <div class="spinner-large"></div>
@@ -4378,7 +4378,7 @@
 
         async function initializeCamera() {
             const videoOverlay = document.getElementById('videoOverlay');
-            const videoPreview = document.getElementById('videoPreview');
+            const videoPreview = document.getElementById('videoRecordPreview');
             const startBtn = document.getElementById('startRecordBtn');
             const statusDiv = document.getElementById('recordingStatus');
             
@@ -4446,18 +4446,43 @@
 
         function startRecording() {
             if (!recordingStream) {
+                if (globalShowMessage) {
+                    globalShowMessage('Camera not initialized. Please wait for camera to load.', 'error');
+                }
                 initializeCamera();
+                setTimeout(() => {
+                    if (recordingStream) {
+                        startRecording();
+                    }
+                }, 1000);
                 return;
             }
 
             recordedChunks = [];
-            const options = { mimeType: 'video/webm;codecs=vp9,opus' };
+            let options = { mimeType: 'video/webm;codecs=vp9,opus' };
+            
+            // Check if the codec is supported
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                options = { mimeType: 'video/webm' };
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    options = {}; // Use default
+                }
+            }
             
             try {
                 mediaRecorder = new MediaRecorder(recordingStream, options);
             } catch (e) {
+                console.error('Error creating MediaRecorder:', e);
                 // Fallback to default
-                mediaRecorder = new MediaRecorder(recordingStream);
+                try {
+                    mediaRecorder = new MediaRecorder(recordingStream);
+                } catch (e2) {
+                    console.error('Error creating MediaRecorder with default options:', e2);
+                    if (globalShowMessage) {
+                        globalShowMessage('Unable to start recording. Your browser may not support video recording. Please use the upload option instead.', 'error');
+                    }
+                    return;
+                }
             }
 
             mediaRecorder.ondataavailable = (event) => {
@@ -4468,7 +4493,7 @@
 
             mediaRecorder.onstop = () => {
                 recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
-                const videoPreview = document.getElementById('videoPreview');
+                const videoPreview = document.getElementById('videoRecordPreview');
                 const stopBtn = document.getElementById('stopRecordBtn');
                 const useBtn = document.getElementById('useRecordBtn');
                 const retryBtn = document.getElementById('retryRecordBtn');
@@ -4535,8 +4560,10 @@
         function stopRecording() {
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
                 mediaRecorder.stop();
-                recordingStream.getTracks().forEach(track => track.stop());
             }
+            
+            // Don't stop the stream tracks here - we need them for preview
+            // They'll be stopped when switching to upload or on page unload
             
             if (recordingTimerInterval) {
                 clearInterval(recordingTimerInterval);
@@ -4593,7 +4620,7 @@
             recordedBlob = null;
             recordedChunks = [];
             
-            const videoPreview = document.getElementById('videoPreview');
+            const videoPreview = document.getElementById('videoRecordPreview');
             const useBtn = document.getElementById('useRecordBtn');
             const retryBtn = document.getElementById('retryRecordBtn');
             const statusDiv = document.getElementById('recordingStatus');
@@ -4601,6 +4628,7 @@
             
             if (videoPreview) {
                 videoPreview.src = '';
+                videoPreview.srcObject = null;
                 videoPreview.controls = false;
             }
             
@@ -4625,7 +4653,7 @@
                 recordingTimerInterval = null;
             }
             
-            const videoPreview = document.getElementById('videoPreview');
+            const videoPreview = document.getElementById('videoRecordPreview');
             if (videoPreview) {
                 videoPreview.srcObject = null;
                 videoPreview.src = '';
