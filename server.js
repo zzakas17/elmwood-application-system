@@ -291,31 +291,71 @@ function generateApplicationPDF(applicationData) {
     });
 }
 
-// Send email function with PDF attachment
-async function sendEmailWithPDF(to, subject, html, text, pdfBuffer, applicantName) {
+// Send email function with PDF and file attachments
+async function sendEmailWithPDF(to, subject, html, text, pdfBuffer, applicantName, applicationData) {
     if (!emailConfig.enabled || !transporter) {
         console.log('📧 Email disabled or not configured, skipping email to:', to);
         return;
     }
 
     try {
+        const attachments = [
+            {
+                filename: `Application_${(applicantName || 'Unknown').replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.pdf`,
+                content: pdfBuffer,
+                contentType: 'application/pdf'
+            }
+        ];
+
+        // Add video attachment if exists
+        if (applicationData.videos?.video1) {
+            const videoPath = path.join(__dirname, 'uploads', 'videos', applicationData.videos.video1);
+            if (fs.existsSync(videoPath)) {
+                attachments.push({
+                    filename: `video_${applicationData.videos.video1}`,
+                    path: videoPath
+                });
+                console.log('📹 Adding video attachment:', applicationData.videos.video1);
+            }
+        }
+
+        // Add resume attachment if exists
+        if (applicationData.documents?.resume) {
+            const resumePath = path.join(__dirname, 'uploads', 'documents', applicationData.documents.resume);
+            if (fs.existsSync(resumePath)) {
+                attachments.push({
+                    filename: `resume_${applicationData.documents.resume}`,
+                    path: resumePath
+                });
+                console.log('📄 Adding resume attachment:', applicationData.documents.resume);
+            }
+        }
+
+        // Add portfolio files if they exist
+        if (applicationData.portfolio && applicationData.portfolio.length > 0) {
+            applicationData.portfolio.forEach((portfolioFile) => {
+                const portfolioPath = path.join(__dirname, 'uploads', 'portfolio', portfolioFile);
+                if (fs.existsSync(portfolioPath)) {
+                    attachments.push({
+                        filename: `portfolio_${portfolioFile}`,
+                        path: portfolioPath
+                    });
+                    console.log('📎 Adding portfolio attachment:', portfolioFile);
+                }
+            });
+        }
+
         const mailOptions = {
             from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
             to: to,
             subject: subject,
             html: html,
             text: text || html.replace(/<[^>]*>/g, ''),
-            attachments: [
-                {
-                    filename: `Application_${applicantName || 'Unknown'}_${Date.now()}.pdf`,
-                    content: pdfBuffer,
-                    contentType: 'application/pdf'
-                }
-            ]
+            attachments: attachments
         };
         
         await transporter.sendMail(mailOptions);
-        console.log('✅ Email with PDF sent successfully to:', to);
+        console.log(`✅ Email sent successfully to ${to} with ${attachments.length} attachment(s)`);
     } catch (error) {
         console.error('❌ Error sending email:', error);
         throw error;
