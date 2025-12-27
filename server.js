@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const PDFDocument = require('pdfkit');
 
 // Load environment variables from .env file if it exists
 try {
@@ -80,22 +81,241 @@ if (emailConfig.enabled && process.env.EMAIL_HOST) {
     });
 }
 
-// Send email function
-async function sendEmail(to, subject, html, text) {
+// Generate PDF from application data
+function generateApplicationPDF(applicationData) {
+    return new Promise((resolve, reject) => {
+        try {
+            const doc = new PDFDocument({ margin: 50 });
+            const chunks = [];
+            
+            doc.on('data', chunk => chunks.push(chunk));
+            doc.on('end', () => resolve(Buffer.concat(chunks)));
+            doc.on('error', reject);
+            
+            // Header
+            doc.fontSize(20).font('Helvetica-Bold')
+               .text('Application for Director - Marketing & Operations', { align: 'center' });
+            doc.moveDown();
+            doc.fontSize(12).font('Helvetica')
+               .text(`Application ID: ${applicationData.id}`, { align: 'center' });
+            doc.text(`Submitted: ${new Date(applicationData.submittedAt).toLocaleString()}`, { align: 'center' });
+            doc.moveDown(2);
+            
+            // Personal Information
+            doc.fontSize(16).font('Helvetica-Bold').text('Personal Information');
+            doc.moveDown(0.5);
+            doc.fontSize(11).font('Helvetica');
+            doc.text(`Name: ${applicationData.personalInfo?.fullName || 'N/A'}`);
+            doc.text(`Email: ${applicationData.personalInfo?.email || 'N/A'}`);
+            doc.text(`Phone: ${applicationData.personalInfo?.phoneFull || applicationData.personalInfo?.phone || 'N/A'}`);
+            doc.text(`Location: ${applicationData.personalInfo?.location || 'N/A'}`);
+            if (applicationData.personalInfo?.linkedin) {
+                doc.text(`LinkedIn: ${applicationData.personalInfo.linkedin}`);
+            }
+            if (applicationData.personalInfo?.personalWebsite) {
+                doc.text(`Website: ${applicationData.personalInfo.personalWebsite}`);
+            }
+            if (applicationData.personalInfo?.preferredCommunication) {
+                doc.text(`Preferred Communication: ${applicationData.personalInfo.preferredCommunication}`);
+            }
+            doc.moveDown();
+            
+            // Education
+            if (applicationData.education) {
+                doc.fontSize(16).font('Helvetica-Bold').text('Education');
+                doc.moveDown(0.5);
+                doc.fontSize(11).font('Helvetica');
+                doc.text(`Highest Education: ${applicationData.education.highestEducation || 'N/A'}`);
+                if (applicationData.education.educationField) {
+                    doc.text(`Field: ${applicationData.education.educationField}`);
+                }
+                if (applicationData.education.institution) {
+                    doc.text(`Institution: ${applicationData.education.institution}`);
+                }
+                if (applicationData.education.graduationYear) {
+                    doc.text(`Graduation Year: ${applicationData.education.graduationYear}`);
+                }
+                if (applicationData.education.gpa) {
+                    doc.text(`GPA: ${applicationData.education.gpa}`);
+                }
+                if (applicationData.education.additionalEducation) {
+                    doc.text(`Additional Education: ${applicationData.education.additionalEducation}`);
+                }
+                doc.moveDown();
+            }
+            
+            // Experience
+            if (applicationData.experience) {
+                doc.fontSize(16).font('Helvetica-Bold').text('Experience');
+                doc.moveDown(0.5);
+                doc.fontSize(11).font('Helvetica');
+                if (applicationData.experience.marketingDesignExperience) {
+                    doc.text(`Marketing/Design Experience: ${applicationData.experience.marketingDesignExperience}`);
+                }
+                if (applicationData.experience.creExperience) {
+                    doc.text(`CRE Experience: ${applicationData.experience.creExperience}`);
+                }
+                if (applicationData.experience.previousRole) {
+                    doc.text(`Previous Role: ${applicationData.experience.previousRole}`);
+                }
+                if (applicationData.experience.marketingExperience) {
+                    doc.text(`Marketing Experience: ${applicationData.experience.marketingExperience}`);
+                }
+                if (applicationData.experience.transactionExperience) {
+                    doc.text(`Transaction Experience: ${applicationData.experience.transactionExperience}`);
+                }
+                if (applicationData.experience.transferableExperience) {
+                    doc.text(`Transferable Experience: ${applicationData.experience.transferableExperience}`);
+                }
+                doc.moveDown();
+            }
+            
+            // Technical Skills
+            if (applicationData.technical) {
+                doc.fontSize(16).font('Helvetica-Bold').text('Technical Skills');
+                doc.moveDown(0.5);
+                doc.fontSize(11).font('Helvetica');
+                if (applicationData.technical.microsoftOffice) {
+                    doc.text(`Microsoft Office: ${applicationData.technical.microsoftOffice}`);
+                }
+                if (applicationData.technical.crmSystems) {
+                    doc.text(`CRM Systems: ${applicationData.technical.crmSystems}`);
+                }
+                if (applicationData.technical.crmExperience) {
+                    doc.text(`CRM Experience: ${applicationData.technical.crmExperience}`);
+                }
+                if (applicationData.technical.designTools && applicationData.technical.designTools.length > 0) {
+                    doc.text(`Design Tools: ${applicationData.technical.designTools.join(', ')}`);
+                }
+                if (applicationData.technical.marketingMaterials) {
+                    doc.text(`Marketing Materials: ${applicationData.technical.marketingMaterials}`);
+                }
+                if (applicationData.technical.englishProficiency) {
+                    doc.text(`English Proficiency: ${applicationData.technical.englishProficiency}`);
+                }
+                if (applicationData.technical.stakeholderCommunication) {
+                    doc.text(`Stakeholder Communication: ${applicationData.technical.stakeholderCommunication}`);
+                }
+                doc.moveDown();
+            }
+            
+            // Role-Specific
+            if (applicationData.roleSpecific) {
+                doc.fontSize(16).font('Helvetica-Bold').text('Role-Specific Assessment');
+                doc.moveDown(0.5);
+                doc.fontSize(11).font('Helvetica');
+                if (applicationData.roleSpecific.transactionCoordination) {
+                    doc.text(`Transaction Coordination: ${applicationData.roleSpecific.transactionCoordination}`);
+                }
+                if (applicationData.roleSpecific.timeManagement) {
+                    doc.text(`Time Management: ${applicationData.roleSpecific.timeManagement}`);
+                }
+                if (applicationData.roleSpecific.careerGoals) {
+                    doc.text(`Career Goals: ${applicationData.roleSpecific.careerGoals}`);
+                }
+                if (applicationData.roleSpecific.managementExperience) {
+                    doc.text(`Management Experience: ${applicationData.roleSpecific.managementExperience}`);
+                }
+                if (applicationData.roleSpecific.managementExample) {
+                    doc.moveDown(0.3);
+                    doc.text(`Management Example:`, { continued: false });
+                    doc.text(applicationData.roleSpecific.managementExample, { indent: 20 });
+                }
+                doc.moveDown();
+            }
+            
+            // Accommodations
+            if (applicationData.accommodations) {
+                doc.fontSize(16).font('Helvetica-Bold').text('Accommodations');
+                doc.moveDown(0.5);
+                doc.fontSize(11).font('Helvetica');
+                doc.text(applicationData.accommodations, { indent: 20 });
+                doc.moveDown();
+            }
+            
+            // Availability
+            if (applicationData.availability) {
+                doc.fontSize(16).font('Helvetica-Bold').text('Availability');
+                doc.moveDown(0.5);
+                doc.fontSize(11).font('Helvetica');
+                if (applicationData.availability.timezone) {
+                    doc.text(`Timezone: ${applicationData.availability.timezone}`);
+                }
+                if (applicationData.availability.usHoursOverlap) {
+                    doc.text(`US Hours Overlap: ${applicationData.availability.usHoursOverlap}`);
+                }
+                if (applicationData.availability.startDate) {
+                    doc.text(`Start Date: ${applicationData.availability.startDate}`);
+                }
+                doc.moveDown();
+            }
+            
+            // Fit Assessment
+            if (applicationData.fitAssessment) {
+                doc.fontSize(16).font('Helvetica-Bold').text('Fit Assessment');
+                doc.moveDown(0.5);
+                doc.fontSize(11).font('Helvetica');
+                if (applicationData.fitAssessment.communicationPreference) {
+                    doc.text(`Communication Preference: ${applicationData.fitAssessment.communicationPreference}`);
+                }
+                if (applicationData.fitAssessment.timeManagement) {
+                    doc.text(`Time Management: ${applicationData.fitAssessment.timeManagement}`);
+                }
+                if (applicationData.fitAssessment.careerGoals) {
+                    doc.text(`Career Goals: ${applicationData.fitAssessment.careerGoals}`);
+                }
+                doc.moveDown();
+            }
+            
+            // Files
+            doc.fontSize(16).font('Helvetica-Bold').text('Attachments');
+            doc.moveDown(0.5);
+            doc.fontSize(11).font('Helvetica');
+            if (applicationData.videos?.video1) {
+                doc.text(`Video: ${applicationData.videos.video1}`);
+            }
+            if (applicationData.documents?.resume) {
+                doc.text(`Resume: ${applicationData.documents.resume}`);
+            }
+            if (applicationData.portfolio && applicationData.portfolio.length > 0) {
+                doc.text(`Portfolio Files: ${applicationData.portfolio.length} file(s)`);
+                applicationData.portfolio.forEach((file, i) => {
+                    doc.text(`  ${i + 1}. ${file}`, { indent: 20 });
+                });
+            }
+            
+            doc.end();
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+// Send email function with PDF attachment
+async function sendEmailWithPDF(to, subject, html, text, pdfBuffer, applicantName) {
     if (!emailConfig.enabled || !transporter) {
         console.log('📧 Email disabled or not configured, skipping email to:', to);
         return;
     }
 
     try {
-        await transporter.sendMail({
+        const mailOptions = {
             from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
             to: to,
             subject: subject,
             html: html,
-            text: text || html.replace(/<[^>]*>/g, '')
-        });
-        console.log('✅ Email sent successfully to:', to);
+            text: text || html.replace(/<[^>]*>/g, ''),
+            attachments: [
+                {
+                    filename: `Application_${applicantName || 'Unknown'}_${Date.now()}.pdf`,
+                    content: pdfBuffer,
+                    contentType: 'application/pdf'
+                }
+            ]
+        };
+        
+        await transporter.sendMail(mailOptions);
+        console.log('✅ Email with PDF sent successfully to:', to);
     } catch (error) {
         console.error('❌ Error sending email:', error);
         throw error;
@@ -302,29 +522,49 @@ app.post('/api/submit-application', upload.fields([
             `;
             await sendEmail(emailConfig.to, managerSubject, managerHtml, managerHtml.replace(/<[^>]*>/g, ''));
 
-            // Confirmation email to candidate
-            const candidateSubject = 'Application Received - Commercial Real Estate Brokerage';
-            const candidateHtml = `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #1a3d5c;">Thank You for Your Application</h2>
-                    <p>Dear ${applicationData.personalInfo?.fullName || 'Applicant'},</p>
-                    <p>We have successfully received your application for the <strong>Director - Marketing & Operations</strong> position.</p>
-                    <p><strong>Application ID:</strong> ${applicationData.id}</p>
-                    <p><strong>Submitted:</strong> ${new Date(applicationData.submittedAt).toLocaleString()}</p>
-                    <h3 style="color: #1a3d5c; margin-top: 30px;">What Happens Next?</h3>
-                    <ul>
-                        <li>Our team will review your application within the next few business days</li>
-                        <li>If your qualifications match our needs, we'll contact you via email to schedule an interview</li>
-                        <li>Please check your email regularly, including your spam folder</li>
-                        <li>You can expect to hear from us within 1-2 weeks</li>
-                    </ul>
-                    <p style="margin-top: 30px;">If you have any questions, we will contact you via the email address you provided in your application.</p>
-                    <p style="margin-top: 30px; color: #666; font-size: 12px;">This is an automated confirmation. Please do not reply to this email.</p>
-                </div>
-            `;
-            await sendEmail(applicationData.personalInfo?.email, candidateSubject, candidateHtml, candidateHtml.replace(/<[^>]*>/g, ''));
+                // Confirmation email to candidate (no PDF needed)
+                const candidateSubject = 'Application Received - Commercial Real Estate Brokerage';
+                const candidateHtml = `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #1a3d5c;">Thank You for Your Application</h2>
+                        <p>Dear ${applicationData.personalInfo?.fullName || 'Applicant'},</p>
+                        <p>We have successfully received your application for the <strong>Director - Marketing & Operations</strong> position.</p>
+                        <p><strong>Application ID:</strong> ${applicationData.id}</p>
+                        <p><strong>Submitted:</strong> ${new Date(applicationData.submittedAt).toLocaleString()}</p>
+                        <h3 style="color: #1a3d5c; margin-top: 30px;">What Happens Next?</h3>
+                        <ul>
+                            <li>Our team will review your application within the next few business days</li>
+                            <li>If your qualifications match our needs, we'll contact you via email to schedule an interview</li>
+                            <li>Please check your email regularly, including your spam folder</li>
+                            <li>You can expect to hear from us within 1-2 weeks</li>
+                        </ul>
+                        <p style="margin-top: 30px;">If you have any questions, we will contact you via the email address you provided in your application.</p>
+                        <p style="margin-top: 30px; color: #666; font-size: 12px;">This is an automated confirmation. Please do not reply to this email.</p>
+                    </div>
+                `;
+                await sendEmail(applicationData.personalInfo?.email, candidateSubject, candidateHtml, candidateHtml.replace(/<[^>]*>/g, ''));
+            } catch (emailError) {
+                console.error('Error generating PDF or sending emails:', emailError);
+                // Try to send email without PDF as fallback
+                try {
+                    const managerSubject = `New Application: ${applicationData.personalInfo?.fullName || 'Unknown'}`;
+                    const managerHtml = `
+                        <h2>New Application Received</h2>
+                        <p><strong>Name:</strong> ${applicationData.personalInfo?.fullName || 'N/A'}</p>
+                        <p><strong>Email:</strong> ${applicationData.personalInfo?.email || 'N/A'}</p>
+                        <p><strong>Phone:</strong> ${applicationData.personalInfo?.phoneFull || 'N/A'}</p>
+                        <p><strong>Location:</strong> ${applicationData.personalInfo?.location || 'N/A'}</p>
+                        <p><strong>Application ID:</strong> ${applicationData.id}</p>
+                        <p><strong>Submitted:</strong> ${new Date(applicationData.submittedAt).toLocaleString()}</p>
+                        <p><strong>⚠️ PDF generation failed, but application was saved.</strong></p>
+                    `;
+                    await sendEmail(emailConfig.to, managerSubject, managerHtml, managerHtml.replace(/<[^>]*>/g, ''));
+                } catch (fallbackError) {
+                    console.error('Fallback email also failed:', fallbackError);
+                }
+            }
         })().catch(err => {
-            console.error('Error sending emails:', err);
+            console.error('Error in email process:', err);
             // Don't fail the request if email fails
         });
 
