@@ -154,13 +154,13 @@ app.post('/api/submit-application', upload.fields([
                 complexDeal: req.body.complexDeal,
                 whyHireYou: req.body.whyHireYou
             },
-            availability: {
-                timezone: req.body.timezone,
-                usHoursOverlap: req.body.usHoursOverlap,
-                hoursPerWeek: req.body.hoursPerWeek,
-                startDate: req.body.startDate,
-                workEnvironment: req.body.workEnvironment
-            },
+                    availability: {
+                        timezone: req.body.timezone,
+                        usHoursOverlap: req.body.usHoursOverlap,
+                        hoursPerWeek: '40', // Full-time position
+                        startDate: req.body.startDate,
+                        workEnvironment: req.body.workEnvironment
+                    },
             rates: {
                 expectedRate: req.body.expectedRate,
                 currencyPreference: req.body.currencyPreference
