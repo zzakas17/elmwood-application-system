@@ -1033,6 +1033,93 @@
             resize: vertical;
             min-height: 130px;
             line-height: 1.7;
+            padding-right: 50px; /* Space for voice button */
+        }
+
+        /* Voice-to-Text Button */
+        .voice-input-wrapper {
+            position: relative;
+        }
+
+        .voice-btn {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .voice-btn:hover {
+            background: var(--bg-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .voice-btn.recording {
+            background: #fff5f5;
+            border-color: var(--error);
+            color: var(--error);
+            animation: pulse-recording 1.5s infinite;
+        }
+
+        .voice-btn.recording::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--error);
+            opacity: 0.3;
+            animation: pulse-ring 1.5s infinite;
+        }
+
+        @keyframes pulse-recording {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .voice-status {
+            position: absolute;
+            right: 12px;
+            top: -28px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: none;
+            background: var(--bg-white);
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .voice-status.show {
+            display: block;
+        }
+
+        .voice-status.recording {
+            color: var(--error);
+            border-color: var(--error);
         }
 
         /* File Upload */
@@ -3936,10 +4023,6 @@
                                 <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Duties and Responsibilities:</strong> The duties and responsibilities described in this job posting are not exhaustive and additional assignments, duties, or responsibilities may be required of this position. Assignments, duties, and responsibilities may be changed at any time, with or without notice, by the company in its sole discretion.</p>
                                 
                                 <p style="line-height: 1.7;"><strong>Equal Employment Opportunity:</strong> We are committed to providing equal employment opportunities to all employees and applicants for employment without regard to race, color, creed, religion, sex, pregnancy, national origin, ancestry, citizenship status, age, marital or partnership status, sexual orientation, gender identity or expression, disability, genetic predisposition, veteran or military status, status as a victim of domestic violence, a sex offense or stalking, or any other class or status in accordance with applicable federal, state and local laws. This policy applies to all terms and conditions of employment, including but not limited to hiring, placement, promotion, termination, transfer, leave of absence, compensation, and training.</p>
-                                
-                                <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Duties and Responsibilities:</strong> The duties and responsibilities described in this job posting are not exhaustive and additional assignments, duties, or responsibilities may be required of this position. Assignments, duties, and responsibilities may be changed at any time, with or without notice, by the company in its sole discretion.</p>
-                                
-                                <p style="line-height: 1.7;"><strong>Equal Employment Opportunity:</strong> We are committed to providing equal employment opportunities to all employees and applicants for employment without regard to race, color, creed, religion, sex, pregnancy, national origin, ancestry, citizenship status, age, marital or partnership status, sexual orientation, gender identity or expression, disability, genetic predisposition, veteran or military status, status as a victim of domestic violence, a sex offense or stalking, or any other class or status in accordance with applicable federal, state and local laws. This policy applies to all terms and conditions of employment, including but not limited to hiring, placement, promotion, termination, transfer, leave of absence, compensation, and training.</p>
                             </div>
                             
                             <div class="footer-links">
@@ -4041,6 +4124,195 @@
         let recordingTimerInterval = null;
         let recordingStartTime = null;
         let globalShowMessage = null; // Will be set in DOMContentLoaded
+
+        // Voice-to-Text Functionality
+        let recognition = null;
+        let currentTextarea = null;
+        let isRecording = false;
+
+        // Initialize Speech Recognition
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                console.log('Speech recognition not supported in this browser');
+                return false;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                isRecording = true;
+                if (currentTextarea) {
+                    const btn = currentTextarea.parentElement.querySelector('.voice-btn');
+                    const status = currentTextarea.parentElement.querySelector('.voice-status');
+                    if (btn) btn.classList.add('recording');
+                    if (status) {
+                        status.classList.add('show', 'recording');
+                        status.textContent = 'Listening...';
+                    }
+                }
+            };
+
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript + ' ';
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+
+                if (currentTextarea) {
+                    const currentValue = currentTextarea.value;
+                    const cursorPos = currentTextarea.selectionStart;
+                    const textBefore = currentValue.substring(0, cursorPos);
+                    const textAfter = currentValue.substring(cursorPos);
+                    
+                    currentTextarea.value = textBefore + finalTranscript + interimTranscript + textAfter;
+                    currentTextarea.selectionStart = currentTextarea.selectionEnd = cursorPos + finalTranscript.length + interimTranscript.length;
+                    
+                    // Trigger input event for auto-save and character counter
+                    currentTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                stopVoiceRecording();
+                
+                if (currentTextarea) {
+                    const status = currentTextarea.parentElement.querySelector('.voice-status');
+                    if (status) {
+                        status.textContent = 'Error: ' + event.error;
+                        status.classList.remove('recording');
+                        setTimeout(() => {
+                            status.classList.remove('show');
+                        }, 3000);
+                    }
+                }
+            };
+
+            recognition.onend = function() {
+                stopVoiceRecording();
+            };
+
+            return true;
+        }
+
+        function startVoiceRecording(textarea) {
+            if (!recognition && !initSpeechRecognition()) {
+                alert('Voice-to-text is not supported in your browser. Please use Chrome, Edge, or another supported browser.');
+                return;
+            }
+
+            // Stop any existing recording
+            if (isRecording && currentTextarea !== textarea) {
+                stopVoiceRecording();
+            }
+
+            currentTextarea = textarea;
+            
+            try {
+                recognition.start();
+            } catch (error) {
+                if (error.name === 'InvalidStateError') {
+                    // Already started, restart it
+                    recognition.stop();
+                    setTimeout(() => {
+                        recognition.start();
+                    }, 100);
+                } else {
+                    console.error('Error starting recognition:', error);
+                    alert('Unable to start voice recording. Please check your microphone permissions.');
+                }
+            }
+        }
+
+        function stopVoiceRecording() {
+            if (recognition && isRecording) {
+                try {
+                    recognition.stop();
+                } catch (error) {
+                    console.error('Error stopping recognition:', error);
+                }
+            }
+            
+            isRecording = false;
+            
+            if (currentTextarea) {
+                const btn = currentTextarea.parentElement.querySelector('.voice-btn');
+                const status = currentTextarea.parentElement.querySelector('.voice-status');
+                if (btn) btn.classList.remove('recording');
+                if (status) {
+                    status.classList.remove('recording');
+                    status.textContent = 'Stopped';
+                    setTimeout(() => {
+                        status.classList.remove('show');
+                    }, 2000);
+                }
+            }
+            
+            currentTextarea = null;
+        }
+
+        function toggleVoiceRecording(textarea) {
+            if (isRecording && currentTextarea === textarea) {
+                stopVoiceRecording();
+            } else {
+                startVoiceRecording(textarea);
+            }
+        }
+
+        // Add voice buttons to all textareas on page load
+        function addVoiceButtonsToTextareas() {
+            const textareas = document.querySelectorAll('textarea');
+            
+            textareas.forEach(textarea => {
+                // Skip if already has voice button
+                if (textarea.parentElement.querySelector('.voice-btn')) {
+                    return;
+                }
+
+                // Wrap textarea in voice-input-wrapper if not already
+                if (!textarea.parentElement.classList.contains('voice-input-wrapper')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'voice-input-wrapper';
+                    textarea.parentNode.insertBefore(wrapper, textarea);
+                    wrapper.appendChild(textarea);
+                }
+
+                // Create voice button
+                const voiceBtn = document.createElement('button');
+                voiceBtn.type = 'button';
+                voiceBtn.className = 'voice-btn';
+                voiceBtn.innerHTML = '🎤';
+                voiceBtn.title = 'Click to start voice-to-text. Click again to stop.';
+                voiceBtn.setAttribute('aria-label', 'Voice to text');
+                voiceBtn.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleVoiceRecording(textarea);
+                };
+
+                // Create status indicator
+                const status = document.createElement('div');
+                status.className = 'voice-status';
+                status.textContent = 'Ready';
+
+                // Insert button and status
+                const wrapper = textarea.parentElement;
+                wrapper.appendChild(voiceBtn);
+                wrapper.appendChild(status);
+            });
+        }
 
         function switchToRecord() {
             document.getElementById('recordOption').classList.add('active');
@@ -4497,6 +4769,10 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize voice-to-text
+            initSpeechRecognition();
+            addVoiceButtonsToTextareas();
+            
             const form = document.getElementById('applicationForm');
             const messageDiv = document.getElementById('message');
             const submitBtn = document.getElementById('submitBtn');
