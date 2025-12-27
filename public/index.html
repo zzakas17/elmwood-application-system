@@ -3205,12 +3205,14 @@
                             <h2>Application Portal</h2>
                             <p>Thank you for your interest in the Marketing & Operations Coordinator position at Elmwood & Company. This secure portal will guide you through our comprehensive application process. Please complete all required sections to submit your application for review.</p>
                             
+                            <div id="lastSaveInfo" class="last-save-info" style="display: none; margin-top: 16px; padding: 12px 16px; background: rgba(5, 150, 105, 0.1); border-left: 3px solid var(--success); border-radius: 6px; font-size: 13px; color: var(--success); font-weight: 500;"></div>
+                            
                             <div class="portal-welcome-features">
                                 <div class="portal-feature">
                                     <div class="portal-feature-icon">✓</div>
                                     <div class="portal-feature-content">
                                         <h4>Auto-Save Enabled</h4>
-                                        <p>Your progress is automatically saved as you complete each section</p>
+                                        <p>Your progress is automatically saved to your browser. You can return anytime to continue (files must be re-uploaded)</p>
                                     </div>
                                 </div>
                                 <div class="portal-feature">
@@ -4429,39 +4431,118 @@
 
             // Auto-save to localStorage
             let saveTimeout;
+            let lastSaveTime = null;
+            
             window.autoSave = function() {
                 clearTimeout(saveTimeout);
                 saveIndicator.textContent = 'Saving...';
                 saveIndicator.className = 'save-indicator show saving';
                 
                 saveTimeout = setTimeout(() => {
-                    const formData = new FormData(form);
-                    const data = {};
-                    for (let [key, value] of formData.entries()) {
-                        if (data[key]) {
-                            if (Array.isArray(data[key])) {
-                                data[key].push(value);
-                            } else {
-                                data[key] = [data[key], value];
+                    try {
+                        const formData = new FormData(form);
+                        const data = {
+                            _savedAt: new Date().toISOString(),
+                            _version: '1.0'
+                        };
+                        
+                        // Save all form fields (except files - they can't be saved to localStorage)
+                        for (let [key, value] of formData.entries()) {
+                            // Skip file inputs - they can't be saved to localStorage
+                            const field = form.querySelector(`[name="${key}"]`);
+                            if (field && field.type === 'file') {
+                                continue;
                             }
-                        } else {
-                            data[key] = value;
+                            
+                            if (data[key]) {
+                                if (Array.isArray(data[key])) {
+                                    data[key].push(value);
+                                } else {
+                                    data[key] = [data[key], value];
+                                }
+                            } else {
+                                data[key] = value;
+                            }
                         }
+                        
+                        // Save to localStorage
+                        localStorage.setItem('applicationDraft', JSON.stringify(data));
+                        lastSaveTime = new Date();
+                        
+                        // Update save indicator
+                        saveIndicator.textContent = 'Draft saved';
+                        saveIndicator.className = 'save-indicator show saved';
+                        
+                        // Also save to sessionStorage as backup
+                        sessionStorage.setItem('applicationDraft', JSON.stringify(data));
+                        
+                        setTimeout(() => {
+                            saveIndicator.classList.remove('show');
+                        }, 2000);
+                    } catch (error) {
+                        console.error('Error saving draft:', error);
+                        saveIndicator.textContent = 'Save failed';
+                        saveIndicator.className = 'save-indicator show error';
+                        setTimeout(() => {
+                            saveIndicator.classList.remove('show');
+                        }, 3000);
                     }
-                    localStorage.setItem('applicationDraft', JSON.stringify(data));
-                    saveIndicator.textContent = 'Draft saved';
-                    saveIndicator.className = 'save-indicator show saved';
-                    setTimeout(() => {
-                        saveIndicator.classList.remove('show');
-                    }, 2000);
-                }, 1000);
+                }, 800);
             }
+            
+            // Auto-save on page unload
+            window.addEventListener('beforeunload', () => {
+                if (window.autoSave) {
+                    window.autoSave();
+                }
+            });
+            
+            // Show last save time in welcome section
+            function updateLastSaveDisplay() {
+                const draft = localStorage.getItem('applicationDraft');
+                if (draft) {
+                    try {
+                        const data = JSON.parse(draft);
+                        if (data._savedAt) {
+                            const savedDate = new Date(data._savedAt);
+                            const timeAgo = getTimeAgo(savedDate);
+                            const saveInfoEl = document.getElementById('lastSaveInfo');
+                            if (saveInfoEl) {
+                                saveInfoEl.textContent = `Last saved: ${timeAgo}`;
+                                saveInfoEl.style.display = 'block';
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Error parsing save time:', e);
+                    }
+                }
+            }
+            
+            function getTimeAgo(date) {
+                const now = new Date();
+                const diffMs = now - date;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffHours = Math.floor(diffMs / 3600000);
+                const diffDays = Math.floor(diffMs / 86400000);
+                
+                if (diffMins < 1) return 'just now';
+                if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+                if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+                if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+                return date.toLocaleDateString();
+            }
+            
+            // Update last save display
+            updateLastSaveDisplay();
+            setInterval(updateLastSaveDisplay, 60000); // Update every minute
 
-            // Load draft
+            // Load draft on page load
             const draft = localStorage.getItem('applicationDraft');
             if (draft) {
                 try {
                     const data = JSON.parse(draft);
+                    let restoredCount = 0;
+                    
                     Object.keys(data).forEach(key => {
                         const field = form.querySelector(`[name="${key}"]`);
                         if (field) {
@@ -4469,18 +4550,36 @@
                                 if (Array.isArray(data[key])) {
                                     data[key].forEach(val => {
                                         const option = form.querySelector(`[name="${key}"][value="${val}"]`);
-                                        if (option) option.checked = true;
+                                        if (option) {
+                                            option.checked = true;
+                                            restoredCount++;
+                                        }
                                     });
                                 } else {
                                     const option = form.querySelector(`[name="${key}"][value="${data[key]}"]`);
-                                    if (option) option.checked = true;
+                                    if (option) {
+                                        option.checked = true;
+                                        restoredCount++;
+                                    }
                                 }
                             } else if (field.type !== 'file') {
-                                field.value = data[key];
+                                if (data[key]) {
+                                    field.value = data[key];
+                                    restoredCount++;
+                                }
                             }
                         }
                     });
-                    updateProgress();
+                    
+                    if (restoredCount > 0) {
+                        updateProgress();
+                        // Show restoration message
+                        setTimeout(() => {
+                            if (globalShowMessage) {
+                                globalShowMessage(`Your draft has been restored. ${restoredCount} field(s) loaded.`, 'info');
+                            }
+                        }, 500);
+                    }
                 } catch (e) {
                     console.error('Error loading draft:', e);
                 }
