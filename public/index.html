@@ -5123,10 +5123,10 @@
                         showMessage(data.message || 'We encountered an error processing your application. Please try again.', 'error');
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('loading');
-                        const submitBtnText = document.getElementById('submitBtnText');
-                        const submitBtnSpinner = document.getElementById('submitBtnSpinner');
-                        if (submitBtnText) submitBtnText.textContent = 'Submit Application';
-                        if (submitBtnSpinner) submitBtnSpinner.style.display = 'none';
+                        const btnText = document.getElementById('submitBtnText');
+                        const btnSpinner = document.getElementById('submitBtnSpinner');
+                        if (btnText) btnText.textContent = 'Submit Application';
+                        if (btnSpinner) btnSpinner.style.display = 'none';
                     }
                 } catch (error) {
                     showMessage('Network error. Please check your connection and try again.', 'error');
