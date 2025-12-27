@@ -3641,12 +3641,6 @@
                                         <input type="date" id="startDate" name="startDate" required>
                                         <div class="error-message" id="startDate-error"></div>
                                     </div>
-                                    <div class="form-group full-width">
-                                        <label for="workEnvironment">Describe your home office setup and work environment <span class="required">*</span></label>
-                                        <textarea id="workEnvironment" name="workEnvironment" placeholder="Include details about your workspace, internet connection, and ability to maintain a professional environment" required maxlength="1000"></textarea>
-                                        <div class="char-counter" id="workEnvironment-counter">0 / 1000 characters</div>
-                                        <div class="error-message" id="workEnvironment-error"></div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -3721,69 +3715,23 @@
                                     <h3 class="section-title">Documents</h3>
                                 </div>
                                 
-                                <div class="form-group full-width" style="margin-bottom: 32px;">
-                                    <div class="video-instructions">
-                                        <h4>Document Guidelines</h4>
-                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
-                                            <div>
-                                                <strong>Resume:</strong>
-                                                <ul style="margin-top: 8px;">
-                                                    <li>Include your full work history</li>
-                                                    <li>Highlight relevant real estate, operations, or transaction coordination experience</li>
-                                                    <li>List technical skills and software proficiencies</li>
-                                                    <li>Keep it professional and well-formatted</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <strong>Cover Letter:</strong>
-                                                <ul style="margin-top: 8px;">
-                                                    <li>Explain why you're interested in this role</li>
-                                                    <li>Describe how your experience aligns with the position</li>
-                                                    <li>Highlight what makes you a strong candidate</li>
-                                                    <li>Keep it concise (1-2 pages recommended)</li>
-                                                </ul>
-                                            </div>
+                                <div class="form-group full-width">
+                                    <label>Resume <span class="required">*</span></label>
+                                    <div class="file-upload-wrapper">
+                                        <div class="file-upload">
+                                            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                                            <label for="resume" class="file-upload-label">
+                                                <div class="file-upload-text">Upload Resume</div>
+                                                <div class="file-upload-hint">PDF, DOC, or DOCX<br>Max 10MB</div>
+                                            </label>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label>Resume <span class="required">*</span></label>
-                                        <div class="file-upload-wrapper">
-                                            <div class="file-upload">
-                                                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
-                                                <label for="resume" class="file-upload-label">
-                                                    <div class="file-upload-text">Upload Resume</div>
-                                                    <div class="file-upload-hint">PDF, DOC, or DOCX<br>Max 10MB</div>
-                                                </label>
-                                            </div>
-                                            <div id="resumeSelected" class="file-selected" style="display: none;">
-                                                <span class="file-selected-name" id="resumeFileName"></span>
-                                                <button type="button" class="file-selected-remove" id="removeResume">×</button>
-                                            </div>
-                                            <div id="resumePreview" class="file-preview-container"></div>
+                                        <div id="resumeSelected" class="file-selected" style="display: none;">
+                                            <span class="file-selected-name" id="resumeFileName"></span>
+                                            <button type="button" class="file-selected-remove" id="removeResume">×</button>
                                         </div>
-                                        <div class="error-message" id="resume-error"></div>
+                                        <div id="resumePreview" class="file-preview-container"></div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Cover Letter <span class="required">*</span></label>
-                                        <div class="file-upload-wrapper">
-                                            <div class="file-upload">
-                                                <input type="file" id="coverLetter" name="coverLetter" accept=".pdf,.doc,.docx" required>
-                                                <label for="coverLetter" class="file-upload-label">
-                                                    <div class="file-upload-text">Upload Cover Letter</div>
-                                                    <div class="file-upload-hint">PDF, DOC, or DOCX<br>Max 10MB</div>
-                                                </label>
-                                            </div>
-                                            <div id="coverLetterSelected" class="file-selected" style="display: none;">
-                                                <span class="file-selected-name" id="coverLetterFileName"></span>
-                                                <button type="button" class="file-selected-remove" id="removeCoverLetter">×</button>
-                                            </div>
-                                            <div id="coverLetterPreview" class="file-preview-container"></div>
-                                        </div>
-                                        <div class="error-message" id="coverLetter-error"></div>
-                                    </div>
+                                    <div class="error-message" id="resume-error"></div>
                                 </div>
                             </div>
 
@@ -3964,7 +3912,7 @@
                                 
                                 <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Equal Opportunity:</strong> We are committed to equal opportunity. We consider all qualified applicants without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, age, disability, or any other protected status.</p>
                                 
-                                <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Data Privacy & Collection:</strong> By submitting this application, you consent to the collection, processing, and storage of your personal information, including but not limited to your name, contact information, resume, cover letter, video submissions, and responses to application questions. This information will be used solely for recruitment and hiring purposes. Your data will be kept confidential and will not be shared with third parties except as necessary for the recruitment process. You have the right to request access, correction, or deletion of your data at any time.</p>
+                                <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Data Privacy & Collection:</strong> By submitting this application, you consent to the collection, processing, and storage of your personal information, including but not limited to your name, contact information, resume, video submissions, and responses to application questions. This information will be used solely for recruitment and hiring purposes. Your data will be kept confidential and will not be shared with third parties except as necessary for the recruitment process. You have the right to request access, correction, or deletion of your data at any time.</p>
                                 
                                 <p style="margin-bottom: 12px; line-height: 1.7;"><strong>Security & Encryption:</strong> All data transmitted through this portal is encrypted using industry-standard SSL/TLS protocols. Your information is stored securely and accessed only by authorized personnel involved in the recruitment process.</p>
                                 

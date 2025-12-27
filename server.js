@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
         // Route files to different directories based on field name
         if (file.fieldname === 'video1') {
         cb(null, 'uploads/videos/');
-        } else if (file.fieldname === 'resume' || file.fieldname === 'coverLetter') {
+        } else if (file.fieldname === 'resume') {
             cb(null, 'uploads/documents/');
         } else if (file.fieldname === 'portfolioFiles') {
             cb(null, 'uploads/portfolio/');
@@ -45,8 +45,6 @@ const storage = multer.diskStorage({
             prefix = 'video-';
         } else if (file.fieldname === 'resume') {
             prefix = 'resume-';
-        } else if (file.fieldname === 'coverLetter') {
-            prefix = 'coverletter-';
         } else if (file.fieldname === 'portfolioFiles') {
             prefix = 'portfolio-';
         }
@@ -115,7 +113,7 @@ const upload = multer({
         }
         
         // Document files
-        if (file.fieldname === 'resume' || file.fieldname === 'coverLetter') {
+        if (file.fieldname === 'resume') {
             const allowedTypes = /\.(pdf|doc|docx)$/;
             if (allowedTypes.test(ext)) {
                 return cb(null, true);
@@ -145,7 +143,6 @@ app.get('/', (req, res) => {
 app.post('/api/submit-application', upload.fields([
     { name: 'video1', maxCount: 1 },
     { name: 'resume', maxCount: 1 },
-    { name: 'coverLetter', maxCount: 1 },
     { name: 'portfolioFiles', maxCount: 10 }
 ]), (req, res) => {
     console.log('=== Application Submission Received ===');
@@ -196,10 +193,9 @@ app.post('/api/submit-application', upload.fields([
             },
             availability: {
                 timezone: req.body.timezone,
-                        usHoursOverlap: req.body.usHoursOverlap,
-                        hoursPerWeek: '40', // Full-time position
-                        startDate: req.body.startDate,
-                        workEnvironment: req.body.workEnvironment
+                usHoursOverlap: req.body.usHoursOverlap,
+                hoursPerWeek: '40', // Full-time position
+                startDate: req.body.startDate
             },
             rates: {
                 expectedRate: null, // Compensation is now in job description ($6-7/hour)
@@ -209,8 +205,7 @@ app.post('/api/submit-application', upload.fields([
                 video1: req.files?.video1 ? req.files.video1[0].filename : null
             },
             documents: {
-                resume: req.files?.resume ? req.files.resume[0].filename : null,
-                coverLetter: req.files?.coverLetter ? req.files.coverLetter[0].filename : null
+                resume: req.files?.resume ? req.files.resume[0].filename : null
             },
             portfolio: req.files?.portfolioFiles ? req.files.portfolioFiles.map(file => file.filename) : [],
             fitAssessment: {
