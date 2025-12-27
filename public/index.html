@@ -3937,6 +3937,11 @@
             const progressPercentage = document.getElementById('progressPercentage');
             const saveIndicator = document.getElementById('saveIndicator');
             const navList = document.getElementById('navList');
+            
+            // Portal-specific initialization
+            if (progressPercentage) {
+                progressPercentage.textContent = '0% Complete';
+            }
 
             // Make showMessage globally accessible for video recording
             globalShowMessage = function(text, type) {
