@@ -5132,8 +5132,10 @@
                 // Show loading state
                 submitBtn.disabled = true;
                 submitBtn.classList.add('loading');
-                const originalText = submitBtn.textContent;
-                submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Submitting...';
+                const submitBtnText = document.getElementById('submitBtnText');
+                const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+                if (submitBtnText) submitBtnText.textContent = 'Submitting Securely...';
+                if (submitBtnSpinner) submitBtnSpinner.style.display = 'inline';
 
                 try {
                     const response = await fetch('/api/submit-application', {
