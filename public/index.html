@@ -52,6 +52,13 @@
             --line-height-loose: 1.75;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
         html {
             scroll-behavior: smooth;
         }
@@ -65,19 +72,24 @@
             font-weight: var(--font-weight-normal);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
+            overflow: hidden;
             letter-spacing: 0.01em;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Portal Top Bar */
         .portal-topbar {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 200;
             background: #ffffff;
             border-bottom: 2px solid var(--border);
             padding: 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            flex-shrink: 0;
         }
 
         .security-indicator {
@@ -154,12 +166,13 @@
             padding: 0;
             border-bottom: 3px solid rgba(255, 255, 255, 0.2);
             position: relative;
+            flex-shrink: 0;
         }
 
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-6xl) var(--space-2xl) var(--space-5xl);
+            padding: var(--space-4xl) var(--space-2xl) var(--space-3xl);
         }
 
         .header h1 {
@@ -179,11 +192,17 @@
             letter-spacing: 0.15px;
         }
 
-        .main-container {
+        .scrollable-content {
             flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .main-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-5xl) var(--space-2xl) var(--space-6xl);
+            padding: var(--space-3xl) var(--space-2xl) var(--space-4xl);
         }
 
         .position-card {
@@ -399,7 +418,7 @@
             left: 0;
             right: 0;
             background: var(--bg-white);
-            border-top: 2px solid var(--primary);
+            border-top: 3px solid var(--primary);
             padding: var(--space-md) var(--space-2xl);
             z-index: 1000;
             box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
@@ -446,12 +465,12 @@
 
         .footer {
             text-align: center;
-            padding: var(--space-4xl) var(--space-2xl);
+            padding: var(--space-3xl) var(--space-2xl);
             color: var(--text-primary);
             font-size: var(--font-size-base);
             background: var(--bg-white);
             border-top: 3px solid var(--border);
-            margin-top: var(--space-6xl);
+            flex-shrink: 0;
         }
 
         .footer-content {
@@ -574,6 +593,10 @@
             .header p {
                 font-size: var(--font-size-base);
                 line-height: var(--line-height-relaxed);
+            }
+
+            .scrollable-content {
+                padding-top: 60px; /* Account for fixed topbar */
             }
 
             .main-container {
@@ -710,14 +733,15 @@
         </div>
     </div>
 
-    <div class="header">
-        <div class="header-content">
-            <h1>Director - Marketing & Operations</h1>
-            <p>Application Portal</p>
+    <div class="scrollable-content">
+        <div class="header">
+            <div class="header-content">
+                <h1>Director - Marketing & Operations</h1>
+                <p>Application Portal</p>
+            </div>
         </div>
-    </div>
 
-    <div class="main-container">
+        <div class="main-container">
         <div class="position-card">
             <div class="position-card-header">
                 <h2>About Our Company</h2>
@@ -785,22 +809,23 @@
             </div>
         </div>
 
-        <a href="application.html" class="start-application-btn">Click Here to Start Application</a>
+            <a href="application.html" class="start-application-btn">Click Here to Start Application</a>
+        </div>
+
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#" onclick="event.preventDefault(); showPrivacyModal(); return false;">Privacy Policy</a>
+                    <span>•</span>
+                    <a href="#" onclick="event.preventDefault(); showTermsModal(); return false;">Terms of Service</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Sticky CTA Button -->
     <div class="sticky-cta" id="stickyCta">
         <a href="application.html" class="sticky-cta-btn">Start Application →</a>
-    </div>
-
-    <div class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#" onclick="event.preventDefault(); showPrivacyModal(); return false;">Privacy Policy</a>
-                <span>•</span>
-                <a href="#" onclick="event.preventDefault(); showTermsModal(); return false;">Terms of Service</a>
-            </div>
-        </div>
     </div>
 
     <script>
