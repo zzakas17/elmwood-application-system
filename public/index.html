@@ -167,6 +167,7 @@
             border-bottom: 3px solid rgba(255, 255, 255, 0.2);
             position: relative;
             flex-shrink: 0;
+            z-index: 1;
         }
 
         .header-content {
@@ -194,15 +195,19 @@
 
         .scrollable-content {
             flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .main-container {
+            flex: 1;
             max-width: 1200px;
             margin: 0 auto;
             padding: var(--space-3xl) var(--space-2xl) var(--space-4xl);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
 
         .position-card {
@@ -471,6 +476,7 @@
             background: var(--bg-white);
             border-top: 3px solid var(--border);
             flex-shrink: 0;
+            z-index: 1;
         }
 
         .footer-content {
