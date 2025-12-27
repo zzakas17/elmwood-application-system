@@ -233,12 +233,18 @@
             padding: 0 40px;
             position: relative;
             z-index: 1;
+            scroll-padding-top: 120px;
         }
 
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
+            scroll-padding-top: 120px;
+        }
+
+        body {
+            scroll-padding-top: 120px;
         }
 
         /* Section visibility animations - handled below */
@@ -247,7 +253,7 @@
         /* Navigation Sidebar */
         .nav-sidebar {
             position: sticky;
-            top: 80px;
+            top: 100px;
             align-self: start;
             background: var(--bg-white);
             border: 1px solid var(--border);
@@ -255,6 +261,32 @@
             padding: 24px;
             margin-bottom: 32px;
             box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .nav-sidebar:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .nav-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .nav-sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .nav-sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--text-light);
         }
 
         .nav-sidebar h3 {
@@ -843,24 +875,38 @@
 
         /* Form Sections */
         .form-section {
-            margin-bottom: 40px;
-            scroll-margin-top: 100px;
-            padding: 0;
+            margin-bottom: 48px;
+            scroll-margin-top: 120px;
+            padding: 32px 0;
             position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        .form-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .form-section:last-of-type {
             margin-bottom: 0;
+            padding-bottom: 0;
         }
 
         .section-header {
             display: flex;
             align-items: center;
             gap: 16px;
-            margin-bottom: 28px;
-            padding-bottom: 16px;
+            margin-bottom: 32px;
+            padding-bottom: 18px;
             border-bottom: 1px solid var(--border);
             position: relative;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-section:hover .section-header {
+            border-bottom-color: var(--primary);
         }
 
         .section-header::after {
@@ -907,12 +953,18 @@
         .form-group {
             display: flex;
             flex-direction: column;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             position: relative;
+            transition: margin-bottom 0.2s ease;
+        }
+
+        .form-group:focus-within {
+            margin-bottom: 28px;
         }
 
         .form-group:focus-within label {
             color: var(--primary);
+            transition: color 0.2s ease;
         }
 
         .form-group.full-width {
@@ -997,7 +1049,7 @@
             border-radius: 0;
             font-size: 14px;
             font-family: inherit;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.2s ease;
             background: var(--bg-white);
             color: var(--text-primary);
             font-weight: 400;
@@ -1013,7 +1065,8 @@
         textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 1px var(--primary);
+            box-shadow: 0 0 0 2px rgba(10, 22, 41, 0.08);
+            background: var(--bg-white);
         }
 
         input:focus,
@@ -1026,7 +1079,8 @@
         input:hover:not(:disabled),
         select:hover:not(:disabled),
         textarea:hover:not(:disabled) {
-            border-color: #cbd5e0;
+            border-color: var(--primary-light);
+            transition: border-color 0.2s ease;
         }
 
         input.error,
