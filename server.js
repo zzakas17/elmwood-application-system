@@ -292,7 +292,45 @@ function generateApplicationPDF(applicationData) {
     });
 }
 
-// Send email function with PDF and file attachments
+// Create zip file from attachments
+function createZipFile(attachments, zipFilename) {
+    return new Promise((resolve, reject) => {
+        const output = fs.createWriteStream(zipFilename);
+        const archive = archiver('zip', {
+            zlib: { level: 9 } // Maximum compression
+        });
+
+        output.on('close', () => {
+            const stats = fs.statSync(zipFilename);
+            console.log(`📦 Zip file created: ${zipFilename} (${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
+            resolve(fs.readFileSync(zipFilename));
+        });
+
+        archive.on('error', (err) => {
+            reject(err);
+        });
+
+        archive.pipe(output);
+
+        // Add PDF from buffer
+        if (attachments.pdf) {
+            archive.append(attachments.pdf.content, { name: attachments.pdf.filename });
+        }
+
+        // Add files from disk
+        if (attachments.files) {
+            attachments.files.forEach((file) => {
+                if (fs.existsSync(file.path)) {
+                    archive.file(file.path, { name: file.filename });
+                }
+            });
+        }
+
+        archive.finalize();
+    });
+}
+
+// Send email function with PDF and file attachments (zipped for better delivery)
 async function sendEmailWithPDF(to, subject, html, text, pdfBuffer, applicantName, applicationData) {
     if (!emailConfig.enabled || !transporter) {
         console.log('📧 Email disabled or not configured, skipping email to:', to);
