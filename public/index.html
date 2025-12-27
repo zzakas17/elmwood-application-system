@@ -1454,6 +1454,316 @@
             background: rgba(239, 68, 68, 0.1);
         }
 
+        /* File Preview Styles */
+        .file-preview-container {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .file-preview-container.active {
+            display: block;
+        }
+
+        .file-preview {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .file-preview:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .file-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .file-preview-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .file-preview-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .file-preview-icon.pdf {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .file-preview-icon.doc {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .file-preview-icon.image {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .file-preview-icon.video {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .file-preview-icon.zip {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+
+        .file-preview-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-preview-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
+
+        .file-preview-size {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .file-preview-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .file-preview-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-preview-btn:hover {
+            background: var(--bg-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .file-preview-content {
+            margin-top: 12px;
+        }
+
+        .file-preview-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .file-preview-image:hover {
+            transform: scale(1.02);
+        }
+
+        .file-preview-video {
+            width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+        }
+
+        .file-preview-pdf {
+            width: 100%;
+            height: 400px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+        }
+
+        .file-preview-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            border: 2px dashed var(--border);
+            color: var(--text-light);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Portfolio File Preview Grid */
+        .portfolio-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .portfolio-preview-item {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-preview-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .portfolio-preview-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .portfolio-preview-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .portfolio-preview-thumbnail .file-icon-large {
+            font-size: 48px;
+        }
+
+        .portfolio-preview-footer {
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .portfolio-preview-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            flex: 1;
+            min-width: 0;
+            word-break: break-word;
+            margin-right: 8px;
+        }
+
+        .portfolio-preview-remove {
+            background: none;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .portfolio-preview-remove:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Preview Modal */
+        .preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .preview-modal.active {
+            display: flex;
+        }
+
+        .preview-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: var(--bg-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .preview-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            transition: all 0.2s ease;
+        }
+
+        .preview-modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        .preview-modal-body {
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .preview-modal-body img,
+        .preview-modal-body video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .preview-modal-body iframe {
+            width: 100%;
+            height: 90vh;
+            border: none;
+        }
+
         .video-instructions {
             background: #f8f9fa;
             border: 1px solid var(--border);
@@ -3642,6 +3952,7 @@
                                                 <span class="file-selected-name" id="resumeFileName"></span>
                                                 <button type="button" class="file-selected-remove" id="removeResume">×</button>
                                             </div>
+                                            <div id="resumePreview" class="file-preview-container"></div>
                                         </div>
                                         <div class="error-message" id="resume-error"></div>
                                     </div>
@@ -3659,6 +3970,7 @@
                                                 <span class="file-selected-name" id="coverLetterFileName"></span>
                                                 <button type="button" class="file-selected-remove" id="removeCoverLetter">×</button>
                                             </div>
+                                            <div id="coverLetterPreview" class="file-preview-container"></div>
                                         </div>
                                         <div class="error-message" id="coverLetter-error"></div>
                                     </div>
@@ -3785,6 +4097,7 @@
                                             </label>
                                         </div>
                                         <div id="portfolioFiles" class="portfolio-files"></div>
+                                        <div id="portfolioPreview" class="portfolio-preview-grid"></div>
                                     </div>
                                 </div>
                             </div>
@@ -3833,6 +4146,7 @@
                                                 <span class="file-selected-name" id="fileName"></span>
                                                 <button type="button" class="file-selected-remove" id="removeFile">×</button>
                                             </div>
+                                            <div id="videoPreview" class="file-preview-container"></div>
                                         </div>
 
                                         <!-- Record Option -->
@@ -3923,6 +4237,14 @@
 
     <!-- Auto-save Indicator -->
     <div class="save-indicator" id="saveIndicator"></div>
+
+    <!-- File Preview Modal -->
+    <div class="preview-modal" id="previewModal">
+        <div class="preview-modal-content">
+            <button class="preview-modal-close" onclick="closePreviewModal()">×</button>
+            <div class="preview-modal-body" id="previewModalBody"></div>
+        </div>
+    </div>
 
     <!-- Application Summary Modal -->
     <div class="summary-modal" id="summaryModal">
@@ -4673,7 +4995,102 @@
             const removeResume = document.getElementById('removeResume');
             const removeCoverLetter = document.getElementById('removeCoverLetter');
 
-            function setupFileUpload(input, selectedDiv, fileNameEl, removeBtn, maxSize, fileType) {
+            function getFileIcon(file) {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return { icon: '🖼️', class: 'image', type: 'image' };
+                if (ext === 'pdf') return { icon: '📄', class: 'pdf', type: 'pdf' };
+                if (['doc', 'docx'].includes(ext)) return { icon: '📝', class: 'doc', type: 'document' };
+                if (['mp4', 'mov', 'avi', 'wmv', 'webm'].includes(ext)) return { icon: '🎥', class: 'video', type: 'video' };
+                if (ext === 'zip') return { icon: '📦', class: 'zip', type: 'archive' };
+                return { icon: '📎', class: 'doc', type: 'document' };
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+            }
+
+            function createFilePreview(file, previewContainer, fileType) {
+                if (!previewContainer) return;
+                
+                const fileInfo = getFileIcon(file);
+                const fileSize = formatFileSize(file.size);
+                const reader = new FileReader();
+                
+                previewContainer.innerHTML = '';
+                previewContainer.classList.add('active');
+                
+                const previewDiv = document.createElement('div');
+                previewDiv.className = 'file-preview';
+                
+                // Preview header
+                const header = document.createElement('div');
+                header.className = 'file-preview-header';
+                header.innerHTML = `
+                    <div class="file-preview-info">
+                        <div class="file-preview-icon ${fileInfo.class}">${fileInfo.icon}</div>
+                        <div class="file-preview-details">
+                            <div class="file-preview-name">${file.name}</div>
+                            <div class="file-preview-size">${fileSize}</div>
+                        </div>
+                    </div>
+                    <div class="file-preview-actions">
+                        <button type="button" class="file-preview-btn" onclick="openPreviewModal('${file.name}', '${fileInfo.type}')">View</button>
+                    </div>
+                `;
+                
+                // Preview content
+                const content = document.createElement('div');
+                content.className = 'file-preview-content';
+                
+                if (fileInfo.type === 'image') {
+                    reader.onload = (e) => {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'file-preview-image';
+                        img.onclick = () => openPreviewModal(file.name, 'image', e.target.result);
+                        content.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                } else if (fileInfo.type === 'video') {
+                    reader.onload = (e) => {
+                        const video = document.createElement('video');
+                        video.src = e.target.result;
+                        video.className = 'file-preview-video';
+                        video.controls = true;
+                        content.appendChild(video);
+                    };
+                    reader.readAsDataURL(file);
+                } else if (fileInfo.type === 'pdf') {
+                    reader.onload = (e) => {
+                        const iframe = document.createElement('iframe');
+                        iframe.src = e.target.result;
+                        iframe.className = 'file-preview-pdf';
+                        content.appendChild(iframe);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'file-preview-placeholder';
+                    placeholder.innerHTML = `
+                        <div style="text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 12px;">${fileInfo.icon}</div>
+                            <div>Preview not available for this file type</div>
+                            <div style="font-size: 12px; margin-top: 8px; color: var(--text-light);">Click "View" to download</div>
+                        </div>
+                    `;
+                    content.appendChild(placeholder);
+                }
+                
+                previewDiv.appendChild(header);
+                previewDiv.appendChild(content);
+                previewContainer.appendChild(previewDiv);
+            }
+
+            function setupFileUpload(input, selectedDiv, fileNameEl, removeBtn, maxSize, fileType, previewContainer) {
                 if (!input) return;
                 
                 input.addEventListener('change', (e) => {
@@ -4683,14 +5100,25 @@
                             showMessage(`File "${file.name}" is too large. Maximum size is ${maxSize / (1024 * 1024)}MB.`, 'error');
                             e.target.value = '';
                             selectedDiv.style.display = 'none';
+                            if (previewContainer) {
+                                previewContainer.innerHTML = '';
+                                previewContainer.classList.remove('active');
+                            }
                         } else {
                             fileNameEl.textContent = file.name;
                             selectedDiv.style.display = 'flex';
+                            if (previewContainer) {
+                                createFilePreview(file, previewContainer, fileType);
+                            }
                             updateProgress();
                             autoSave();
                         }
                     } else {
                         selectedDiv.style.display = 'none';
+                        if (previewContainer) {
+                            previewContainer.innerHTML = '';
+                            previewContainer.classList.remove('active');
+                        }
                     }
                 });
 
@@ -4699,21 +5127,34 @@
                         e.preventDefault();
                         input.value = '';
                         selectedDiv.style.display = 'none';
+                        if (previewContainer) {
+                            previewContainer.innerHTML = '';
+                            previewContainer.classList.remove('active');
+                        }
                         updateProgress();
                         autoSave();
                     });
                 }
             }
 
-            setupFileUpload(videoInput, fileSelected, fileName, removeFile, 100 * 1024 * 1024, 'video');
-            setupFileUpload(resumeInput, resumeSelected, resumeFileName, removeResume, 10 * 1024 * 1024, 'document');
-            setupFileUpload(coverLetterInput, coverLetterSelected, coverLetterFileName, removeCoverLetter, 10 * 1024 * 1024, 'document');
+            const videoPreviewContainer = document.getElementById('videoPreview');
+            const resumePreviewContainer = document.getElementById('resumePreview');
+            const coverLetterPreviewContainer = document.getElementById('coverLetterPreview');
+            
+            setupFileUpload(videoInput, fileSelected, fileName, removeFile, 100 * 1024 * 1024, 'video', videoPreviewContainer);
+            setupFileUpload(resumeInput, resumeSelected, resumeFileName, removeResume, 10 * 1024 * 1024, 'document', resumePreviewContainer);
+            setupFileUpload(coverLetterInput, coverLetterSelected, coverLetterFileName, removeCoverLetter, 10 * 1024 * 1024, 'document', coverLetterPreviewContainer);
 
-            // Portfolio files (multiple files)
+            // Portfolio files (multiple files) with previews
+            const portfolioPreviewContainer = document.getElementById('portfolioPreview');
+            const portfolioFilesList = [];
+            
             if (portfolioInput) {
                 portfolioInput.addEventListener('change', (e) => {
                     const files = Array.from(e.target.files);
                     portfolioFiles.innerHTML = '';
+                    portfolioPreviewContainer.innerHTML = '';
+                    portfolioFilesList.length = 0;
                     
                     files.forEach((file, index) => {
                         const maxSize = 10 * 1024 * 1024; // 10MB
@@ -4722,6 +5163,9 @@
                             return;
                         }
                         
+                        portfolioFilesList.push(file);
+                        
+                        // Simple list item
                         const fileItem = document.createElement('div');
                         fileItem.className = 'portfolio-file-item';
                         fileItem.innerHTML = `
@@ -4729,19 +5173,77 @@
                             <button type="button" class="portfolio-file-remove" data-index="${index}">×</button>
                         `;
                         portfolioFiles.appendChild(fileItem);
+                        
+                        // Preview card
+                        const fileInfo = getFileIcon(file);
+                        const fileSize = formatFileSize(file.size);
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'portfolio-preview-item';
+                        previewItem.setAttribute('data-index', index);
+                        
+                        const thumbnail = document.createElement('div');
+                        thumbnail.className = 'portfolio-preview-thumbnail';
+                        
+                        if (fileInfo.type === 'image') {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.onclick = () => openPreviewModal(file.name, 'image', e.target.result);
+                                thumbnail.appendChild(img);
+                            };
+                            reader.readAsDataURL(file);
+                        } else {
+                            thumbnail.innerHTML = `<div class="file-icon-large ${fileInfo.class}">${fileInfo.icon}</div>`;
+                            thumbnail.onclick = () => {
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    if (fileInfo.type === 'pdf') {
+                                        openPreviewModal(file.name, 'pdf', e.target.result);
+                                    } else if (fileInfo.type === 'video') {
+                                        openPreviewModal(file.name, 'video', e.target.result);
+                                    }
+                                };
+                                reader.readAsDataURL(file);
+                            };
+                            thumbnail.style.cursor = 'pointer';
+                        }
+                        
+                        const footer = document.createElement('div');
+                        footer.className = 'portfolio-preview-footer';
+                        footer.innerHTML = `
+                            <span class="portfolio-preview-name" title="${file.name}">${file.name}</span>
+                            <button type="button" class="portfolio-preview-remove" data-index="${index}">×</button>
+                        `;
+                        
+                        previewItem.appendChild(thumbnail);
+                        previewItem.appendChild(footer);
+                        portfolioPreviewContainer.appendChild(previewItem);
                     });
                     autoSave();
                 });
 
+                // Handle remove from both lists
+                const handleRemove = (index) => {
+                    const dt = new DataTransfer();
+                    const files = Array.from(portfolioInput.files);
+                    files.splice(index, 1);
+                    files.forEach(file => dt.items.add(file));
+                    portfolioInput.files = dt.files;
+                    portfolioInput.dispatchEvent(new Event('change'));
+                };
+
                 portfolioFiles.addEventListener('click', (e) => {
                     if (e.target.classList.contains('portfolio-file-remove')) {
                         const index = parseInt(e.target.getAttribute('data-index'));
-                        const dt = new DataTransfer();
-                        const files = Array.from(portfolioInput.files);
-                        files.splice(index, 1);
-                        files.forEach(file => dt.items.add(file));
-                        portfolioInput.files = dt.files;
-                        portfolioInput.dispatchEvent(new Event('change'));
+                        handleRemove(index);
+                    }
+                });
+
+                portfolioPreviewContainer.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('portfolio-preview-remove')) {
+                        const index = parseInt(e.target.getAttribute('data-index'));
+                        handleRemove(index);
                     }
                 });
             }
