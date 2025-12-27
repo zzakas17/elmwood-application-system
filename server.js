@@ -137,17 +137,15 @@ app.post('/api/submit-application', upload.fields([
                 transactionExperience: req.body.transactionExperience,
                 transferableExperience: req.body.transferableExperience
             },
-            technical: {
-                microsoftOffice: req.body.microsoftOffice,
-                crmSystems: req.body.crmSystems,
-                crmExperience: req.body.crmExperience,
-                designTools: req.body.designTools ? (Array.isArray(req.body.designTools) ? req.body.designTools : [req.body.designTools]) : [],
-                marketingMaterials: req.body.marketingMaterials,
-                englishProficiency: req.body.englishProficiency,
-                stakeholderCommunication: req.body.stakeholderCommunication,
-                internetSpeed: req.body.internetSpeed,
-                hasBackupPower: req.body.hasBackupPower === 'yes'
-            },
+                technical: {
+                    microsoftOffice: req.body.microsoftOffice,
+                    crmSystems: req.body.crmSystems,
+                    crmExperience: req.body.crmExperience,
+                    designTools: req.body.designTools ? (Array.isArray(req.body.designTools) ? req.body.designTools : [req.body.designTools]) : [],
+                    marketingMaterials: req.body.marketingMaterials,
+                    englishProficiency: req.body.englishProficiency,
+                    stakeholderCommunication: req.body.stakeholderCommunication
+                },
             roleSpecific: {
                 transactionCoordination: req.body.transactionCoordination, // Combined with systemsWorkflows
                 whyHireYou: req.body.careerGoals // Combined with careerGoals
