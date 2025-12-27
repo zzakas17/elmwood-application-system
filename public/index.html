@@ -5080,11 +5080,12 @@
                     return;
                 }
                 
+                // Show loading state
                 submitBtn.disabled = true;
                 submitBtn.classList.add('loading');
                 const submitBtnText = document.getElementById('submitBtnText');
                 const submitBtnSpinner = document.getElementById('submitBtnSpinner');
-                if (submitBtnText) submitBtnText.textContent = 'Submitting Securely...';
+                if (submitBtnText) submitBtnText.textContent = 'Submitting...';
                 if (submitBtnSpinner) submitBtnSpinner.style.display = 'inline';
                 
                 // Show upload progress
@@ -5094,18 +5095,14 @@
                 if (!form.checkValidity()) {
                     form.reportValidity();
                     showMessage('Please complete all required fields before submitting.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    if (submitBtnText) submitBtnText.textContent = 'Submit Application';
+                    if (submitBtnSpinner) submitBtnSpinner.style.display = 'none';
                     return;
                 }
 
                 const formData = new FormData(form);
-
-                // Show loading state
-                submitBtn.disabled = true;
-                submitBtn.classList.add('loading');
-                const submitBtnText = document.getElementById('submitBtnText');
-                const submitBtnSpinner = document.getElementById('submitBtnSpinner');
-                if (submitBtnText) submitBtnText.textContent = 'Submitting Securely...';
-                if (submitBtnSpinner) submitBtnSpinner.style.display = 'inline';
 
                 try {
                     const response = await fetch('/api/submit-application', {
