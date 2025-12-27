@@ -217,6 +217,7 @@
         </div>
 
         <div class="actions">
+            <button onclick="downloadReceipt()" class="btn btn-secondary">Download Receipt</button>
             <a href="/" class="btn btn-secondary">Return to Application</a>
             <a href="mailto:careers@elmwood.co" class="btn btn-primary">Contact Us</a>
         </div>
@@ -234,6 +235,46 @@
             document.getElementById('applicationId').textContent = `Application ID: ${appId}`;
         } else {
             document.getElementById('applicationId').textContent = 'Application Received';
+        }
+
+        function downloadReceipt() {
+            const receipt = {
+                applicationId: appId || 'N/A',
+                submittedAt: new Date().toLocaleString(),
+                company: 'Elmwood & Company',
+                position: 'Marketing & Operations Coordinator',
+                status: 'Received'
+            };
+
+            const receiptText = `
+ELMWOOD & COMPANY
+Application Receipt
+
+Application ID: ${receipt.applicationId}
+Position: ${receipt.position}
+Submitted: ${receipt.submittedAt}
+Status: ${receipt.status}
+
+Thank you for your interest in joining Elmwood & Company. 
+We have received your application and will review it carefully.
+
+Next Steps:
+- Our team will review your application within the next few business days
+- If your qualifications match our needs, we'll contact you via email
+- You can expect to hear from us within 1-2 weeks
+
+Questions? Contact us at careers@elmwood.co
+
+© 2024 Elmwood & Company. All rights reserved.
+            `.trim();
+
+            const blob = new Blob([receiptText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `elmwood-application-receipt-${appId || Date.now()}.txt`;
+            a.click();
+            window.URL.revokeObjectURL(url);
         }
     </script>
 </body>

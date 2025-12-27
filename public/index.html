@@ -4251,6 +4251,10 @@
                             <div class="footer-links">
                                 <a href="mailto:careers@elmwood.co">Contact</a>
                                 <span>•</span>
+                                <a href="#" onclick="event.preventDefault(); alert('Privacy Policy: We collect and process your application data solely for recruitment purposes. Your information is kept confidential and will not be shared with third parties without your consent. You may request access, correction, or deletion of your data at any time by contacting careers@elmwood.co'); return false;">Privacy Policy</a>
+                                <span>•</span>
+                                <a href="#" onclick="event.preventDefault(); alert('Terms of Service: By submitting this application, you agree that all information provided is accurate and complete. You understand that submission does not guarantee employment and that Elmwood & Company reserves the right to reject any application at its discretion.'); return false;">Terms</a>
+                                <span>•</span>
                                 <span style="color: var(--text-light);">© 2024 Elmwood & Company. All rights reserved.</span>
                             </div>
                         </div>
@@ -5391,7 +5395,20 @@
                 // Show upload progress
                 showMessage('Uploading files and submitting your application...', 'info');
 
+                // Validate form before submission
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    showMessage('Please complete all required fields before submitting.', 'error');
+                    return;
+                }
+
                 const formData = new FormData(form);
+
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+                const originalText = submitBtn.textContent;
+                submitBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Submitting...';
 
                 try {
                     const response = await fetch('/api/submit-application', {
@@ -5414,10 +5431,13 @@
                 } catch (error) {
                     showMessage('Network error. Please check your connection and try again.', 'error');
                     console.error('Error:', error);
+                } catch (error) {
+                    showMessage('Network error. Please check your connection and try again.', 'error');
+                    console.error('Error:', error);
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.classList.remove('loading');
-                    submitBtn.textContent = 'Submit Application';
+                    submitBtn.textContent = originalText;
                 }
             });
 
