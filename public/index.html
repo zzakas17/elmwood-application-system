@@ -2117,29 +2117,18 @@
             background: #f0fff4;
             border-color: var(--success);
             color: var(--success);
-            color: #065f46;
-            border-color: rgba(16, 185, 129, 0.2);
-            box-shadow: 
-                0 8px 24px rgba(16, 185, 129, 0.2),
-                0 0 0 1px rgba(16, 185, 129, 0.1) inset;
         }
 
         .message.error {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(254, 226, 226, 0.8) 100%);
-            color: #991b1b;
-            border-color: rgba(239, 68, 68, 0.2);
-            box-shadow: 
-                0 8px 24px rgba(239, 68, 68, 0.2),
-                0 0 0 1px rgba(239, 68, 68, 0.1) inset;
+            background: #fff5f5;
+            border-color: var(--error);
+            color: var(--error);
         }
 
         .message.info {
-            background: linear-gradient(135deg, rgba(2, 132, 199, 0.1) 0%, rgba(224, 242, 254, 0.8) 100%);
-            color: #0c4a6e;
-            border-color: rgba(2, 132, 199, 0.2);
-            box-shadow: 
-                0 8px 24px rgba(2, 132, 199, 0.2),
-                0 0 0 1px rgba(2, 132, 199, 0.1) inset;
+            background: #f0f9ff;
+            border-color: var(--info);
+            color: var(--info);
         }
 
         /* Auto-save indicator */
@@ -2148,16 +2137,15 @@
             bottom: 24px;
             right: 24px;
             background: var(--bg-white);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 14px 24px;
-            box-shadow: var(--shadow-lg);
-            font-size: 14px;
+            border: 1px solid var(--border);
+            border-radius: 0;
+            padding: 12px 20px;
+            box-shadow: var(--shadow);
+            font-size: 13px;
             color: var(--text-secondary);
             display: none;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            font-weight: 500;
+            font-weight: 400;
         }
 
         /* Start Application Button */
@@ -2167,22 +2155,21 @@
 
         .job-description-toggle {
             display: none;
-            background: var(--primary-gradient);
+            background: var(--primary);
             color: white;
             border: none;
             padding: 12px 20px;
-            border-radius: 8px;
+            border-radius: 0;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             width: 100%;
             margin-bottom: 16px;
-            transition: all 0.3s ease;
+            transition: background 0.2s ease;
         }
 
         .job-description-toggle:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
+            background: var(--primary-light);
         }
 
         .job-description-toggle::after {
@@ -2299,9 +2286,9 @@
         .disclaimer-box {
             background: var(--bg-light);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 0;
             padding: 20px;
-            margin-top: 30px;
+            margin-top: 24px;
             font-size: 12px;
             color: var(--text-secondary);
             line-height: 1.6;
