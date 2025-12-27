@@ -149,27 +149,30 @@
             background: var(--primary);
             color: #ffffff;
             padding: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
             position: relative;
         }
 
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-5xl) var(--space-2xl) var(--space-3xl);
+            padding: var(--space-5xl) var(--space-2xl) var(--space-4xl);
         }
 
         .header h1 {
             color: #ffffff !important;
-            margin-bottom: var(--space-sm);
+            margin-bottom: var(--space-md);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: -0.5px;
         }
 
         .header p {
-            font-size: var(--font-size-base);
-            color: rgba(255, 255, 255, 0.9) !important;
+            font-size: var(--font-size-lg);
+            color: rgba(255, 255, 255, 0.95) !important;
             font-weight: var(--font-weight-normal);
-            line-height: var(--line-height-normal);
+            line-height: var(--line-height-relaxed);
             max-width: 700px;
+            letter-spacing: 0.1px;
         }
 
         .main-container {
@@ -183,35 +186,54 @@
             background: var(--bg-white);
             border: 1px solid var(--border);
             border-radius: 0;
-            margin-bottom: var(--space-2xl);
+            margin-bottom: var(--space-3xl);
             box-shadow: none;
             transition: none;
         }
 
         .position-card-header {
             background: var(--bg-white);
-            padding: var(--space-3xl) var(--space-2xl);
-            border-bottom: 1px solid var(--border);
+            padding: var(--space-4xl) var(--space-2xl);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .position-card-header h2 {
+            margin-bottom: var(--space-md);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: -0.4px;
         }
 
         .position-card-header p {
             color: var(--text-secondary);
-            font-size: var(--font-size-md);
-            line-height: var(--line-height-loose);
-            margin: 0;
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+            margin: 0 0 var(--space-lg) 0;
             font-weight: var(--font-weight-normal);
         }
 
+        .position-card-header > p:first-of-type {
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            font-weight: var(--font-weight-medium);
+            margin-bottom: var(--space-xl);
+        }
+
         .position-details {
-            margin-top: var(--space-lg);
-            padding-top: var(--space-lg);
-            border-top: 1px solid var(--border);
+            margin-top: var(--space-xl);
+            padding-top: var(--space-xl);
+            border-top: 2px solid var(--border-light);
         }
 
         .position-detail-section {
             margin-bottom: var(--space-2xl);
             padding-bottom: var(--space-xl);
             border-bottom: 1px solid var(--border-light);
+        }
+
+        .position-detail-section h3 {
+            margin-bottom: var(--space-lg);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
         }
 
         .position-detail-section:last-child {
@@ -259,7 +281,9 @@
         }
 
         .job-description {
-            padding: var(--space-3xl) var(--space-2xl);
+            padding: var(--space-4xl) var(--space-2xl);
+            background: var(--bg-light);
+            border-top: 2px solid var(--border);
         }
 
         .job-section {
@@ -306,10 +330,10 @@
 
         .job-note {
             margin-top: var(--space-xl);
-            padding: var(--space-md) var(--space-lg);
-            background: var(--bg-light);
-            border-left: 3px solid var(--primary);
-            border-radius: 4px;
+            padding: var(--space-lg) var(--space-xl);
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
         }
 
         .job-note p {
@@ -328,18 +352,18 @@
             display: block;
             background: var(--primary);
             color: white;
-            border: none;
-            padding: 18px 32px;
+            border: 2px solid var(--primary);
+            padding: 20px 40px;
             border-radius: 0;
             font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
+            font-weight: var(--font-weight-bold);
             cursor: pointer;
             width: 100%;
             max-width: 600px;
-            margin: var(--space-4xl) auto var(--space-5xl);
+            margin: var(--space-5xl) auto;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            transition: background 0.2s ease;
+            letter-spacing: 1px;
+            transition: background 0.2s ease, border-color 0.2s ease;
             text-align: center;
             text-decoration: none;
             box-shadow: none;
@@ -347,10 +371,12 @@
 
         .start-application-btn:hover {
             background: var(--primary-dark);
+            border-color: var(--primary-dark);
         }
 
         .start-application-btn:active {
             background: var(--primary-dark);
+            border-color: var(--primary-dark);
         }
 
         /* Sticky CTA Button */
@@ -376,15 +402,15 @@
         .sticky-cta-btn {
             background: var(--primary);
             color: white;
-            border: none;
-            padding: 14px 32px;
+            border: 2px solid var(--primary);
+            padding: 16px 32px;
             font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
+            font-weight: var(--font-weight-bold);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             cursor: pointer;
             text-decoration: none;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, border-color 0.2s ease;
             max-width: 600px;
             width: 100%;
             text-align: center;
@@ -392,6 +418,7 @@
 
         .sticky-cta-btn:hover {
             background: var(--primary-dark);
+            border-color: var(--primary-dark);
         }
 
         /* Section Divider */
@@ -522,47 +549,110 @@
 
         @media (max-width: 768px) {
             .header-content {
-                padding: 35px 20px 30px;
+                padding: var(--space-4xl) var(--space-md) var(--space-3xl);
             }
 
             .header h1 {
-                font-size: 28px;
-                line-height: 1.2;
+                font-size: 26px;
+                line-height: 1.3;
+                margin-bottom: var(--space-md);
+            }
+
+            .header p {
+                font-size: var(--font-size-base);
+                line-height: var(--line-height-relaxed);
             }
 
             .main-container {
-                padding: var(--space-2xl) 12px 0;
+                padding: var(--space-3xl) var(--space-md) var(--space-4xl);
+            }
+
+            .position-card {
+                margin-bottom: var(--space-2xl);
             }
 
             .position-card-header {
-                padding: 20px 16px;
+                padding: var(--space-2xl) var(--space-md);
             }
 
             .position-card-header h2 {
-                font-size: 20px;
+                font-size: 22px;
+                line-height: 1.3;
+                margin-bottom: var(--space-md);
+            }
+
+            .position-card-header > p:first-of-type {
+                font-size: var(--font-size-base);
+                margin-bottom: var(--space-lg);
+            }
+
+            .position-card-header p {
+                font-size: var(--font-size-base);
+                line-height: var(--line-height-relaxed);
+                margin-bottom: var(--space-md);
+            }
+
+            .position-details {
+                margin-top: var(--space-lg);
+                padding-top: var(--space-lg);
+            }
+
+            .position-detail-section {
+                margin-bottom: var(--space-xl);
+                padding-bottom: var(--space-lg);
+            }
+
+            .position-detail-section h3 {
+                font-size: var(--font-size-base);
+                margin-bottom: var(--space-md);
             }
 
             .job-description {
-                padding: 20px 16px;
+                padding: var(--space-2xl) var(--space-md);
+            }
+
+            .job-section {
+                margin-bottom: var(--space-lg);
+            }
+
+            .job-section h3 {
+                font-size: 11px;
+                margin-bottom: var(--space-md);
+            }
+
+            .job-section li {
+                font-size: var(--font-size-base);
+                line-height: var(--line-height-relaxed);
+                padding-left: var(--space-lg);
             }
 
             .start-application-btn {
-                margin: var(--space-3xl) auto var(--space-4xl);
-                padding: 18px 20px;
-                font-size: 16px;
+                margin: var(--space-4xl) auto;
+                padding: 18px var(--space-md);
+                font-size: var(--font-size-base);
+                letter-spacing: 0.5px;
+                min-height: 56px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .sticky-cta {
-                padding: var(--space-md) var(--space-md);
+                padding: var(--space-md);
+                border-top-width: 2px;
             }
 
             .sticky-cta-btn {
-                padding: 14px 20px;
-                font-size: 14px;
+                padding: 16px var(--space-md);
+                font-size: var(--font-size-base);
+                letter-spacing: 0.5px;
+                min-height: 52px;
             }
 
             .portal-topbar-content {
-                padding: 14px 20px;
+                padding: var(--space-md) var(--space-md);
+                flex-wrap: wrap;
+                gap: var(--space-sm);
             }
 
             .portal-brand-name {
@@ -571,6 +661,23 @@
 
             .security-indicator {
                 font-size: 10px;
+                letter-spacing: 0.6px;
+            }
+
+            .footer {
+                padding: var(--space-2xl) var(--space-md);
+                margin-top: var(--space-4xl);
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: var(--space-sm);
+                font-size: var(--font-size-sm);
+            }
+
+            h3 {
+                font-size: var(--font-size-sm);
+                margin-bottom: var(--space-md);
             }
         }
     </style>
