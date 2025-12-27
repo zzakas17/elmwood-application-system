@@ -190,9 +190,13 @@ app.post('/api/submit-application', upload.fields([
                     stakeholderCommunication: req.body.stakeholderCommunication
                 },
             roleSpecific: {
-                transactionCoordination: req.body.transactionCoordination, // Combined with systemsWorkflows
-                whyHireYou: req.body.careerGoals // Combined with careerGoals
+                transactionCoordination: req.body.transactionCoordination,
+                timeManagement: req.body.timeManagement,
+                careerGoals: req.body.careerGoals,
+                managementExperience: req.body.managementExperience,
+                managementExample: req.body.managementExample || null
             },
+            accommodations: req.body.accommodations || null,
             availability: {
                 timezone: req.body.timezone,
                 usHoursOverlap: req.body.usHoursOverlap,

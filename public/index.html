@@ -5297,6 +5297,31 @@
             setupCharCounter('transactionCoordination', 3000);
             setupCharCounter('timeManagement', 2500);
             setupCharCounter('careerGoals', 2000);
+            setupCharCounter('managementExample', 1500);
+            setupCharCounter('accommodations', 1000);
+            
+            // Show/hide management example section
+            const managementExperienceSelect = document.getElementById('managementExperience');
+            const managementExampleSection = document.getElementById('managementExampleSection');
+            const managementExampleField = document.getElementById('managementExample');
+            
+            if (managementExperienceSelect && managementExampleSection) {
+                managementExperienceSelect.addEventListener('change', function() {
+                    if (this.value === 'yes') {
+                        managementExampleSection.style.display = 'block';
+                        if (managementExampleField) {
+                            managementExampleField.setAttribute('required', 'required');
+                        }
+                    } else {
+                        managementExampleSection.style.display = 'none';
+                        if (managementExampleField) {
+                            managementExampleField.removeAttribute('required');
+                            managementExampleField.value = '';
+                        }
+                    }
+                    updateProgress();
+                });
+            }
 
             // Initial progress update
             updateProgress();
