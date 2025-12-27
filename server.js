@@ -276,7 +276,7 @@ app.post('/api/submit-application', upload.fields([
                 <h2>New Application Received</h2>
                 <p><strong>Name:</strong> ${applicationData.personalInfo?.fullName || 'N/A'}</p>
                 <p><strong>Email:</strong> ${applicationData.personalInfo?.email || 'N/A'}</p>
-                <p><strong>Phone:</strong> ${applicationData.personalInfo?.phone || 'N/A'}</p>
+                <p><strong>Phone:</strong> ${applicationData.personalInfo?.phoneFull || (applicationData.personalInfo?.countryCode ? applicationData.personalInfo.countryCode + ' ' : '') + (applicationData.personalInfo?.phone || 'N/A')}</p>
                 <p><strong>Location:</strong> ${applicationData.personalInfo?.location || 'N/A'}</p>
                 <p><strong>Experience:</strong> ${applicationData.experience?.marketingDesignExperience || 'N/A'}</p>
                 <p><strong>Application ID:</strong> ${applicationData.id}</p>
