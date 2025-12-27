@@ -586,7 +586,13 @@ app.post('/api/submit-application', upload.fields([
                     <p><strong>Experience:</strong> ${applicationData.experience?.marketingDesignExperience || 'N/A'}</p>
                     <p><strong>Application ID:</strong> ${applicationData.id}</p>
                     <p><strong>Submitted:</strong> ${new Date(applicationData.submittedAt).toLocaleString()}</p>
-                    <p><strong>📎 Full application details attached as PDF</strong></p>
+                    <p><strong>📎 Attachments:</strong></p>
+                    <ul>
+                        <li>Full application details (PDF)</li>
+                        ${applicationData.videos?.video1 ? '<li>Video introduction</li>' : ''}
+                        ${applicationData.documents?.resume ? '<li>Resume/CV</li>' : ''}
+                        ${applicationData.portfolio && applicationData.portfolio.length > 0 ? `<li>Portfolio files (${applicationData.portfolio.length})</li>` : ''}
+                    </ul>
                     <p><a href="${process.env.APP_URL || 'http://localhost:3000'}/admin.html">View in Admin Dashboard</a></p>
                 `;
                 await sendEmailWithPDF(
