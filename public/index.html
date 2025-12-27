@@ -833,8 +833,9 @@
         function handleStickyCta() {
             const stickyCta = document.getElementById('stickyCta');
             const startBtn = document.querySelector('.start-application-btn');
+            const scrollableContent = document.querySelector('.scrollable-content');
             
-            if (!stickyCta || !startBtn) return;
+            if (!stickyCta || !startBtn || !scrollableContent) return;
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -846,6 +847,7 @@
                 });
             }, {
                 threshold: 0.1,
+                root: scrollableContent,
                 rootMargin: '0px 0px -100px 0px'
             });
             
