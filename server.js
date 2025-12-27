@@ -249,7 +249,7 @@ app.post('/api/submit-application', upload.fields([
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <h2 style="color: #1a3d5c;">Thank You for Your Application</h2>
                     <p>Dear ${applicationData.personalInfo?.fullName || 'Applicant'},</p>
-                    <p>We have successfully received your application for the <strong>Marketing & Operations Coordinator</strong> position at Elmwood & Company.</p>
+                    <p>We have successfully received your application for the <strong>Director - Marketing & Operations</strong> position at Elmwood & Company.</p>
                     <p><strong>Application ID:</strong> ${applicationData.id}</p>
                     <p><strong>Submitted:</strong> ${new Date(applicationData.submittedAt).toLocaleString()}</p>
                     <h3 style="color: #1a3d5c; margin-top: 30px;">What Happens Next?</h3>
