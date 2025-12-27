@@ -1820,6 +1820,50 @@
             font-weight: 600;
         }
 
+        /* Permission Prompt */
+        .permission-prompt {
+            background: linear-gradient(135deg, rgba(26, 61, 92, 0.05) 0%, rgba(26, 61, 92, 0.02) 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .permission-prompt-content h4 {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .permission-prompt-content p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .permission-steps {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .permission-step {
+            padding: 10px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .permission-step strong {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+
         /* Video Recording Container */
         .video-recording-container {
             margin-top: 20px;
@@ -4176,7 +4220,30 @@
 
                                         <!-- Record Option -->
                                         <div id="recordSection" class="video-preview-container" style="display: none;">
-                                            <div class="video-preview-wrapper">
+                                            <div id="permissionPrompt" class="permission-prompt" style="display: block;">
+                                                <div class="permission-prompt-content">
+                                                    <h4>📹 Camera & Microphone Access Required</h4>
+                                                    <p>To record your video introduction, we need access to your camera and microphone.</p>
+                                                    <div class="permission-steps">
+                                                        <div class="permission-step">
+                                                            <strong>1.</strong> Click "Allow Camera Access" below
+                                                        </div>
+                                                        <div class="permission-step">
+                                                            <strong>2.</strong> Your browser will ask for permission - click "Allow"
+                                                        </div>
+                                                        <div class="permission-step">
+                                                            <strong>3.</strong> Your camera preview will appear
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-primary" id="requestPermissionBtn" onclick="requestCameraPermission()" style="margin-top: 20px; padding: 14px 28px;">
+                                                        Allow Camera Access
+                                                    </button>
+                                                    <p style="margin-top: 15px; font-size: 13px; color: var(--text-light);">
+                                                        <strong>Note:</strong> If you don't see a permission prompt, check your browser's address bar for a camera/microphone icon and click it to allow permissions.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="video-preview-wrapper" id="videoPreviewWrapper" style="display: none;">
                                                 <video id="videoRecordPreview" class="video-preview" autoplay muted playsinline></video>
                                                 <div class="video-overlay" id="videoOverlay" style="display: none;">
                                                     <div class="video-loading">
@@ -4185,7 +4252,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="recording-controls">
+                                            <div class="recording-controls" id="recordingControls" style="display: none;">
                                                 <div class="recording-controls-primary">
                                                     <button type="button" class="btn btn-primary btn-record" id="startRecordBtn" onclick="startRecording()">
                                                         <span class="btn-icon">●</span>
@@ -4363,7 +4430,20 @@
             const fileSelected = document.getElementById('fileSelected');
             if (fileSelected) fileSelected.style.display = 'none';
             
-            initializeCamera();
+            // Show permission prompt if we don't have access yet
+            const permissionPrompt = document.getElementById('permissionPrompt');
+            const videoPreviewWrapper = document.getElementById('videoPreviewWrapper');
+            const recordingControls = document.getElementById('recordingControls');
+            
+            if (!recordingStream) {
+                if (permissionPrompt) permissionPrompt.style.display = 'block';
+                if (videoPreviewWrapper) videoPreviewWrapper.style.display = 'none';
+                if (recordingControls) recordingControls.style.display = 'none';
+            } else {
+                if (permissionPrompt) permissionPrompt.style.display = 'none';
+                if (videoPreviewWrapper) videoPreviewWrapper.style.display = 'block';
+                if (recordingControls) recordingControls.style.display = 'block';
+            }
         }
 
         function switchToUpload() {
@@ -4376,11 +4456,118 @@
             stopCamera();
         }
 
+        async function requestCameraPermission() {
+            const permissionPrompt = document.getElementById('permissionPrompt');
+            const videoPreviewWrapper = document.getElementById('videoPreviewWrapper');
+            const recordingControls = document.getElementById('recordingControls');
+            const requestBtn = document.getElementById('requestPermissionBtn');
+            
+            if (requestBtn) {
+                requestBtn.disabled = true;
+                requestBtn.textContent = 'Requesting Permission...';
+            }
+            
+            try {
+                // Check if browser supports getUserMedia
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('Your browser does not support video recording. Please use a modern browser like Chrome, Firefox, or Edge.');
+                }
+                
+                // Request permission
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    }, 
+                    audio: true 
+                });
+                
+                // Permission granted - hide prompt, show preview
+                recordingStream = stream;
+                
+                if (permissionPrompt) permissionPrompt.style.display = 'none';
+                if (videoPreviewWrapper) videoPreviewWrapper.style.display = 'block';
+                if (recordingControls) recordingControls.style.display = 'block';
+                
+                const videoPreview = document.getElementById('videoRecordPreview');
+                if (videoPreview) {
+                    videoPreview.srcObject = stream;
+                    videoPreview.onloadedmetadata = () => {
+                        if (globalShowMessage) {
+                            globalShowMessage('Camera access granted! You can now start recording.', 'success');
+                        }
+                    };
+                }
+                
+            } catch (error) {
+                console.error('Error requesting camera permission:', error);
+                
+                if (requestBtn) {
+                    requestBtn.disabled = false;
+                    requestBtn.textContent = 'Allow Camera Access';
+                }
+                
+                let errorMsg = '';
+                let helpText = '';
+                
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    errorMsg = 'Camera permission denied';
+                    helpText = 'Please click the camera/microphone icon in your browser\'s address bar and select "Allow". Then refresh this page or click the button again.';
+                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                    errorMsg = 'No camera found';
+                    helpText = 'Please connect a camera to your device or use the "Upload Video" option instead.';
+                } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+                    errorMsg = 'Camera is being used by another application';
+                    helpText = 'Please close other applications using your camera and try again.';
+                } else {
+                    errorMsg = 'Unable to access camera';
+                    helpText = error.message || 'Please check your camera settings and try again, or use the upload option.';
+                }
+                
+                if (permissionPrompt) {
+                    const content = permissionPrompt.querySelector('.permission-prompt-content');
+                    if (content) {
+                        content.innerHTML = `
+                            <h4 style="color: var(--error);">❌ ${errorMsg}</h4>
+                            <p style="color: var(--text-secondary); margin-bottom: 20px;">${helpText}</p>
+                            <button type="button" class="btn btn-primary" onclick="requestCameraPermission()" style="margin-right: 10px;">
+                                Try Again
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="switchToUpload()">
+                                Use Upload Instead
+                            </button>
+                        `;
+                    }
+                }
+                
+                if (globalShowMessage) {
+                    globalShowMessage(errorMsg + '. ' + helpText, 'error');
+                }
+            }
+        }
+
         async function initializeCamera() {
             const videoOverlay = document.getElementById('videoOverlay');
             const videoPreview = document.getElementById('videoRecordPreview');
             const startBtn = document.getElementById('startRecordBtn');
             const statusDiv = document.getElementById('recordingStatus');
+            
+            // If we already have a stream, just show the preview
+            if (recordingStream) {
+                if (videoPreview) {
+                    videoPreview.srcObject = recordingStream;
+                }
+                if (startBtn) {
+                    startBtn.style.display = 'flex';
+                    startBtn.disabled = false;
+                }
+                return;
+            }
+            
+            // Otherwise, request permission first
+            requestCameraPermission();
+            return;
             
             try {
                 // Show loading state
