@@ -3780,9 +3780,11 @@
                                     <button type="button" class="btn btn-secondary" id="previewBtn" onclick="showApplicationSummary()" style="min-width: 180px;">
                                         Preview Application
                                     </button>
-                                    <button type="submit" class="submit-btn" id="submitBtn">
-                                        Submit Application
+                                    <button type="submit" class="submit-btn" id="submitBtn" style="position: relative;">
+                                        <span id="submitBtnText">Submit Application Securely</span>
+                                        <span id="submitBtnSpinner" style="display: none; margin-left: 8px;">⏳</span>
                                     </button>
+                                    <p style="font-size: 11px; color: var(--text-light); text-align: center; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px;">🔒 Secure Submission • Encrypted Transmission</p>
                                 </div>
                                 <div style="margin-top: 16px; padding: 16px; background: var(--bg-light); border-left: 3px solid var(--primary); border-radius: 0;">
                                     <p style="font-size: 13px; color: var(--text-primary); margin-bottom: 8px; font-weight: 600;">What Happens Next?</p>
@@ -5110,7 +5112,10 @@
                 
                 submitBtn.disabled = true;
                 submitBtn.classList.add('loading');
-                submitBtn.innerHTML = '<span class="spinner"></span> Submitting Application...';
+                const submitBtnText = document.getElementById('submitBtnText');
+                const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+                if (submitBtnText) submitBtnText.textContent = 'Submitting Securely...';
+                if (submitBtnSpinner) submitBtnSpinner.style.display = 'inline';
                 
                 // Show upload progress
                 showMessage('Uploading files and submitting your application...', 'info');
@@ -5157,7 +5162,10 @@
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.classList.remove('loading');
-                    submitBtn.textContent = originalText;
+                    const submitBtnText = document.getElementById('submitBtnText');
+                    const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+                    if (submitBtnText) submitBtnText.textContent = 'Submit Application Securely';
+                    if (submitBtnSpinner) submitBtnSpinner.style.display = 'none';
                 }
             });
 
