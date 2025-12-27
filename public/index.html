@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Portal - Elmwood & Company</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,27 +15,30 @@
         }
 
         :root {
-            /* Institutional Color Palette */
-            --primary: #1a1a1a;
-            --primary-dark: #000000;
-            --primary-light: #333333;
-            --accent: #0066cc;
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a4a4a;
-            --text-light: #6b6b6b;
-            --text-muted: #999999;
-            --border: #d0d0d0;
-            --border-light: #e5e5e5;
-            --bg-light: #f5f5f5;
+            /* Elite Professional Color Palette */
+            --primary: #0a1629;
+            --primary-dark: #050a14;
+            --primary-light: #1a2332;
+            --accent: #1e40af;
+            --accent-light: #3b82f6;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-light: #64748b;
+            --text-muted: #94a3b8;
+            --border: #cbd5e1;
+            --border-light: #e2e8f0;
+            --bg-light: #f8fafc;
             --bg-white: #ffffff;
-            --success: #006600;
-            --error: #cc0000;
-            --info: #0066cc;
+            --success: #059669;
+            --error: #dc2626;
+            --info: #0284c7;
             
-            /* Minimal Shadows */
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-            --shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Sophisticated Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
             
             /* Spacing Scale */
             --space-xs: 4px;
@@ -41,17 +47,21 @@
             --space-lg: 24px;
             --space-xl: 32px;
             --space-2xl: 48px;
+            --space-3xl: 64px;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(180deg, #fafbfc 0%, #f1f5f9 50%, #e8edf3 100%);
+            background-attachment: fixed;
             color: var(--text-primary);
-            line-height: 1.6;
-            font-size: 14px;
+            line-height: 1.65;
+            font-size: 15px;
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            letter-spacing: -0.011em;
         }
 
         .application-wrapper {
@@ -166,42 +176,60 @@
 
         /* Header */
         .header {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: #ffffff;
             padding: 0;
-            border-bottom: 3px solid var(--accent);
+            border-bottom: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            opacity: 0.6;
         }
 
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 64px 40px 56px;
+            padding: 80px 40px 72px;
             position: relative;
             z-index: 10;
         }
 
         .header h1 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 12px;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
             line-height: 1.2;
             color: #ffffff !important;
             text-shadow: none;
             opacity: 1 !important;
             position: relative;
             z-index: 10;
+            letter-spacing: -0.8px;
         }
 
         .header p {
-            font-size: 15px;
-            color: #ffffff !important;
-            font-weight: 500;
-            line-height: 1.5;
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-weight: 400;
+            line-height: 1.6;
             max-width: 700px;
             text-shadow: none;
             opacity: 1 !important;
             position: relative;
             z-index: 10;
+            letter-spacing: -0.2px;
         }
 
         /* Main Container */
@@ -308,10 +336,11 @@
         /* Position Card - Premium Glassmorphism */
         .position-card {
             background: var(--bg-white);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-light);
             border-radius: 0;
-            margin-bottom: 32px;
-            box-shadow: none;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.3s ease;
         }
 
         .position-card-header {
@@ -3067,9 +3096,9 @@
             <div class="position-card">
                 <div class="position-card-header">
                     <h2>About Elmwood & Company</h2>
-                    <p style="line-height: 1.8; margin-bottom: 20px;">Elmwood & Company is a U.S.-based industrial real estate brokerage that specializes in helping companies acquire, sell, and lease industrial properties including warehouses, distribution centers, manufacturing facilities, and logistics hubs. We work with institutional investors, corporations, and property owners to facilitate complex real estate transactions across the United States.</p>
-                    <p style="line-height: 1.8; margin-bottom: 20px;">Our team operates in a fast-paced, detail-oriented environment where accuracy and professionalism are paramount. We collaborate closely to ensure seamless transaction coordination from initial contract execution through closing, managing every document, deadline, and communication to ensure successful outcomes for our clients. We pride ourselves on building long-term relationships with institutional clients and delivering exceptional service in every transaction.</p>
-                    <p style="line-height: 1.8;">We're excited to welcome talented professionals who share our commitment to excellence and want to be part of a growing, collaborative team. If you're passionate about marketing, design, and operations, and you're looking for an opportunity to work directly with senior leadership on high-impact projects, we'd love to hear from you.</p>
+                    <p style="line-height: 1.85; margin-bottom: 24px; font-size: 16px; color: var(--text-secondary);">Elmwood & Company is a leading U.S.-based industrial real estate brokerage specializing in the acquisition, disposition, and leasing of industrial properties. We facilitate complex transactions for institutional investors, Fortune 500 corporations, and property owners across warehouses, distribution centers, manufacturing facilities, and logistics hubs throughout the United States.</p>
+                    <p style="line-height: 1.85; margin-bottom: 24px; font-size: 16px; color: var(--text-secondary);">Our firm operates at the intersection of sophisticated deal-making and operational excellence. We maintain the highest standards of professionalism, precision, and client service, managing every aspect of transactions from initial contract execution through closing. Our team's expertise in navigating complex real estate transactions has established us as a trusted partner to institutional clients who demand exceptional results.</p>
+                    <p style="line-height: 1.85; font-size: 16px; color: var(--text-secondary);">We are seeking exceptional professionals who share our commitment to excellence and are ready to contribute to our continued growth. This role offers the opportunity to work directly with senior leadership on high-impact initiatives that shape our firm's success. If you are driven by professional excellence and seek a role where your contributions matter, we invite you to apply.</p>
                 </div>
             </div>
 
@@ -3082,8 +3111,14 @@
                     <h2>Position: Director - Marketing & Operations</h2>
                     <p>Full-time remote role supporting industrial real estate brokerage operations</p>
                     <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
-                        <p style="line-height: 1.8; color: var(--text-primary); font-size: 15px;">
-                            We're looking for a talented professional to join our team in this director-level role. This is a direct contract position—we're hiring directly with no middleman, agency, or third-party recruiters. You'll work directly with our CEO and Senior Brokers on high-level initiatives, supporting institutional clients and major transactions. We're a fast-growing company with a collaborative culture and abundant opportunities for professional growth. We value your skills and experience, and we're committed to providing a respectful, professional work environment where you can thrive. <strong>We provide all U.S. holidays off with pay.</strong> If you're selected, you'll move forward in our interview process, which we've designed to ensure a great fit for both you and our team.
+                        <p style="line-height: 1.85; color: var(--text-primary); font-size: 16px; margin-bottom: 16px;">
+                            This is a director-level position offering direct engagement with our leadership team. We are hiring directly—no intermediaries, agencies, or third-party recruiters. You will work directly with our CEO and Senior Brokers on strategic initiatives that drive our firm's success, supporting institutional clients and managing high-value transactions.
+                        </p>
+                        <p style="line-height: 1.85; color: var(--text-primary); font-size: 16px; margin-bottom: 16px;">
+                            We are a rapidly growing firm with a culture built on excellence, collaboration, and professional development. We recognize and reward high performance, and we are committed to providing a professional work environment where exceptional talent can thrive. <strong>All U.S. holidays are provided with pay.</strong>
+                        </p>
+                        <p style="line-height: 1.85; color: var(--text-primary); font-size: 16px;">
+                            Our interview process is designed to ensure mutual fit—we want to understand your capabilities and goals, and we want you to understand our firm, our culture, and the opportunities we offer. Selected candidates will move forward in a structured process that respects your time while ensuring we make the right decisions for both parties.
                         </p>
                     </div>
                 </div>
