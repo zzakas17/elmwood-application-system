@@ -3479,10 +3479,14 @@
                                     <h3 class="section-title">Compensation</h3>
                                 </div>
                                 <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="expectedRate">Desired Hourly Rate (USD) <span class="required">*</span></label>
-                                        <input type="number" id="expectedRate" name="expectedRate" min="0" step="0.01" placeholder="e.g., 8.00" required>
-                                        <div class="error-message" id="expectedRate-error"></div>
+                                    <div class="form-group full-width">
+                                        <div style="padding: 20px; background: var(--bg-light); border: 1px solid var(--border); border-radius: 4px;">
+                                            <p style="line-height: 1.8; color: var(--text-primary); font-size: 15px; margin: 0;">
+                                                <strong>Starting Compensation:</strong> $8.00/hour (USD)<br><br>
+                                                We believe in recognizing and rewarding performance. There are opportunities for pay increases and bonuses based on performance, tenure, and contributions to the team. As you grow with us and demonstrate your value, we're committed to investing in your success.
+                                            </p>
+                                        </div>
+                                        <input type="hidden" id="expectedRate" name="expectedRate" value="8.00">
                                     </div>
                                 </div>
                             </div>
