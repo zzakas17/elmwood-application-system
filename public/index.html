@@ -1824,21 +1824,15 @@
             position: relative;
             cursor: pointer;
             display: block;
-            border: 2px solid var(--border-light);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            padding: 0;
+            transition: border-color 0.2s ease;
             background: var(--bg-white);
-            box-shadow: var(--shadow-xs);
         }
 
         .radio-card:hover {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(26, 61, 92, 0.04) 0%, rgba(26, 61, 92, 0.08) 100%);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                0 12px 32px rgba(13, 40, 71, 0.15),
-                0 0 0 1px rgba(13, 40, 71, 0.1) inset;
         }
 
         .radio-card input[type="radio"]:checked ~ .radio-card-content {
@@ -1847,11 +1841,7 @@
 
         .radio-card:has(input[type="radio"]:checked) {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(26, 61, 92, 0.08) 0%, rgba(26, 61, 92, 0.12) 100%);
-            box-shadow: 
-                0 8px 24px rgba(13, 40, 71, 0.2),
-                0 0 0 2px rgba(13, 40, 71, 0.1) inset;
-            transform: translateY(-2px);
+            border-width: 2px;
         }
 
         .radio-card input[type="radio"] {
@@ -1863,29 +1853,21 @@
 
         .radio-card-content {
             padding: 20px;
-            border: 2px solid var(--border-light);
-            border-radius: 12px;
+            border: none;
+            border-radius: 0;
             background: var(--bg-white);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.2s ease;
             height: 100%;
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-xs);
         }
 
         .radio-card:hover .radio-card-content {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(26, 61, 92, 0.04) 0%, rgba(26, 61, 92, 0.08) 100%);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                0 12px 32px rgba(13, 40, 71, 0.15),
-                0 0 0 1px rgba(13, 40, 71, 0.1) inset;
+            background: var(--bg-light);
         }
 
         .radio-card input[type="radio"]:checked + .radio-card-content {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(26, 61, 92, 0.05) 0%, rgba(26, 61, 92, 0.08) 100%);
-            box-shadow: var(--shadow-colored);
+            background: var(--bg-light);
         }
 
         .radio-card input[type="radio"]:checked + .radio-card-content::before {
@@ -1929,17 +1911,17 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 0;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: border-color 0.2s ease, background 0.2s ease;
             background: var(--bg-white);
         }
 
         .checkbox-item:hover {
             border-color: var(--primary);
-            background: rgba(26, 61, 92, 0.02);
+            background: var(--bg-light);
         }
 
         .checkbox-item input[type="checkbox"] {
@@ -1956,7 +1938,8 @@
 
         .checkbox-item:has(input[type="checkbox"]:checked) {
             border-color: var(--primary);
-            background: rgba(26, 61, 92, 0.05);
+            border-width: 2px;
+            background: var(--bg-light);
         }
 
         /* Submit Section */
@@ -2159,13 +2142,13 @@
         /* Footer */
         .footer {
             text-align: left;
-            padding: 50px 40px;
-            color: var(--text-secondary);
+            padding: 56px 40px;
+            color: var(--text-primary);
             font-size: 13px;
             background: var(--bg-white);
-            border-top: 2px solid var(--border-light);
+            border-top: 1px solid var(--border);
             margin-top: 80px;
-            line-height: 1.8;
+            line-height: 1.7;
         }
 
         .footer-content {
@@ -2191,10 +2174,10 @@
         }
 
         .footer p {
-            color: var(--text-secondary);
+            color: var(--text-primary);
             font-size: 13px;
             line-height: 1.7;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .footer-links {
@@ -2226,11 +2209,11 @@
             background: var(--bg-light);
             border: 1px solid var(--border);
             border-radius: 0;
-            padding: 20px;
-            margin-top: 24px;
+            padding: 24px;
+            margin-top: 32px;
             font-size: 12px;
-            color: var(--text-secondary);
-            line-height: 1.6;
+            color: var(--text-primary);
+            line-height: 1.7;
         }
 
         .disclaimer-box strong {
