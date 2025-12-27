@@ -5397,6 +5397,73 @@
             // Initial progress update
             updateProgress();
         });
+
+        // Preview Modal Functions (Global)
+        function openPreviewModal(fileName, fileType, dataUrl = null) {
+            const modal = document.getElementById('previewModal');
+            const modalBody = document.getElementById('previewModalBody');
+            
+            if (!modal || !modalBody) return;
+            
+            modalBody.innerHTML = '';
+            
+            if (fileType === 'image' && dataUrl) {
+                const img = document.createElement('img');
+                img.src = dataUrl;
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                modalBody.appendChild(img);
+            } else if (fileType === 'video' && dataUrl) {
+                const video = document.createElement('video');
+                video.src = dataUrl;
+                video.controls = true;
+                video.style.maxWidth = '100%';
+                video.style.height = 'auto';
+                modalBody.appendChild(video);
+            } else if (fileType === 'pdf' && dataUrl) {
+                const iframe = document.createElement('iframe');
+                iframe.src = dataUrl;
+                iframe.style.width = '100%';
+                iframe.style.height = '90vh';
+                iframe.style.border = 'none';
+                modalBody.appendChild(iframe);
+            } else {
+                modalBody.innerHTML = `<div style="padding: 40px; text-align: center; color: var(--text-secondary);">Preview not available for ${fileName}</div>`;
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePreviewModal() {
+            const modal = document.getElementById('previewModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                const modalBody = document.getElementById('previewModalBody');
+                if (modalBody) {
+                    modalBody.innerHTML = '';
+                }
+            }
+        }
+        
+        // Close preview modal on outside click
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('previewModal');
+            if (modal && e.target === modal) {
+                closePreviewModal();
+            }
+        });
+        
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePreviewModal();
+                if (typeof closeApplicationSummary === 'function') {
+                    closeApplicationSummary();
+                }
+            }
+        });
     </script>
 </body>
 </html>
