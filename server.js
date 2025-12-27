@@ -151,8 +151,7 @@ app.post('/api/submit-application', upload.fields([
             roleSpecific: {
                 transactionCoordination: req.body.transactionCoordination,
                 systemsWorkflows: req.body.systemsWorkflows,
-                complexDeal: req.body.complexDeal,
-                whyHireYou: req.body.whyHireYou
+                whyHireYou: req.body.careerGoals // Combined with careerGoals
             },
             availability: {
                 timezone: req.body.timezone,
@@ -161,8 +160,8 @@ app.post('/api/submit-application', upload.fields([
                         startDate: req.body.startDate,
                         workEnvironment: req.body.workEnvironment
             },
-                    rates: {
-                        expectedRate: req.body.expectedRate,
+            rates: {
+                expectedRate: req.body.expectedRate,
                         currencyPreference: 'USD' // Always USD
                     },
             videos: {
@@ -174,11 +173,8 @@ app.post('/api/submit-application', upload.fields([
             },
             portfolio: req.files?.portfolioFiles ? req.files.portfolioFiles.map(file => file.filename) : [],
             fitAssessment: {
-                difficultSituation: req.body.difficultSituation,
                 communicationPreference: req.body.communicationPreference,
-                phoneExperience: req.body.phoneExperience,
-                timeManagement: req.body.timeManagement,
-                attentionToDetail: req.body.attentionToDetail,
+                timeManagement: req.body.timeManagement, // Combined with difficultSituation
                 careerGoals: req.body.careerGoals
             }
         };
