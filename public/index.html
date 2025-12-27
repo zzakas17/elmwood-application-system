@@ -12,45 +12,27 @@
         }
 
         :root {
-            /* Refined Color Palette */
-            --primary: #0d2847;
-            --primary-dark: #081a2e;
-            --primary-light: #1a3d5c;
-            --primary-lighter: #2a5d7a;
-            --primary-gradient: linear-gradient(135deg, #0d2847 0%, #1a3d5c 50%, #2a5d7a 100%);
-            --primary-gradient-hover: linear-gradient(135deg, #081a2e 0%, #0d2847 50%, #1a3d5c 100%);
-            --accent: #1e40af;
-            --accent-light: #3b82f6;
-            --text-primary: #0a1629;
-            --text-secondary: #334155;
-            --text-light: #64748b;
-            --text-muted: #94a3b8;
-            --border: #cbd5e1;
-            --border-light: #e2e8f0;
-            --border-subtle: #f1f5f9;
-            --bg-light: #f8fafc;
+            /* Institutional Color Palette */
+            --primary: #1a1a1a;
+            --primary-dark: #000000;
+            --primary-light: #333333;
+            --accent: #0066cc;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-light: #6b6b6b;
+            --text-muted: #999999;
+            --border: #d0d0d0;
+            --border-light: #e5e5e5;
+            --bg-light: #f5f5f5;
             --bg-white: #ffffff;
-            --bg-elevated: #ffffff;
-            --bg-overlay: rgba(255, 255, 255, 0.8);
-            --success: #059669;
-            --success-light: #d1fae5;
-            --error: #dc2626;
-            --error-light: #fee2e2;
-            --info: #0284c7;
-            --info-light: #e0f2fe;
-            --warning: #d97706;
-            --warning-light: #fef3c7;
+            --success: #006600;
+            --error: #cc0000;
+            --info: #0066cc;
             
-            /* Sophisticated Shadows */
-            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-            --shadow-2xl: 0 30px 60px -12px rgba(0, 0, 0, 0.18);
-            --shadow-colored: 0 10px 15px -3px rgba(13, 40, 71, 0.12), 0 4px 6px -4px rgba(13, 40, 71, 0.08);
-            --shadow-colored-lg: 0 20px 25px -5px rgba(13, 40, 71, 0.15), 0 8px 10px -6px rgba(13, 40, 71, 0.1);
+            /* Minimal Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
             
             /* Spacing Scale */
             --space-xs: 4px;
@@ -59,43 +41,25 @@
             --space-lg: 24px;
             --space-xl: 32px;
             --space-2xl: 48px;
-            --space-3xl: 64px;
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(13, 40, 71, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(26, 61, 92, 0.02) 0%, transparent 50%),
-                linear-gradient(180deg, #fafbfc 0%, #f1f5f9 50%, #e8edf3 100%);
-            background-attachment: fixed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
             color: var(--text-primary);
-            line-height: 1.65;
-            font-size: 15px;
+            line-height: 1.6;
+            font-size: 14px;
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-            letter-spacing: -0.011em;
-            font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
         }
 
         .application-wrapper {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            animation: fadeInPage 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes fadeInPage {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
         }
 
         /* Portal Top Bar */
@@ -103,11 +67,8 @@
             position: sticky;
             top: 0;
             z-index: 200;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border-bottom: 1px solid var(--border-light);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            background: #ffffff;
+            border-bottom: 2px solid var(--border);
             padding: 0;
         }
 
@@ -127,18 +88,16 @@
         }
 
         .portal-logo {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-gradient);
-            border-radius: 10px;
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 700;
-            font-size: 18px;
-            box-shadow: 0 4px 12px rgba(13, 40, 71, 0.25);
-            letter-spacing: -0.5px;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
         }
 
         .portal-brand-text {
@@ -147,10 +106,9 @@
         }
 
         .portal-brand-name {
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 600;
             color: var(--text-primary);
-            letter-spacing: -0.3px;
             line-height: 1.2;
         }
 
@@ -158,50 +116,29 @@
             font-size: 11px;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-weight: 500;
         }
 
         /* Progress Bar */
         .progress-container {
             position: relative;
             z-index: 100;
-            background: rgba(248, 250, 252, 0.6);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-subtle);
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-light);
         }
 
         .progress-bar {
-            height: 3px;
-            background: var(--border-subtle);
+            height: 2px;
+            background: var(--border-light);
             position: relative;
-            overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 50%, var(--primary-lighter) 100%);
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--primary);
+            transition: width 0.3s ease;
             width: 0%;
-            box-shadow: 0 0 20px rgba(13, 40, 71, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
         }
 
         .progress-info {
@@ -214,98 +151,47 @@
         }
 
         .progress-text {
-            font-size: 13px;
+            font-size: 11px;
             color: var(--text-secondary);
             font-weight: 500;
-            letter-spacing: 0.01em;
             text-transform: uppercase;
-            font-size: 11px;
+            letter-spacing: 0.5px;
         }
 
         .progress-percentage {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.02em;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         /* Header */
         .header {
-            background: linear-gradient(180deg, #0d2847 0%, #1a3d5c 50%, #2a5d7a 100%);
+            background: var(--primary);
             color: #ffffff;
             padding: 0;
-            position: relative;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 
-                0 20px 60px rgba(13, 40, 71, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-            overflow: hidden;
-            margin-top: 0;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
-                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
-            pointer-events: none;
-            opacity: 0.4;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+            border-bottom: 3px solid var(--accent);
         }
 
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 40px 50px;
-            position: relative;
-            z-index: 1;
+            padding: 48px 40px 40px;
         }
 
         .header h1 {
-            font-size: 52px;
-            font-weight: 700;
-            margin-bottom: 18px;
-            letter-spacing: -1.4px;
-            line-height: 1.1;
-            color: #ffffff !important;
-            text-shadow: 
-                0 4px 12px rgba(0, 0, 0, 0.6),
-                0 2px 6px rgba(0, 0, 0, 0.5),
-                0 1px 3px rgba(0, 0, 0, 0.4),
-                0 0 2px rgba(0, 0, 0, 0.3);
-            font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
-            position: relative;
-            z-index: 2;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            color: #ffffff;
         }
 
         .header p {
-            font-size: 19px;
-            opacity: 1 !important;
-            color: #ffffff !important;
-            font-weight: 500;
-            letter-spacing: -0.25px;
-            line-height: 1.65;
-            text-shadow: 
-                0 3px 10px rgba(0, 0, 0, 0.55),
-                0 2px 5px rgba(0, 0, 0, 0.45),
-                0 1px 2px rgba(0, 0, 0, 0.35);
-            max-width: 750px;
-            position: relative;
-            z-index: 2;
+            font-size: 15px;
+            color: #ffffff;
+            font-weight: 400;
+            line-height: 1.5;
+            max-width: 700px;
         }
 
         /* Main Container */
@@ -419,10 +305,12 @@
         }
 
         .nav-link.completed::before {
-            content: '✓';
+            content: 'Complete';
             margin-right: 8px;
-            color: var(--success);
-            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
         }
 
         .nav-link.completed.active::before {
@@ -1822,9 +1710,9 @@
 
         /* Permission Prompt */
         .permission-prompt {
-            background: linear-gradient(135deg, rgba(26, 61, 92, 0.05) 0%, rgba(26, 61, 92, 0.02) 100%);
-            border: 2px solid var(--primary);
-            border-radius: 12px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 4px;
             padding: 32px;
             text-align: center;
             margin-bottom: 20px;
@@ -2023,8 +1911,9 @@
         }
 
         .btn-primary {
-            background: var(--primary-gradient);
+            background: var(--primary);
             color: white;
+            border: none;
         }
 
         .btn-primary:hover {
@@ -2065,29 +1954,21 @@
         .btn-secondary {
             background: var(--bg-white);
             color: var(--text-primary);
-            border: 2px solid var(--border);
-            padding: 18px 36px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
+            border: 1px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s ease;
             display: inline-block;
         }
 
         .btn-secondary:hover {
             background: var(--bg-light);
             border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-icon {
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 1;
-        }
 
         .recording-timer-wrapper {
             display: flex;
@@ -2100,22 +1981,10 @@
         }
 
         .recording-indicator {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             background: #dc2626;
             border-radius: 50%;
-            animation: pulse-dot 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.7;
-                transform: scale(1.2);
-            }
         }
 
         .recording-timer {
@@ -3577,21 +3446,18 @@
                             
                             <div class="portal-welcome-features">
                                 <div class="portal-feature">
-                                    <div class="portal-feature-icon">✓</div>
                                     <div class="portal-feature-content">
                                         <h4>Auto-Save Enabled</h4>
                                         <p>Your progress is automatically saved to your browser. You can return anytime to continue (files must be re-uploaded)</p>
                                     </div>
                                 </div>
                                 <div class="portal-feature">
-                                    <div class="portal-feature-icon">🔒</div>
                                     <div class="portal-feature-content">
                                         <h4>Secure & Confidential</h4>
                                         <p>All information is encrypted and handled with strict confidentiality</p>
                                     </div>
                                 </div>
                                 <div class="portal-feature">
-                                    <div class="portal-feature-icon">⏱</div>
                                     <div class="portal-feature-content">
                                         <h4>Complete at Your Pace</h4>
                                         <p>Take your time—you can return to complete sections later</p>
@@ -4222,7 +4088,7 @@
                                         <div id="recordSection" class="video-preview-container" style="display: none;">
                                             <div id="permissionPrompt" class="permission-prompt" style="display: block;">
                                                 <div class="permission-prompt-content">
-                                                    <h4>📹 Camera & Microphone Access Required</h4>
+                                                    <h4>Camera & Microphone Access Required</h4>
                                                     <p>To record your video introduction, we need access to your camera and microphone.</p>
                                                     <div class="permission-steps">
                                                         <div class="permission-step">
