@@ -5,6 +5,13 @@ const fs = require('fs');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 
+// Load environment variables from .env file if it exists
+try {
+    require('dotenv').config();
+} catch (e) {
+    // dotenv not installed, that's okay - use environment variables directly
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
