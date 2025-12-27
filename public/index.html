@@ -174,7 +174,7 @@
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-4xl) var(--space-2xl) var(--space-3xl);
+            padding: var(--space-5xl) var(--space-2xl) var(--space-4xl);
         }
 
         .header h1 {
@@ -206,7 +206,7 @@
             flex: 1;
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-3xl) var(--space-2xl) var(--space-4xl);
+            padding: var(--space-4xl) var(--space-2xl) var(--space-5xl);
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
@@ -217,7 +217,7 @@
             border: 2px solid var(--border);
             border-radius: 0;
             margin-bottom: var(--space-4xl);
-            box-shadow: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             transition: none;
         }
 
@@ -225,6 +225,10 @@
             background: var(--bg-white);
             padding: var(--space-5xl) var(--space-3xl);
             border-bottom: 3px solid var(--border);
+        }
+
+        .position-card:first-of-type {
+            margin-top: 0;
         }
 
         .position-card-header h2 {
@@ -240,6 +244,7 @@
             margin: 0 0 var(--space-xl) 0;
             font-weight: var(--font-weight-normal);
             text-align: left;
+            letter-spacing: 0.01em;
         }
 
         .position-card-header > p:first-of-type {
@@ -248,6 +253,7 @@
             font-weight: var(--font-weight-semibold);
             margin-bottom: var(--space-2xl);
             line-height: var(--line-height-relaxed);
+            letter-spacing: 0.02em;
         }
 
         .position-details {
@@ -313,14 +319,19 @@
             left: var(--space-md);
             top: var(--space-md);
             color: var(--primary);
-            font-size: 8px;
+            font-size: 10px;
             line-height: 1;
+            font-weight: var(--font-weight-bold);
         }
 
         .job-description {
             padding: var(--space-5xl) var(--space-3xl);
             background: var(--bg-light);
             border-top: 3px solid var(--border);
+        }
+
+        .job-description .job-section:first-child {
+            margin-top: 0;
         }
 
         .job-section {
@@ -363,8 +374,9 @@
             left: var(--space-md);
             top: var(--space-md);
             color: var(--primary);
-            font-size: 8px;
+            font-size: 10px;
             line-height: 1;
+            font-weight: var(--font-weight-bold);
         }
 
         .job-note {
@@ -373,6 +385,7 @@
             background: var(--bg-white);
             border: 2px solid var(--border);
             border-left: 5px solid var(--primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .job-note p {
@@ -399,23 +412,25 @@
             cursor: pointer;
             width: 100%;
             max-width: 600px;
-            margin: var(--space-6xl) auto;
+            margin: var(--space-6xl) auto var(--space-5xl);
             text-transform: uppercase;
             letter-spacing: 1.2px;
             transition: background 0.2s ease, border-color 0.2s ease;
             text-align: center;
             text-decoration: none;
-            box-shadow: none;
+            box-shadow: 0 2px 8px rgba(10, 22, 41, 0.15);
         }
 
         .start-application-btn:hover {
             background: var(--primary-dark);
             border-color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(10, 22, 41, 0.25);
         }
 
         .start-application-btn:active {
             background: var(--primary-dark);
             border-color: var(--primary-dark);
+            box-shadow: 0 1px 4px rgba(10, 22, 41, 0.2);
         }
 
         /* Sticky CTA Button */
