@@ -322,6 +322,28 @@ async function sendEmailWithPDF(to, subject, html, text, pdfBuffer, applicantNam
     }
 }
 
+// Send email function (simple, no attachments - for candidate confirmation)
+async function sendEmail(to, subject, html, text) {
+    if (!emailConfig.enabled || !transporter) {
+        console.log('📧 Email disabled or not configured, skipping email to:', to);
+        return;
+    }
+
+    try {
+        await transporter.sendMail({
+            from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+            to: to,
+            subject: subject,
+            html: html,
+            text: text || html.replace(/<[^>]*>/g, '')
+        });
+        console.log('✅ Email sent successfully to:', to);
+    } catch (error) {
+        console.error('❌ Error sending email:', error);
+        throw error;
+    }
+}
+
 const upload = multer({
     storage: storage,
     limits: {
