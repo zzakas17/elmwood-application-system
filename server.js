@@ -344,13 +344,14 @@ app.post('/api/submit-application', upload.fields([
     }
 });
 
-// Diagnostic endpoint
+// Health check endpoint (also used for keep-alive)
 app.get('/api/health', (req, res) => {
     const dataFile = path.join(__dirname, 'data', 'applications.json');
     const dataDir = path.join(__dirname, 'data');
     
     const info = {
         server: 'running',
+        timestamp: new Date().toISOString(),
         dataDirectory: {
             exists: fs.existsSync(dataDir),
             path: dataDir
@@ -386,6 +387,11 @@ app.get('/api/health', (req, res) => {
     }
     
     res.json(info);
+});
+
+// Keep-alive endpoint (simple ping to prevent sleep)
+app.get('/ping', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Get all applications (admin endpoint)

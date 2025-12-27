@@ -4,6 +4,8 @@ services:
     env: node
     buildCommand: npm install
     startCommand: npm start
+    plan: starter  # Use Starter plan ($7/month) to prevent auto-sleep
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
