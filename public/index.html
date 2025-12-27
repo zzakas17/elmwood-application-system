@@ -4829,18 +4829,14 @@
             // File upload handlers
             const videoInput = document.getElementById('video1');
             const resumeInput = document.getElementById('resume');
-            const coverLetterInput = document.getElementById('coverLetter');
             const portfolioInput = document.getElementById('portfolio');
             const fileSelected = document.getElementById('fileSelected');
             const resumeSelected = document.getElementById('resumeSelected');
-            const coverLetterSelected = document.getElementById('coverLetterSelected');
             const portfolioFiles = document.getElementById('portfolioFiles');
             const fileName = document.getElementById('fileName');
             const resumeFileName = document.getElementById('resumeFileName');
-            const coverLetterFileName = document.getElementById('coverLetterFileName');
             const removeFile = document.getElementById('removeFile');
             const removeResume = document.getElementById('removeResume');
-            const removeCoverLetter = document.getElementById('removeCoverLetter');
 
             function getFileIcon(file) {
                 const ext = file.name.split('.').pop().toLowerCase();
@@ -4986,11 +4982,9 @@
 
             const videoPreviewContainer = document.getElementById('videoPreview');
             const resumePreviewContainer = document.getElementById('resumePreview');
-            const coverLetterPreviewContainer = document.getElementById('coverLetterPreview');
             
             setupFileUpload(videoInput, fileSelected, fileName, removeFile, 100 * 1024 * 1024, 'video', videoPreviewContainer);
             setupFileUpload(resumeInput, resumeSelected, resumeFileName, removeResume, 10 * 1024 * 1024, 'document', resumePreviewContainer);
-            setupFileUpload(coverLetterInput, coverLetterSelected, coverLetterFileName, removeCoverLetter, 10 * 1024 * 1024, 'document', coverLetterPreviewContainer);
 
             // Portfolio files (multiple files) with previews
             const portfolioPreviewContainer = document.getElementById('portfolioPreview');
