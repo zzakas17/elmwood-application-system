@@ -338,31 +338,30 @@ async function sendEmailWithPDF(to, subject, html, text, pdfBuffer, applicantNam
     }
 
     try {
-        const attachments = [
-            {
-                filename: `Application_${(applicantName || 'Unknown').replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.pdf`,
-                content: pdfBuffer,
-                contentType: 'application/pdf'
-            }
-        ];
+        const filesToAttach = [];
+        let totalSize = 0;
 
-        // Add video attachment if exists
+        // Collect video attachment if exists
         if (applicationData.videos?.video1) {
             const videoPath = path.join(__dirname, 'uploads', 'videos', applicationData.videos.video1);
             if (fs.existsSync(videoPath)) {
-                attachments.push({
+                const stats = fs.statSync(videoPath);
+                totalSize += stats.size;
+                filesToAttach.push({
                     filename: `video_${applicationData.videos.video1}`,
                     path: videoPath
                 });
-                console.log('📹 Adding video attachment:', applicationData.videos.video1);
+                console.log('📹 Adding video attachment:', applicationData.videos.video1, `(${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
             }
         }
 
-        // Add resume attachment if exists
+        // Collect resume attachment if exists
         if (applicationData.documents?.resume) {
             const resumePath = path.join(__dirname, 'uploads', 'documents', applicationData.documents.resume);
             if (fs.existsSync(resumePath)) {
-                attachments.push({
+                const stats = fs.statSync(resumePath);
+                totalSize += stats.size;
+                filesToAttach.push({
                     filename: `resume_${applicationData.documents.resume}`,
                     path: resumePath
                 });
@@ -370,17 +369,64 @@ async function sendEmailWithPDF(to, subject, html, text, pdfBuffer, applicantNam
             }
         }
 
-        // Add portfolio files if they exist
+        // Collect portfolio files if they exist
         if (applicationData.portfolio && applicationData.portfolio.length > 0) {
             applicationData.portfolio.forEach((portfolioFile) => {
                 const portfolioPath = path.join(__dirname, 'uploads', 'portfolio', portfolioFile);
                 if (fs.existsSync(portfolioPath)) {
-                    attachments.push({
+                    const stats = fs.statSync(portfolioPath);
+                    totalSize += stats.size;
+                    filesToAttach.push({
                         filename: `portfolio_${portfolioFile}`,
                         path: portfolioPath
                     });
                     console.log('📎 Adding portfolio attachment:', portfolioFile);
                 }
+            });
+        }
+
+        // Add PDF size
+        totalSize += pdfBuffer.length;
+
+        // Always zip if there are files to attach (better delivery, single attachment)
+        let attachments = [];
+        
+        if (filesToAttach.length > 0) {
+            // Create zip file with all attachments
+            const zipFilename = path.join(__dirname, 'uploads', `application_${applicationData.id}_${Date.now()}.zip`);
+            console.log('📦 Creating zip file for better email delivery...');
+            
+            const zipBuffer = await createZipFile(
+                {
+                    pdf: {
+                        content: pdfBuffer,
+                        filename: `Application_${(applicantName || 'Unknown').replace(/[^a-zA-Z0-9]/g, '_')}.pdf`
+                    },
+                    files: filesToAttach
+                },
+                zipFilename
+            );
+            
+            attachments.push({
+                filename: `Application_${(applicantName || 'Unknown').replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.zip`,
+                content: zipBuffer,
+                contentType: 'application/zip'
+            });
+            
+            // Clean up zip file
+            try {
+                fs.unlinkSync(zipFilename);
+            } catch (e) {
+                // Ignore cleanup errors
+            }
+            
+            console.log('✅ All files zipped into single attachment');
+        } else {
+            // Only PDF, no need to zip
+            attachments.push({
+                filename: `Application_${(applicantName || 'Unknown').replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.pdf`,
+                content: pdfBuffer,
+                contentType: 'application/pdf'
             });
         }
 
