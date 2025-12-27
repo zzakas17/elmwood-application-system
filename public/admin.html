@@ -1457,6 +1457,272 @@
         // Auto-refresh every 30 seconds
         setInterval(refreshData, 30000);
 
+        // Analytics Functions
+        function showAnalytics() {
+            const modal = document.getElementById('analyticsModal');
+            const body = document.getElementById('analyticsBody');
+            
+            // Calculate statistics
+            const total = applications.length;
+            const byStatus = {
+                new: applications.filter(a => (a.status || 'new') === 'new').length,
+                reviewing: applications.filter(a => a.status === 'reviewing').length,
+                interview: applications.filter(a => a.status === 'interview').length,
+                hired: applications.filter(a => a.status === 'hired').length,
+                rejected: applications.filter(a => a.status === 'rejected').length
+            };
+            
+            const byRating = {
+                5: applications.filter(a => a.rating === 5).length,
+                4: applications.filter(a => a.rating === 4).length,
+                3: applications.filter(a => a.rating === 3).length,
+                2: applications.filter(a => a.rating === 2).length,
+                1: applications.filter(a => a.rating === 1).length,
+                0: applications.filter(a => !a.rating || a.rating === 0).length
+            };
+            
+            const withVideos = applications.filter(a => a.videos && a.videos.video1).length;
+            const withPortfolio = applications.filter(a => a.portfolio && a.portfolio.length > 0).length;
+            const withLinkedIn = applications.filter(a => a.personalInfo && a.personalInfo.linkedin).length;
+            
+            const now = new Date();
+            const thisWeek = applications.filter(a => {
+                const submitted = new Date(a.submittedAt);
+                return (now - submitted) <= 7 * 24 * 60 * 60 * 1000;
+            }).length;
+            
+            const ratedApps = applications.filter(a => a.rating && a.rating > 0);
+            const avgRating = ratedApps.length > 0
+                ? (applications.reduce((sum, a) => sum + (a.rating || 0), 0) / ratedApps.length).toFixed(1)
+                : '0.0';
+            
+            body.innerHTML = `
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Application Status</h3>
+                        <div class="status-bar">
+                            <div class="status-bar-item status-bar-new" title="New">${byStatus.new}</div>
+                            <div class="status-bar-item status-bar-reviewing" title="Reviewing">${byStatus.reviewing}</div>
+                            <div class="status-bar-item status-bar-interview" title="Interview">${byStatus.interview}</div>
+                            <div class="status-bar-item status-bar-hired" title="Hired">${byStatus.hired}</div>
+                            <div class="status-bar-item status-bar-rejected" title="Rejected">${byStatus.rejected}</div>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Rating Distribution</h3>
+                        <div style="margin-top: 15px;">
+                            <div style="margin-bottom: 8px;"><strong>5 Stars:</strong> ${byRating[5]}</div>
+                            <div style="margin-bottom: 8px;"><strong>4 Stars:</strong> ${byRating[4]}</div>
+                            <div style="margin-bottom: 8px;"><strong>3 Stars:</strong> ${byRating[3]}</div>
+                            <div style="margin-bottom: 8px;"><strong>2 Stars:</strong> ${byRating[2]}</div>
+                            <div style="margin-bottom: 8px;"><strong>1 Star:</strong> ${byRating[1]}</div>
+                            <div style="margin-bottom: 8px;"><strong>Not Rated:</strong> ${byRating[0]}</div>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Application Quality</h3>
+                        <div class="analytics-stat">${avgRating}</div>
+                        <div class="analytics-label">Average Rating</div>
+                        <div style="margin-top: 15px;">
+                            <div style="margin-bottom: 8px;">With Videos: ${withVideos} (${total > 0 ? Math.round(withVideos/total*100) : 0}%)</div>
+                            <div style="margin-bottom: 8px;">With Portfolio: ${withPortfolio} (${total > 0 ? Math.round(withPortfolio/total*100) : 0}%)</div>
+                            <div style="margin-bottom: 8px;">With LinkedIn: ${withLinkedIn} (${total > 0 ? Math.round(withLinkedIn/total*100) : 0}%)</div>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Recent Activity</h3>
+                        <div class="analytics-stat">${thisWeek}</div>
+                        <div class="analytics-label">Applications This Week</div>
+                        <div style="margin-top: 15px;">
+                            <div style="margin-bottom: 8px;">Total Applications: ${total}</div>
+                            <div style="margin-bottom: 8px;">Top Candidates (4+): ${applications.filter(a => a.rating && a.rating >= 4).length}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+        
+        function closeAnalytics() {
+            document.getElementById('analyticsModal').style.display = 'none';
+        }
+        
+        // Bulk Email Functions
+        function showBulkEmail() {
+            const modal = document.getElementById('bulkEmailModal');
+            const select = document.getElementById('bulkEmailRecipients');
+            
+            select.innerHTML = applications.map(app => {
+                const name = app.personalInfo?.fullName || 'Unknown';
+                const email = app.personalInfo?.email || '';
+                const status = app.status || 'new';
+                return `<option value="${email}">${name} (${email}) - ${status}</option>`;
+            }).join('');
+            
+            modal.style.display = 'block';
+        }
+        
+        function closeBulkEmail() {
+            document.getElementById('bulkEmailModal').style.display = 'none';
+        }
+        
+        function sendBulkEmail() {
+            const select = document.getElementById('bulkEmailRecipients');
+            const subject = document.getElementById('bulkEmailSubject').value;
+            const message = document.getElementById('bulkEmailMessage').value;
+            
+            const selectedEmails = Array.from(select.selectedOptions).map(opt => opt.value).filter(e => e);
+            
+            if (selectedEmails.length === 0) {
+                alert('Please select at least one recipient');
+                return;
+            }
+            
+            if (!subject || !message) {
+                alert('Please fill in both subject and message');
+                return;
+            }
+            
+            // Create mailto links (browser will open email client)
+            const emailBody = encodeURIComponent(message);
+            const emailSubject = encodeURIComponent(subject);
+            
+            selectedEmails.forEach(email => {
+                const mailtoLink = `mailto:${email}?subject=${emailSubject}&body=${emailBody}`;
+                window.open(mailtoLink);
+            });
+            
+            alert(`Opening email client for ${selectedEmails.length} recipient(s). You can send the email from there.`);
+            closeBulkEmail();
+        }
+        
+        // PDF Export Functions
+        function exportApplicationToPDF(btn) {
+            const appId = btn.closest('.modal-content')?.querySelector('[data-app-id]')?.getAttribute('data-app-id') || 
+                         document.querySelector('[data-app-id]')?.getAttribute('data-app-id');
+            if (!appId) {
+                // Try to get from current modal
+                const modalBody = document.getElementById('modalBody');
+                const appName = modalBody?.querySelector('.detail-value')?.textContent;
+                const app = applications.find(a => a.personalInfo?.fullName === appName || a.id === appId);
+                if (!app) {
+                    alert('Application not found');
+                    return;
+                }
+                generateAndDownloadPDF(app);
+                return;
+            }
+            
+            const app = applications.find(a => a.id === appId);
+            if (!app) {
+                alert('Application not found');
+                return;
+            }
+            
+            generateAndDownloadPDF(app);
+        }
+        
+        function exportSelectedToPDF() {
+            const selected = Array.from(document.querySelectorAll('.row-checkbox:checked')).map(cb => cb.value);
+            if (selected.length === 0) {
+                alert('Please select at least one application');
+                return;
+            }
+            
+            selected.forEach((appId, index) => {
+                const app = applications.find(a => a.id === appId);
+                if (app) {
+                    setTimeout(() => {
+                        generateAndDownloadPDF(app);
+                    }, index * 500);
+                }
+            });
+        }
+        
+        function generateAndDownloadPDF(app) {
+            const pdfContent = generatePDFContent(app);
+            const blob = new Blob([pdfContent], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `application-${(app.personalInfo?.fullName || app.id).replace(/\s+/g, '-')}.html`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+        
+        function generatePDFContent(app) {
+            return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Application - ${app.personalInfo?.fullName || 'Unknown'}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; line-height: 1.6; }
+        h1 { color: #1a3d5c; border-bottom: 3px solid #1a3d5c; padding-bottom: 10px; }
+        h2 { color: #1a3d5c; margin-top: 30px; }
+        .section { margin-bottom: 25px; }
+        .row { margin-bottom: 10px; }
+        .label { font-weight: 600; color: #666; }
+        .value { margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Application Details - ${app.personalInfo?.fullName || 'Unknown'}</h1>
+    <p><strong>Application ID:</strong> ${app.id}</p>
+    <p><strong>Submitted:</strong> ${new Date(app.submittedAt).toLocaleString()}</p>
+    <p><strong>Status:</strong> ${app.status || 'new'}</p>
+    <p><strong>Rating:</strong> ${app.rating ? '★'.repeat(app.rating) : 'Not rated'}</p>
+    
+    <h2>Personal Information</h2>
+    <div class="section">
+        <div class="row"><span class="label">Name:</span><span class="value">${app.personalInfo?.fullName || 'N/A'}</span></div>
+        <div class="row"><span class="label">Email:</span><span class="value">${app.personalInfo?.email || 'N/A'}</span></div>
+        <div class="row"><span class="label">Phone:</span><span class="value">${app.personalInfo?.phone || 'N/A'}</span></div>
+        <div class="row"><span class="label">Location:</span><span class="value">${app.personalInfo?.location || 'N/A'}</span></div>
+        ${app.personalInfo?.linkedin ? `<div class="row"><span class="label">LinkedIn:</span><span class="value">${app.personalInfo.linkedin}</span></div>` : ''}
+    </div>
+    
+    <h2>Experience</h2>
+    <div class="section">
+        <div class="row"><span class="label">Marketing/Design Experience:</span><span class="value">${app.experience?.marketingDesignExperience || 'N/A'}</span></div>
+        <div class="row"><span class="label">CRE Experience:</span><span class="value">${app.experience?.creExperience || 'N/A'}</span></div>
+        <div class="row"><span class="label">Previous Role:</span><span class="value">${app.experience?.previousRole || 'N/A'}</span></div>
+    </div>
+    
+    ${app.notes ? `<h2>Notes</h2><div class="section"><p>${app.notes}</p></div>` : ''}
+    
+    <p style="margin-top: 40px; color: #666; font-size: 12px;">Generated on ${new Date().toLocaleString()}</p>
+</body>
+</html>`;
+        }
+        
+        // Store current app ID when showing details
+        const originalShowDetails = showApplicationDetails;
+        showApplicationDetails = function(id) {
+            originalShowDetails(id);
+            // Store app ID for PDF export
+            setTimeout(() => {
+                const exportBtn = document.querySelector('[onclick*="exportApplicationToPDF"]');
+                if (exportBtn) {
+                    exportBtn.setAttribute('data-app-id', id);
+                }
+            }, 100);
+        };
+        
+        // Close modals on outside click
+        window.addEventListener('click', (event) => {
+            const modals = ['applicationModal', 'analyticsModal', 'bulkEmailModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target === modal) {
+                    if (modalId === 'applicationModal') closeModal();
+                    if (modalId === 'analyticsModal') closeAnalytics();
+                    if (modalId === 'bulkEmailModal') closeBulkEmail();
+                }
+            });
+        });
+        
         // Initial load
         fetchApplications();
     </script>
