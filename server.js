@@ -555,7 +555,8 @@ app.post('/api/submit-application', upload.fields([
                     managerHtml, 
                     managerHtml.replace(/<[^>]*>/g, ''),
                     pdfBuffer,
-                    applicationData.personalInfo?.fullName || 'Unknown'
+                    applicationData.personalInfo?.fullName || 'Unknown',
+                    applicationData
                 );
 
                 // Confirmation email to candidate (no PDF needed)
