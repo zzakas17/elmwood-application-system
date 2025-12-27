@@ -2090,6 +2090,30 @@
         /* Start Application Button */
         .start-application-btn {
             display: none;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 0;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background 0.2s ease;
+        }
+
+        .start-application-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .start-application-btn:active {
+            background: var(--primary-dark);
         }
 
         .job-description-toggle {
@@ -3042,16 +3066,7 @@
             <div class="position-card">
                 <div class="position-card-header">
                     <h2>About Elmwood & Company</h2>
-                    <p>Elmwood & Company is a U.S.-based industrial real estate brokerage specializing in the acquisition, disposition, and leasing of industrial properties including warehouses, distribution centers, manufacturing facilities, and logistics hubs.</p>
-                </div>
-                <button class="job-description-toggle" onclick="toggleCompanyDetails()">View Company Details</button>
-                <div class="company-details">
-                    <div class="job-description-content company-content">
-                    <div class="company-section">
-                        <h3>Our Work Environment</h3>
-                        <p>We operate in a fast-paced, detail-oriented environment where accuracy and professionalism are paramount. Our team collaborates closely to ensure seamless transaction coordination from initial contract execution through closing. Every document, deadline, and communication matters in ensuring successful outcomes for our clients.</p>
-                    </div>
-                    </div>
+                    <p>U.S.-based industrial real estate brokerage specializing in the acquisition, disposition, and leasing of industrial properties. We operate in a fast-paced, detail-oriented environment where accuracy and professionalism are paramount.</p>
                 </div>
             </div>
 
@@ -3061,9 +3076,9 @@
                 <div class="position-card-header">
                     <h2>Position: Marketing & Operations Coordinator</h2>
                     <p>Full-time remote role supporting industrial real estate brokerage operations</p>
-                    <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
-                        <p style="line-height: 1.8; color: var(--text-primary); font-size: 15px;">
-                            This is a direct hire position with Elmwood & Company—we are hiring this role directly with no middleman, agency, or third-party recruiters. This is a director-level position with significant responsibility and impact, offering the opportunity to work directly with our CEO and Senior Brokers on high-level decision-making and strategic initiatives. You'll support transactions and relationships with institutional clients, providing valuable experience in enterprise-level real estate. This role offers professional growth as you develop expertise in industrial real estate while building relationships with industry leaders. Your work directly supports major transactions and client relationships, giving you meaningful visibility into the business, and you'll have the opportunity to master marketing design, transaction coordination, CRM systems, and client communication in a fast-paced environment. Successful candidates will move forward in our interview process, which we've designed to ensure a great fit for both you and our team. Elmwood & Company is a fast-growing company with abundant opportunities for professional growth and advancement. We foster a collaborative work environment, maintain an excellent company culture, and operate with respect and professionalism in all our business interactions.
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                        <p style="line-height: 1.7; color: var(--text-primary); font-size: 14px;">
+                            <strong>Direct hire, director-level position.</strong> Work directly with CEO and Senior Brokers on high-level initiatives. Support institutional clients and major transactions. Fast-growing company with collaborative culture and abundant growth opportunities. Successful candidates will move forward in our interview process.
                         </p>
                     </div>
                 </div>
