@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Submitted - Elmwood & Company</title>
+    <title>Application Submitted - Industrial Real Estate Brokerage</title>
     <style>
         * {
             margin: 0;
@@ -219,11 +219,11 @@
         <div class="actions">
             <button onclick="downloadReceipt()" class="btn btn-secondary">Download Receipt</button>
             <a href="/" class="btn btn-secondary">Return to Application</a>
-            <a href="mailto:careers@elmwood.co" class="btn btn-primary">Contact Us</a>
+            <a href="mailto:careers@realestatebrokerage.com" class="btn btn-primary">Contact Us</a>
         </div>
 
         <div class="contact-info">
-            <p>Questions? Contact us at <a href="mailto:careers@elmwood.co">careers@elmwood.co</a></p>
+            <p>Questions? Contact us at <a href="mailto:careers@realestatebrokerage.com">careers@realestatebrokerage.com</a></p>
         </div>
     </div>
 
@@ -247,7 +247,7 @@
             };
 
             const receiptText = `
-ELMWOOD & COMPANY
+INDUSTRIAL REAL ESTATE BROKERAGE
 Application Receipt
 
 Application ID: ${receipt.applicationId}
@@ -255,7 +255,7 @@ Position: ${receipt.position}
 Submitted: ${receipt.submittedAt}
 Status: ${receipt.status}
 
-Thank you for your interest in joining Elmwood & Company. 
+Thank you for your interest in joining our team. 
 We have received your application and will review it carefully.
 
 Next Steps:
@@ -263,9 +263,9 @@ Next Steps:
 - If your qualifications match our needs, we'll contact you via email
 - You can expect to hear from us within 1-2 weeks
 
-Questions? Contact us at careers@elmwood.co
+Questions? Contact us at careers@realestatebrokerage.com
 
-© 2024 Elmwood & Company. All rights reserved.
+© 2024 Industrial Real Estate Brokerage. All rights reserved.
             `.trim();
 
             const blob = new Blob([receiptText], { type: 'text/plain' });
