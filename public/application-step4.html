@@ -647,14 +647,18 @@
         }
 
         .video-recording-container {
-            margin-top: var(--space-lg);
+            margin-top: var(--space-xl);
+            padding: var(--space-xl);
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 0;
         }
 
         .video-recording-options {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: var(--space-md);
-            margin-bottom: var(--space-xl);
+            gap: var(--space-lg);
+            margin-bottom: 0;
         }
 
         .video-option-btn {
@@ -1005,6 +1009,10 @@
 
                         <!-- Video Recording Options -->
                         <div class="video-recording-container">
+                            <div style="margin-bottom: var(--space-lg);">
+                                <label style="font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); color: var(--text-primary); margin-bottom: var(--space-md); display: block;">Choose Your Method:</label>
+                                <p style="font-size: var(--font-size-base); color: var(--text-secondary); margin-bottom: var(--space-lg);">Record your video directly in your browser or upload a pre-recorded video file.</p>
+                            </div>
                             <div class="video-recording-options">
                                 <button type="button" class="video-option-btn" id="recordOption" onclick="switchToRecord()">
                                     <span class="video-option-icon">🎥</span>
