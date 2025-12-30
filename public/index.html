@@ -144,10 +144,10 @@
         }
 
         h1 {
-            font-size: var(--font-size-4xl);
+            font-size: 36px;
             font-weight: var(--font-weight-bold);
-            line-height: var(--line-height-tight);
-            letter-spacing: -0.4px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
             margin: 0;
         }
 
@@ -161,14 +161,15 @@
         }
 
         h3 {
-            font-size: var(--font-size-lg);
+            font-size: 13px;
             font-weight: var(--font-weight-bold);
             color: var(--text-primary);
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            margin-top: var(--space-2xl);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding-bottom: var(--space-md);
-            border-bottom: 2px solid var(--primary);
+            letter-spacing: 1.2px;
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--border);
             display: block;
             width: 100%;
         }
@@ -192,19 +193,22 @@
 
         .header h1 {
             color: #ffffff !important;
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-md);
             font-weight: var(--font-weight-bold);
-            letter-spacing: -0.5px;
-            font-size: 32px;
+            letter-spacing: -0.6px;
+            font-size: 36px;
         }
 
         .header p {
-            font-size: var(--font-size-lg);
-            color: rgba(255, 255, 255, 0.95) !important;
+            font-size: var(--font-size-base);
+            color: rgba(255, 255, 255, 0.85) !important;
             font-weight: var(--font-weight-normal);
             line-height: var(--line-height-relaxed);
             max-width: 700px;
-            letter-spacing: 0.15px;
+            letter-spacing: 0.1px;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
         }
 
         .scrollable-content {
@@ -217,9 +221,9 @@
 
         .main-container {
             flex: 1;
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: var(--space-4xl) var(--space-2xl) var(--space-5xl);
+            padding: var(--space-5xl) var(--space-2xl) var(--space-6xl);
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
@@ -236,8 +240,8 @@
 
         .position-card-header {
             background: var(--bg-white);
-            padding: var(--space-4xl) var(--space-3xl);
-            border-bottom: 2px solid var(--border);
+            padding: var(--space-5xl) var(--space-3xl);
+            border-bottom: 1px solid var(--border);
         }
 
         .position-card:first-of-type {
@@ -245,28 +249,29 @@
         }
 
         .position-card-header h2 {
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-lg);
             font-weight: var(--font-weight-bold);
-            letter-spacing: -0.4px;
+            letter-spacing: -0.3px;
+            font-size: 28px;
         }
 
         .position-card-header p {
             color: var(--text-secondary);
-            font-size: var(--font-size-base);
-            line-height: var(--line-height-loose);
-            margin: 0 0 var(--space-xl) 0;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0 0 var(--space-2xl) 0;
             font-weight: var(--font-weight-normal);
             text-align: left;
-            letter-spacing: 0.01em;
+            letter-spacing: -0.01em;
         }
 
         .position-card-header > p:first-of-type {
-            font-size: var(--font-size-lg);
+            font-size: 16px;
             color: var(--text-primary);
-            font-weight: var(--font-weight-semibold);
-            margin-bottom: var(--space-2xl);
-            line-height: var(--line-height-relaxed);
-            letter-spacing: 0.02em;
+            font-weight: var(--font-weight-medium);
+            margin-bottom: var(--space-3xl);
+            line-height: 1.7;
+            letter-spacing: -0.01em;
         }
 
         .position-details {
@@ -276,9 +281,9 @@
         }
 
         .position-detail-section {
-            margin-bottom: var(--space-3xl);
-            padding-bottom: var(--space-2xl);
-            border-bottom: 2px solid var(--border-light);
+            margin-bottom: var(--space-4xl);
+            padding-bottom: var(--space-3xl);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .position-detail-section:last-child {
@@ -317,11 +322,11 @@
         }
 
         .position-detail-section li {
-            padding: var(--space-md) 0 var(--space-md) var(--space-2xl);
+            padding: var(--space-sm) 0 var(--space-sm) var(--space-2xl);
             position: relative;
             color: var(--text-secondary);
-            line-height: var(--line-height-loose);
-            font-size: var(--font-size-base);
+            line-height: 1.7;
+            font-size: 15px;
             font-weight: var(--font-weight-normal);
             text-align: left;
         }
@@ -339,8 +344,8 @@
 
         .job-description {
             padding: var(--space-5xl) var(--space-3xl);
-            background: var(--bg-light);
-            border-top: 3px solid var(--border);
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
         }
 
         .job-description .job-section:first-child {
@@ -356,14 +361,14 @@
         }
 
         .job-section h3 {
-            font-size: var(--font-size-lg);
+            font-size: 13px;
             font-weight: var(--font-weight-bold);
-            color: var(--primary);
-            margin-bottom: var(--space-xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-lg);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 3px solid var(--primary);
-            padding-bottom: var(--space-md);
+            letter-spacing: 1.2px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: var(--space-sm);
         }
 
         .job-section ul {
@@ -373,11 +378,11 @@
         }
 
         .job-section li {
-            padding: var(--space-md) 0 var(--space-md) var(--space-2xl);
+            padding: var(--space-sm) 0 var(--space-sm) var(--space-2xl);
             position: relative;
             color: var(--text-secondary);
-            line-height: var(--line-height-loose);
-            font-size: var(--font-size-base);
+            line-height: 1.7;
+            font-size: 15px;
             text-align: left;
         }
 
@@ -393,18 +398,18 @@
         }
 
         .job-note {
-            margin-top: var(--space-2xl);
-            padding: var(--space-xl) var(--space-2xl);
+            margin-top: var(--space-3xl);
+            padding: var(--space-2xl);
             background: var(--bg-light);
             border: 1px solid var(--border);
-            border-left: 3px solid var(--primary);
+            border-left: 2px solid var(--primary);
         }
 
         .job-note p {
             margin: 0;
             color: var(--text-primary);
-            line-height: var(--line-height-loose);
-            font-size: var(--font-size-base);
+            line-height: 1.7;
+            font-size: 15px;
         }
 
         .job-note strong {
@@ -416,30 +421,28 @@
             display: block;
             background: var(--primary);
             color: white;
-            border: 2px solid var(--primary);
-            padding: 20px 40px;
+            border: none;
+            padding: 18px 36px;
             border-radius: 0;
-            font-size: var(--font-size-lg);
+            font-size: 15px;
             font-weight: var(--font-weight-semibold);
             cursor: pointer;
             width: 100%;
-            max-width: 500px;
-            margin: var(--space-5xl) auto var(--space-4xl);
+            max-width: 480px;
+            margin: var(--space-6xl) auto var(--space-5xl);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            transition: background 0.2s ease, border-color 0.2s ease;
+            letter-spacing: 0.6px;
+            transition: background 0.2s ease;
             text-align: center;
             text-decoration: none;
         }
 
         .start-application-btn:hover {
             background: var(--primary-dark);
-            border-color: var(--primary-dark);
         }
 
         .start-application-btn:active {
             background: var(--primary-dark);
-            border-color: var(--primary-dark);
         }
 
         /* Sticky CTA Button */
