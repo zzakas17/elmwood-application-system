@@ -95,66 +95,18 @@
         .security-indicator {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-size: 11px;
             color: var(--text-secondary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .security-indicator::before {
-            content: '🔒';
-            font-size: 14px;
-            filter: grayscale(0.3);
-        }
-
-        .trust-badges {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .trust-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 10px;
-            color: var(--text-light);
             font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            padding: 4px 8px;
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            border-radius: 4px;
-        }
-
-        .trust-badge-icon {
-            width: 12px;
-            height: 12px;
-            display: inline-block;
-            background: var(--success);
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .trust-badge-icon::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 8px;
-            font-weight: bold;
+            letter-spacing: 0.8px;
         }
 
         .portal-topbar-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px 40px;
+            padding: 18px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -167,18 +119,16 @@
         }
 
         .portal-logo {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 1px;
-            border: 2px solid var(--primary-dark);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
         }
 
         .portal-brand-text {
@@ -218,7 +168,7 @@
             text-transform: uppercase;
             letter-spacing: 0.8px;
             padding-bottom: var(--space-md);
-            border-bottom: 3px solid var(--primary);
+            border-bottom: 2px solid var(--primary);
             display: block;
             width: 100%;
         }
@@ -237,7 +187,7 @@
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-5xl) var(--space-2xl) var(--space-4xl);
+            padding: var(--space-4xl) var(--space-2xl) var(--space-3xl);
         }
 
         .header h1 {
@@ -277,17 +227,17 @@
 
         .position-card {
             background: var(--bg-white);
-            border: 2px solid var(--border);
+            border: 1px solid var(--border);
             border-radius: 0;
             margin-bottom: var(--space-4xl);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            box-shadow: none;
             transition: none;
         }
 
         .position-card-header {
             background: var(--bg-white);
-            padding: var(--space-5xl) var(--space-3xl);
-            border-bottom: 3px solid var(--border);
+            padding: var(--space-4xl) var(--space-3xl);
+            border-bottom: 2px solid var(--border);
         }
 
         .position-card:first-of-type {
@@ -445,10 +395,9 @@
         .job-note {
             margin-top: var(--space-2xl);
             padding: var(--space-xl) var(--space-2xl);
-            background: var(--bg-white);
-            border: 2px solid var(--border);
-            border-left: 5px solid var(--primary);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--primary);
         }
 
         .job-note p {
@@ -467,33 +416,30 @@
             display: block;
             background: var(--primary);
             color: white;
-            border: 3px solid var(--primary);
-            padding: 24px 48px;
+            border: 2px solid var(--primary);
+            padding: 20px 40px;
             border-radius: 0;
             font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
+            font-weight: var(--font-weight-semibold);
             cursor: pointer;
             width: 100%;
-            max-width: 600px;
-            margin: var(--space-6xl) auto var(--space-5xl);
+            max-width: 500px;
+            margin: var(--space-5xl) auto var(--space-4xl);
             text-transform: uppercase;
-            letter-spacing: 1.2px;
+            letter-spacing: 0.8px;
             transition: background 0.2s ease, border-color 0.2s ease;
             text-align: center;
             text-decoration: none;
-            box-shadow: 0 2px 8px rgba(10, 22, 41, 0.15);
         }
 
         .start-application-btn:hover {
             background: var(--primary-dark);
             border-color: var(--primary-dark);
-            box-shadow: 0 4px 12px rgba(10, 22, 41, 0.25);
         }
 
         .start-application-btn:active {
             background: var(--primary-dark);
             border-color: var(--primary-dark);
-            box-shadow: 0 1px 4px rgba(10, 22, 41, 0.2);
         }
 
         /* Sticky CTA Button */
@@ -503,10 +449,10 @@
             left: 0;
             right: 0;
             background: var(--bg-white);
-            border-top: 3px solid var(--primary);
+            border-top: 2px solid var(--border);
             padding: var(--space-md) var(--space-2xl);
             z-index: 1000;
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
             display: none;
             align-items: center;
             justify-content: center;
@@ -520,15 +466,15 @@
             background: var(--primary);
             color: white;
             border: 2px solid var(--primary);
-            padding: 16px 32px;
+            padding: 14px 28px;
             font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
+            font-weight: var(--font-weight-semibold);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.6px;
             cursor: pointer;
             text-decoration: none;
             transition: background 0.2s ease, border-color 0.2s ease;
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
         }
@@ -550,48 +496,15 @@
 
         .footer {
             text-align: center;
-            padding: var(--space-4xl) var(--space-2xl) var(--space-3xl);
+            padding: var(--space-3xl) var(--space-2xl);
             color: var(--text-primary);
             font-size: var(--font-size-base);
-            background: var(--bg-light);
-            border-top: 3px solid var(--border);
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
             flex-shrink: 0;
             z-index: 1;
         }
 
-        .footer-section {
-            margin-bottom: var(--space-xl);
-        }
-
-        .footer-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .footer-title {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-bold);
-            color: var(--text-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: var(--space-md);
-        }
-
-        .footer-contact {
-            font-size: var(--font-size-sm);
-            color: var(--text-secondary);
-            line-height: var(--line-height-relaxed);
-            margin-bottom: var(--space-sm);
-        }
-
-        .footer-contact a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: var(--font-weight-medium);
-        }
-
-        .footer-contact a:hover {
-            text-decoration: underline;
-        }
 
         .footer-content {
             max-width: 1200px;
@@ -848,17 +761,7 @@
                     <div class="portal-brand-name">Secure Application Portal</div>
                 </div>
             </div>
-            <div class="trust-badges">
-                <div class="security-indicator">SSL Secured</div>
-                <div class="trust-badge">
-                    <span class="trust-badge-icon"></span>
-                    <span>256-bit Encryption</span>
-                </div>
-                <div class="trust-badge">
-                    <span class="trust-badge-icon"></span>
-                    <span>GDPR Compliant</span>
-                </div>
-            </div>
+            <div class="security-indicator">SSL Secured</div>
         </div>
     </div>
 
@@ -943,20 +846,10 @@
 
         <div class="footer">
             <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-title">Secure Application Portal</div>
-                    <div class="footer-contact">
-                        <p style="margin-bottom: 8px;">For questions or support regarding your application, please contact:</p>
-                        <p style="margin-bottom: 4px;"><strong>Email:</strong> <a href="mailto:applications@company.com">applications@company.com</a></p>
-                        <p style="margin-bottom: 0;"><strong>Hours:</strong> Monday - Friday, 9:00 AM - 5:00 PM EST</p>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <div class="footer-links">
-                        <a href="#" onclick="event.preventDefault(); showPrivacyModal(); return false;">Privacy Policy</a>
-                        <span>•</span>
-                        <a href="#" onclick="event.preventDefault(); showTermsModal(); return false;">Terms of Service</a>
-                    </div>
+                <div class="footer-links">
+                    <a href="#" onclick="event.preventDefault(); showPrivacyModal(); return false;">Privacy Policy</a>
+                    <span>•</span>
+                    <a href="#" onclick="event.preventDefault(); showTermsModal(); return false;">Terms of Service</a>
                 </div>
             </div>
         </div>
