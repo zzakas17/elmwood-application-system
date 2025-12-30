@@ -1096,8 +1096,13 @@
     </div>
 
     <script>
-        // Sticky CTA Button
+        // Sticky CTA Button - Desktop only
         function handleStickyCta() {
+            // Only enable on desktop
+            if (window.innerWidth <= 768) {
+                return;
+            }
+
             const stickyCta = document.getElementById('stickyCta');
             const startBtn = document.querySelector('.start-application-btn');
             const scrollableContent = document.querySelector('.scrollable-content');
@@ -1124,6 +1129,26 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             handleStickyCta();
+            
+            // On mobile, always show sticky button
+            if (window.innerWidth <= 768) {
+                const stickyCta = document.getElementById('stickyCta');
+                if (stickyCta) {
+                    stickyCta.classList.add('visible');
+                }
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                const stickyCta = document.getElementById('stickyCta');
+                if (stickyCta) {
+                    stickyCta.classList.add('visible');
+                }
+            } else {
+                handleStickyCta();
+            }
         });
 
         // Terms of Service Modal
