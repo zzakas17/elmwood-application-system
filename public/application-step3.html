@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 3: Assessment - Application Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/portal-utils.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a1629;
+            --primary-dark: #050a14;
+            --primary-light: #1a2332;
+            --primary-gradient: linear-gradient(135deg, #0a1629 0%, #1a2332 100%);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --bg-light: #fafbfc;
+            --bg-white: #ffffff;
+            --success: #059669;
+            --error: #dc2626;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 40px;
+            --space-3xl: 48px;
+            --space-4xl: 64px;
+            --space-5xl: 80px;
+            --space-6xl: 96px;
+            --font-size-base: 15px;
+            --font-size-md: 16px;
+            --font-size-lg: 18px;
+            --font-size-xl: 20px;
+            --font-size-2xl: 24px;
+            --font-size-3xl: 30px;
+            --font-size-4xl: 36px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: var(--font-size-base);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            min-height: 100vh;
+        }
+
+        /* Portal Top Bar */
+        .portal-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .portal-topbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .portal-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .portal-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .portal-brand-name {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            letter-spacing: 0.3px;
+        }
+
+        .security-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .progress-percentage {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.3px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: var(--border-light);
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+        }
+
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-lg) 40px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-3xl) 40px var(--space-2xl);
+            text-align: center;
+        }
+
+        .step-indicator h1 {
+            font-size: 36px;
+            font-weight: var(--font-weight-bold);
+            letter-spacing: -0.8px;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .step-indicator p {
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-xs) var(--space-md);
+            background: var(--primary-gradient);
+            color: white;
+            font-size: 12px;
+            font-weight: var(--font-weight-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-radius: 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px var(--space-6xl);
+        }
+
+        .form-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            padding: var(--space-5xl);
+            margin-bottom: var(--space-4xl);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+        }
+
+        .form-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-section {
+            margin-bottom: var(--space-5xl);
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-3xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .section-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            letter-spacing: -0.4px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .required {
+            color: var(--error);
+            font-weight: var(--font-weight-bold);
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 0;
+            font-size: var(--font-size-base);
+            font-family: inherit;
+            transition: var(--transition-base);
+            background: var(--bg-white);
+            color: var(--text-primary);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(10, 22, 41, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+            line-height: 1.7;
+        }
+
+        .error-message {
+            font-size: var(--font-size-sm);
+            color: var(--error);
+            margin-top: var(--space-xs);
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .char-counter {
+            font-size: var(--font-size-sm);
+            color: var(--text-light);
+            text-align: right;
+            margin-top: var(--space-xs);
+        }
+
+        .field-help-text {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-top: var(--space-xs);
+            margin-bottom: var(--space-md);
+            line-height: 1.6;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-md);
+            margin-top: var(--space-5xl);
+            padding-top: var(--space-4xl);
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 16px 32px;
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--bg-white);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: var(--bg-light);
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: var(--space-xl);
+            right: var(--space-xl);
+            background: var(--success);
+            color: white;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: 0;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            display: none;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 0 var(--space-md) var(--space-5xl);
+            }
+
+            .form-card {
+                padding: var(--space-3xl);
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-topbar">
+        <div class="portal-topbar-content">
+            <div class="portal-brand">
+                <div class="portal-logo">E</div>
+                <div class="portal-brand-name">Application Portal</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="security-indicator">
+                    <span>🔒</span>
+                    <span>SSL Secured</span>
+                </div>
+                <div class="progress-percentage" id="progressPercentage">0% Complete</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <a href="index.html">Position Details</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="portal.html">Portal</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="application-step1.html">Step 1</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="application-step2.html">Step 2</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Step 3: Assessment</span>
+    </div>
+
+    <div class="step-indicator">
+        <div class="step-badge">Step 3 of 4</div>
+        <h1>Assessment</h1>
+        <p>Share your experience and career goals with us</p>
+    </div>
+
+    <div class="main-content">
+        <form id="step3Form" class="form-card">
+            <!-- Assessment -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-number">1</div>
+                    <h2 class="section-title">Assessment</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="transactionCoordination">Describe your experience managing complex transactions or projects, including documentation, timelines, due diligence, stakeholder coordination, and any experience improving systems and workflows (or relevant transferable experience) <span class="required">*</span></label>
+                        <textarea id="transactionCoordination" name="transactionCoordination" placeholder="If you have real estate experience, include details about managing transaction documentation, timelines, due diligence materials, and coordinating with multiple stakeholders. If not, describe similar complex projects you've managed..." required maxlength="3000"></textarea>
+                        <div class="char-counter" id="transactionCoordination-counter">0 / 3000 characters</div>
+                        <div class="error-message" id="transactionCoordination-error"></div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="timeManagement">Describe how you handle challenges, manage multiple deadlines and competing priorities, and overcome difficult situations at work <span class="required">*</span></label>
+                        <textarea id="timeManagement" name="timeManagement" placeholder="Provide a specific example of a difficult project or challenging situation you overcame, including the situation, how you handled it, and the outcome..." required maxlength="2500"></textarea>
+                        <div class="char-counter" id="timeManagement-counter">0 / 2500 characters</div>
+                        <div class="error-message" id="timeManagement-error"></div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="careerGoals">Why are you interested in this role, and how does it fit into your career goals over the next 2-3 years? <span class="required">*</span></label>
+                        <textarea id="careerGoals" name="careerGoals" placeholder="Describe what draws you to this position, how it aligns with your career goals, where you see yourself in 2-3 years, and how this role fits into your professional aspirations." required maxlength="2000"></textarea>
+                        <div class="char-counter" id="careerGoals-counter">0 / 2000 characters</div>
+                        <div class="error-message" id="careerGoals-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="managementExperience">Do you have experience managing people or managing teams? <span class="required">*</span></label>
+                        <select id="managementExperience" name="managementExperience" required>
+                            <option value="">Select...</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                        <div class="error-message" id="managementExperience-error"></div>
+                    </div>
+                    <div class="form-group full-width" id="managementExampleSection" style="display: none;">
+                        <label for="managementExample">If yes, please provide an example of your experience managing people or teams <span class="required">*</span></label>
+                        <textarea id="managementExample" name="managementExample" placeholder="Describe a specific example of when you managed people or teams, including the size of the team, your responsibilities, and the outcomes achieved." maxlength="1500"></textarea>
+                        <div class="char-counter" id="managementExample-counter">0 / 1500 characters</div>
+                        <div class="error-message" id="managementExample-error"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-number">2</div>
+                    <h2 class="section-title">Additional Information</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="accommodations">Do you require any reasonable accommodations to complete your application or perform the essential functions of this role? (Optional)</label>
+                        <textarea id="accommodations" name="accommodations" placeholder="If you require any reasonable accommodations or have disabilities that need to be addressed, please describe them here. This information will be kept confidential and used only to ensure we can provide appropriate support and make reasonable accommodations as required by law." maxlength="1000"></textarea>
+                        <div class="char-counter" id="accommodations-counter">0 / 1000 characters</div>
+                        <div class="error-message" id="accommodations-error"></div>
+                        <p class="field-help-text">We are committed to providing reasonable accommodations to qualified individuals with disabilities. If you need assistance with the application process or require accommodations, please provide details above and we will work with you to ensure you can participate fully in our recruitment process.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="application-step2.html" class="btn btn-secondary">← Back to Step 2</a>
+                <button type="submit" class="btn btn-primary">Continue to Step 4 →</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="save-indicator" id="saveIndicator">Saved</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('step3Form');
+            const savedData = PortalUtils.getData();
+            
+            // Populate form with saved data
+            PortalUtils.populateForm(form, savedData);
+            
+            // Setup auto-save
+            PortalUtils.setupAutoSave(form);
+            
+            // Initialize progress
+            PortalUtils.initProgress();
+            
+            // Handle management experience conditional logic
+            const managementExperience = document.getElementById('managementExperience');
+            const managementExampleSection = document.getElementById('managementExampleSection');
+            
+            if (managementExperience) {
+                managementExperience.addEventListener('change', function() {
+                    if (this.value === 'yes') {
+                        managementExampleSection.style.display = 'block';
+                        managementExampleSection.querySelector('textarea').setAttribute('required', 'required');
+                    } else {
+                        managementExampleSection.style.display = 'none';
+                        managementExampleSection.querySelector('textarea').removeAttribute('required');
+                    }
+                });
+                
+                // Initialize on load
+                if (managementExperience.value === 'yes') {
+                    managementExampleSection.style.display = 'block';
+                    managementExampleSection.querySelector('textarea').setAttribute('required', 'required');
+                }
+            }
+            
+            // Character counters
+            const textareas = ['transactionCoordination', 'timeManagement', 'careerGoals', 'managementExample', 'accommodations'];
+            textareas.forEach(id => {
+                const textarea = document.getElementById(id);
+                const counter = document.getElementById(id + '-counter');
+                if (textarea && counter) {
+                    textarea.addEventListener('input', function() {
+                        const maxLength = this.getAttribute('maxlength');
+                        counter.textContent = this.value.length + ' / ' + maxLength + ' characters';
+                    });
+                    // Initialize counter
+                    if (textarea.value) {
+                        const maxLength = textarea.getAttribute('maxlength');
+                        counter.textContent = textarea.value.length + ' / ' + maxLength + ' characters';
+                    }
+                }
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Save data
+                const formData = PortalUtils.serializeForm(form);
+                PortalUtils.saveData(formData);
+                PortalUtils.markStepCompleted(3);
+                
+                // Navigate to next step
+                window.location.href = 'application-step4.html';
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 4: Documents & Media - Application Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/portal-utils.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a1629;
+            --primary-dark: #050a14;
+            --primary-light: #1a2332;
+            --primary-gradient: linear-gradient(135deg, #0a1629 0%, #1a2332 100%);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --bg-light: #fafbfc;
+            --bg-white: #ffffff;
+            --success: #059669;
+            --error: #dc2626;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 40px;
+            --space-3xl: 48px;
+            --space-4xl: 64px;
+            --space-5xl: 80px;
+            --space-6xl: 96px;
+            --font-size-base: 15px;
+            --font-size-md: 16px;
+            --font-size-lg: 18px;
+            --font-size-xl: 20px;
+            --font-size-2xl: 24px;
+            --font-size-3xl: 30px;
+            --font-size-4xl: 36px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: var(--font-size-base);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            min-height: 100vh;
+        }
+
+        /* Portal Top Bar */
+        .portal-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .portal-topbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .portal-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .portal-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .portal-brand-name {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            letter-spacing: 0.3px;
+        }
+
+        .security-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .progress-percentage {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.3px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: var(--border-light);
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+        }
+
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-lg) 40px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-3xl) 40px var(--space-2xl);
+            text-align: center;
+        }
+
+        .step-indicator h1 {
+            font-size: 36px;
+            font-weight: var(--font-weight-bold);
+            letter-spacing: -0.8px;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .step-indicator p {
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-xs) var(--space-md);
+            background: var(--primary-gradient);
+            color: white;
+            font-size: 12px;
+            font-weight: var(--font-weight-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-radius: 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px var(--space-6xl);
+        }
+
+        .form-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            padding: var(--space-5xl);
+            margin-bottom: var(--space-4xl);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+        }
+
+        .form-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-section {
+            margin-bottom: var(--space-5xl);
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-3xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .section-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-lg);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            letter-spacing: -0.4px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .required {
+            color: var(--error);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .field-help-text {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-top: var(--space-xs);
+            margin-bottom: var(--space-md);
+            line-height: 1.6;
+        }
+
+        .error-message {
+            font-size: var(--font-size-sm);
+            color: var(--error);
+            margin-top: var(--space-xs);
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* File Upload */
+        .file-upload-wrapper {
+            position: relative;
+        }
+
+        .file-upload {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 24px;
+            border: 2px dashed var(--border);
+            border-radius: 0;
+            background: var(--bg-white);
+            cursor: pointer;
+            transition: var(--transition-base);
+            text-align: center;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--primary);
+            border-style: solid;
+            background: var(--bg-light);
+        }
+
+        .file-upload-text {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .file-upload-hint {
+            font-size: var(--font-size-sm);
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .file-selected {
+            padding: 12px 16px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: var(--space-md);
+        }
+
+        .file-selected-name {
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            font-weight: var(--font-weight-medium);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .file-selected-name::before {
+            content: '✓';
+            background: var(--success);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: var(--font-weight-bold);
+            margin-right: var(--space-xs);
+        }
+
+        .file-selected-remove {
+            background: none;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+            transition: var(--transition-base);
+        }
+
+        .file-selected-remove:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .portfolio-files {
+            margin-top: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .portfolio-file-item {
+            padding: 12px 16px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: var(--font-size-base);
+        }
+
+        .portfolio-file-name {
+            color: var(--text-primary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .portfolio-file-remove {
+            background: none;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-base);
+        }
+
+        .portfolio-file-remove:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .video-instructions {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .video-instructions h4 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .video-instructions p {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-md);
+        }
+
+        .video-instructions ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .video-instructions li {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xs);
+            padding-left: var(--space-lg);
+            position: relative;
+        }
+
+        .video-instructions li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-md);
+            margin-top: var(--space-5xl);
+            padding-top: var(--space-4xl);
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 16px 32px;
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--bg-white);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: var(--bg-light);
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: var(--space-xl);
+            right: var(--space-xl);
+            background: var(--success);
+            color: white;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: 0;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            display: none;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: var(--space-xs);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 0 var(--space-md) var(--space-5xl);
+            }
+
+            .form-card {
+                padding: var(--space-3xl);
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-topbar">
+        <div class="portal-topbar-content">
+            <div class="portal-brand">
+                <div class="portal-logo">E</div>
+                <div class="portal-brand-name">Application Portal</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="security-indicator">
+                    <span>🔒</span>
+                    <span>SSL Secured</span>
+                </div>
+                <div class="progress-percentage" id="progressPercentage">0% Complete</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <a href="index.html">Position Details</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="portal.html">Portal</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="application-step1.html">Step 1</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="application-step2.html">Step 2</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="application-step3.html">Step 3</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Step 4: Documents & Media</span>
+    </div>
+
+    <div class="step-indicator">
+        <div class="step-badge">Step 4 of 4</div>
+        <h1>Documents & Media</h1>
+        <p>Upload your resume, portfolio, and video introduction</p>
+    </div>
+
+    <div class="main-content">
+        <form id="step4Form" class="form-card" enctype="multipart/form-data">
+            <!-- Documents -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-number">1</div>
+                    <h2 class="section-title">Documents</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Resume <span class="required">*</span></label>
+                        <div class="file-upload-wrapper">
+                            <div class="file-upload">
+                                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                                <label for="resume" class="file-upload-label">
+                                    <div class="file-upload-text">Upload Resume</div>
+                                    <div class="file-upload-hint">PDF, DOC, or DOCX<br>Max 10MB</div>
+                                </label>
+                            </div>
+                            <div id="resumeSelected" class="file-selected" style="display: none;">
+                                <span class="file-selected-name" id="resumeFileName"></span>
+                                <button type="button" class="file-selected-remove" id="removeResume">×</button>
+                            </div>
+                        </div>
+                        <div class="error-message" id="resume-error"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Design Portfolio -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-number">2</div>
+                    <h2 class="section-title">Design Portfolio</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Upload Design Work / Portfolio Samples (Optional but Recommended)</label>
+                        <p class="field-help-text">Please upload examples of marketing materials, presentations, graphics, or other design work you've created. This could include offering memorandums, property listings, presentations, brochures, or similar professional materials.</p>
+                        <div class="file-upload-wrapper">
+                            <div class="file-upload">
+                                <input type="file" id="portfolio" name="portfolioFiles" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip" multiple>
+                                <label for="portfolio" class="file-upload-label">
+                                    <div class="file-upload-text">Click to upload portfolio files</div>
+                                    <div class="file-upload-hint">PDF, DOC, DOCX, JPG, PNG, or ZIP<br>Max 10MB per file • Multiple files allowed</div>
+                                </label>
+                            </div>
+                            <div id="portfolioFiles" class="portfolio-files"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Introduction -->
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-number">3</div>
+                    <h2 class="section-title">Video Introduction</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Video Introduction <span class="required">*</span></label>
+                        <div class="video-instructions">
+                            <h4>Video Guidelines</h4>
+                            <p>Please record a short video (under 1 minute) introducing yourself. Share one fun fact or hobby that you have, and explain why you think this role would be a good fit for you and why you would want to be in this role.</p>
+                            <ul>
+                                <li><strong>Quality:</strong> Ensure good lighting and clear audio</li>
+                                <li><strong>Duration:</strong> Keep it under 1 minute</li>
+                                <li><strong>Format:</strong> MP4, MOV, AVI, WMV, or WEBM</li>
+                            </ul>
+                        </div>
+                        <div class="file-upload-wrapper">
+                            <div class="file-upload">
+                                <input type="file" id="video1" name="video1" accept="video/*" required>
+                                <label for="video1" class="file-upload-label">
+                                    <div class="file-upload-text">Click to upload video</div>
+                                    <div class="file-upload-hint">Maximum file size: 100MB<br>Supported formats: MP4, MOV, AVI, WMV, WEBM</div>
+                                </label>
+                            </div>
+                            <div id="fileSelected" class="file-selected" style="display: none;">
+                                <span class="file-selected-name" id="fileName"></span>
+                                <button type="button" class="file-selected-remove" id="removeFile">×</button>
+                            </div>
+                        </div>
+                        <div class="error-message" id="video-error"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="application-step3.html" class="btn btn-secondary">← Back to Step 3</a>
+                <button type="submit" class="btn btn-primary">Review & Submit →</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="save-indicator" id="saveIndicator">Saved</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('step4Form');
+            
+            // Initialize progress
+            PortalUtils.initProgress();
+            
+            // File upload handlers
+            function setupFileUpload(input, selectedDiv, fileNameEl, removeBtn, maxSize) {
+                if (!input) return;
+                
+                input.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        if (file.size > maxSize) {
+                            alert(`File "${file.name}" is too large. Maximum size is ${maxSize / (1024 * 1024)}MB.`);
+                            e.target.value = '';
+                            selectedDiv.style.display = 'none';
+                            return;
+                        }
+                        fileNameEl.textContent = file.name;
+                        selectedDiv.style.display = 'flex';
+                        PortalUtils.showSaveIndicator();
+                    }
+                });
+                
+                if (removeBtn) {
+                    removeBtn.addEventListener('click', function() {
+                        input.value = '';
+                        selectedDiv.style.display = 'none';
+                    });
+                }
+            }
+            
+            // Resume upload
+            setupFileUpload(
+                document.getElementById('resume'),
+                document.getElementById('resumeSelected'),
+                document.getElementById('resumeFileName'),
+                document.getElementById('removeResume'),
+                10 * 1024 * 1024 // 10MB
+            );
+            
+            // Video upload
+            setupFileUpload(
+                document.getElementById('video1'),
+                document.getElementById('fileSelected'),
+                document.getElementById('fileName'),
+                document.getElementById('removeFile'),
+                100 * 1024 * 1024 // 100MB
+            );
+            
+            // Portfolio files (multiple)
+            const portfolioInput = document.getElementById('portfolio');
+            const portfolioFilesDiv = document.getElementById('portfolioFiles');
+            const portfolioFilesList = [];
+            
+            if (portfolioInput) {
+                portfolioInput.addEventListener('change', function(e) {
+                    const files = Array.from(e.target.files);
+                    portfolioFilesDiv.innerHTML = '';
+                    portfolioFilesList.length = 0;
+                    
+                    files.forEach((file, index) => {
+                        const maxSize = 10 * 1024 * 1024; // 10MB
+                        if (file.size > maxSize) {
+                            alert(`File "${file.name}" is too large. Maximum size is 10MB.`);
+                            return;
+                        }
+                        
+                        portfolioFilesList.push(file);
+                        
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'portfolio-file-item';
+                        fileItem.innerHTML = `
+                            <span class="portfolio-file-name">${file.name}</span>
+                            <button type="button" class="portfolio-file-remove" data-index="${index}">×</button>
+                        `;
+                        portfolioFilesDiv.appendChild(fileItem);
+                        
+                        const removeBtn = fileItem.querySelector('.portfolio-file-remove');
+                        removeBtn.addEventListener('click', function() {
+                            portfolioFilesList.splice(index, 1);
+                            fileItem.remove();
+                            // Update file input
+                            const dt = new DataTransfer();
+                            portfolioFilesList.forEach(f => dt.items.add(f));
+                            portfolioInput.files = dt.files;
+                        });
+                    });
+                    
+                    PortalUtils.showSaveIndicator();
+                });
+            }
+            
+            // Check for auto-submit parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const autosubmit = urlParams.get('autosubmit') === 'true';
+            const consent = urlParams.get('consent') === 'true';
+            
+            // If auto-submit, change button text and behavior
+            if (autosubmit) {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.textContent = 'Submit Application';
+                    submitBtn.style.background = 'var(--success)';
+                }
+            }
+            
+            // Form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Save file metadata to localStorage
+                const resumeInput = document.getElementById('resume');
+                const videoInput = document.getElementById('video1');
+                const portfolioInput = document.getElementById('portfolio');
+                
+                const fileMetadata = {
+                    hasResume: resumeInput.files.length > 0,
+                    resumeFileName: resumeInput.files.length > 0 ? resumeInput.files[0].name : null,
+                    hasVideo: videoInput.files.length > 0,
+                    videoFileName: videoInput.files.length > 0 ? videoInput.files[0].name : null,
+                    hasPortfolio: portfolioInput.files.length > 0,
+                    portfolioFileCount: portfolioInput.files.length,
+                    portfolioFileNames: Array.from(portfolioInput.files).map(f => f.name)
+                };
+                
+                const data = PortalUtils.getData();
+                data.fileMetadata = fileMetadata;
+                PortalUtils.saveData(data);
+                
+                // If auto-submit, submit directly
+                if (autosubmit) {
+                    // Get all data from localStorage
+                    const allData = PortalUtils.getData();
+                    
+                    // Create FormData with files and all form data
+                    const formData = new FormData(form);
+                    
+                    // Add all fields from localStorage
+                    Object.keys(allData).forEach(key => {
+                        if (key !== 'stepsCompleted' && key !== 'fileMetadata' && allData[key] !== null && allData[key] !== undefined) {
+                            if (Array.isArray(allData[key])) {
+                                allData[key].forEach(value => {
+                                    formData.append(key, value);
+                                });
+                            } else {
+                                formData.append(key, allData[key]);
+                            }
+                        }
+                    });
+                    
+                    // Add consent (from review page)
+                    if (consent) {
+                        formData.append('consentTermsPrivacy', 'on');
+                    }
+                    
+                    // Show loading state
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = 'Submitting...';
+                    
+                    try {
+                        const response = await fetch('/api/submit-application', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            // Clear localStorage
+                            PortalUtils.clearData();
+                            
+                            // Redirect to confirmation page
+                            window.location.href = `/confirmation.html?id=${result.applicationId}`;
+                        } else {
+                            throw new Error(result.error || 'Submission failed');
+                        }
+                    } catch (error) {
+                        console.error('Submission error:', error);
+                        alert('An error occurred while submitting your application. Please try again.');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                    }
+                } else {
+                    // Normal flow: mark step as completed and go to review
+                    PortalUtils.markStepCompleted(4);
+                    window.location.href = 'application-review.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -404,12 +404,43 @@
         <div class="cta-section">
             <h2>Ready to Begin?</h2>
             <p>Click the button below to start your application. Your progress will be saved automatically as you complete each section.</p>
-            <a href="application.html" class="start-btn">Start Application →</a>
+            <a href="application-step1.html" class="start-btn" id="startBtn">Start Application →</a>
+            <a href="application-review.html" class="start-btn" id="continueBtn" style="display: none; background: var(--success); margin-left: var(--space-md);">Continue Application →</a>
             <div>
                 <a href="index.html" class="back-link">← Return to Position Details</a>
             </div>
         </div>
     </div>
+    <script src="js/portal-utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startBtn = document.getElementById('startBtn');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            // Check if there's saved progress
+            const progress = PortalUtils.getProgress();
+            const data = PortalUtils.getData();
+            
+            if (progress.percentage > 0 && Object.keys(data).length > 0) {
+                // Show continue button
+                startBtn.textContent = 'Start New Application';
+                startBtn.style.background = 'var(--bg-light)';
+                startBtn.style.color = 'var(--text-primary)';
+                startBtn.style.border = '1px solid var(--border)';
+                continueBtn.style.display = 'inline-block';
+                
+                // Add click handler to start new (clears data)
+                startBtn.addEventListener('click', function(e) {
+                    if (confirm('Starting a new application will clear your saved progress. Are you sure?')) {
+                        PortalUtils.clearData();
+                        window.location.href = 'application-step1.html';
+                    } else {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
 

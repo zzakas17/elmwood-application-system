@@ -518,6 +518,26 @@ app.get('/application.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'application.html'));
 });
 
+app.get('/application-step1.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'application-step1.html'));
+});
+
+app.get('/application-step2.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'application-step2.html'));
+});
+
+app.get('/application-step3.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'application-step3.html'));
+});
+
+app.get('/application-step4.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'application-step4.html'));
+});
+
+app.get('/application-review.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'application-review.html'));
+});
+
 // Handle form submission
 app.post('/api/submit-application', upload.fields([
     { name: 'video1', maxCount: 1 },
