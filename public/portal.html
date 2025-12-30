@@ -26,9 +26,11 @@
             --border-light: #f1f5f9;
             --bg-light: #fafbfc;
             --bg-white: #ffffff;
+            --success: #059669;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
             --space-xs: 4px;
             --space-sm: 8px;
             --space-md: 16px;
@@ -64,10 +66,11 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+            min-height: 100vh;
         }
 
         .portal-topbar {
-            position: fixed;
+            position: sticky;
             top: 0;
             left: 0;
             right: 0;
@@ -130,138 +133,236 @@
         .main-content {
             max-width: 1000px;
             margin: 0 auto;
-            padding: calc(80px + var(--space-5xl)) var(--space-2xl) var(--space-6xl);
+            padding: var(--space-6xl) var(--space-2xl) var(--space-6xl);
         }
 
-        .welcome-header {
+        .welcome-hero {
             text-align: center;
             margin-bottom: var(--space-6xl);
+            padding: var(--space-5xl) 0;
         }
 
-        .welcome-header h1 {
-            font-size: 42px;
+        .welcome-hero h1 {
+            font-size: 48px;
             font-weight: var(--font-weight-bold);
-            letter-spacing: -0.8px;
-            line-height: 1.15;
-            margin-bottom: var(--space-lg);
+            letter-spacing: -1.2px;
+            line-height: 1.1;
+            margin-bottom: var(--space-xl);
+            color: var(--text-primary);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .welcome-hero .subtitle {
+            font-size: var(--font-size-xl);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto var(--space-3xl);
+            font-weight: var(--font-weight-normal);
+        }
+
+        .process-overview {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            padding: var(--space-5xl);
+            margin-bottom: var(--space-6xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .process-header {
+            text-align: center;
+            margin-bottom: var(--space-5xl);
+            padding-bottom: var(--space-3xl);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .process-header h2 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            letter-spacing: -0.6px;
+            margin-bottom: var(--space-md);
             color: var(--text-primary);
         }
 
-        .welcome-header p {
+        .process-header p {
             font-size: var(--font-size-lg);
             color: var(--text-secondary);
             line-height: 1.7;
-            max-width: 700px;
-            margin: 0 auto;
         }
 
-        .portal-cards {
+        .process-steps {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-3xl);
+            margin-bottom: var(--space-5xl);
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .process-step::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: calc(-50% + 30px);
+            width: calc(100% - 60px);
+            height: 1px;
+            background: var(--border);
+            display: block;
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            margin: 0 auto var(--space-xl);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+            letter-spacing: -0.2px;
+        }
+
+        .step-description {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: var(--space-3xl);
             margin-bottom: var(--space-6xl);
         }
 
-        .portal-card {
+        .info-card {
             background: var(--bg-white);
             border: 1px solid var(--border);
             padding: var(--space-4xl);
             transition: var(--transition-smooth);
             position: relative;
+        }
+
+        .info-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .info-card-number {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-light);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            flex-shrink: 0;
+        }
+
+        .info-card-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .info-card-content {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .info-card-list {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-lg) 0 0;
+        }
+
+        .info-card-list li {
+            padding: var(--space-sm) 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: var(--space-xl);
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+        }
+
+        .info-card-list li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: var(--space-6xl) var(--space-5xl);
+            background: var(--bg-white);
+            border: 2px solid var(--primary);
+            position: relative;
             overflow: hidden;
         }
 
-        .portal-card::before {
+        .cta-section::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: var(--primary-gradient);
-            opacity: 0;
-            transition: var(--transition-base);
-        }
-
-        .portal-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-        }
-
-        .portal-card:hover::before {
-            opacity: 1;
-        }
-
-        .portal-card-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-gradient);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: var(--space-xl);
-            box-shadow: var(--shadow-md);
-        }
-
-        .portal-card h3 {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            margin-bottom: var(--space-md);
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
-        }
-
-        .portal-card p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: var(--space-lg);
-        }
-
-        .portal-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .portal-card li {
-            padding: var(--space-xs) 0;
-            color: var(--text-secondary);
-            position: relative;
-            padding-left: var(--space-lg);
-        }
-
-        .portal-card li::before {
-            content: '▪';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .cta-section {
-            text-align: center;
-            padding: var(--space-5xl);
-            background: var(--bg-white);
-            border: 1px solid var(--border);
-            border-radius: 0;
         }
 
         .cta-section h2 {
-            font-size: var(--font-size-3xl);
+            font-size: var(--font-size-4xl);
             font-weight: var(--font-weight-bold);
             margin-bottom: var(--space-lg);
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
+            color: var(--text-primary);
         }
 
         .cta-section p {
-            font-size: var(--font-size-md);
+            font-size: var(--font-size-lg);
             color: var(--text-secondary);
-            margin-bottom: var(--space-3xl);
+            margin-bottom: var(--space-4xl);
             line-height: 1.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .start-btn {
@@ -301,6 +402,22 @@
             left: 100%;
         }
 
+        .start-btn.secondary {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            margin-right: var(--space-md);
+        }
+
+        .start-btn.secondary:hover {
+            background: var(--bg-white);
+            border-color: var(--primary);
+        }
+
+        .start-btn.success {
+            background: var(--success);
+        }
+
         .back-link {
             display: inline-block;
             color: var(--text-secondary);
@@ -314,6 +431,21 @@
             color: var(--text-primary);
         }
 
+        @media (max-width: 1024px) {
+            .process-steps {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-4xl);
+            }
+
+            .process-step::after {
+                display: none;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             .portal-topbar {
                 position: relative;
@@ -323,23 +455,54 @@
                 padding: var(--space-4xl) var(--space-md) var(--space-5xl);
             }
 
-            .welcome-header h1 {
-                font-size: 32px;
+            .welcome-hero {
+                padding: var(--space-3xl) 0;
             }
 
-            .portal-cards {
-                grid-template-columns: 1fr;
-                gap: var(--space-2xl);
+            .welcome-hero h1 {
+                font-size: 36px;
+                letter-spacing: -0.8px;
             }
 
-            .portal-card {
+            .welcome-hero .subtitle {
+                font-size: var(--font-size-lg);
+            }
+
+            .process-overview {
                 padding: var(--space-3xl);
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: var(--space-3xl);
+            }
+
+            .process-header h2 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .info-card {
+                padding: var(--space-3xl);
+            }
+
+            .cta-section {
+                padding: var(--space-4xl) var(--space-3xl);
+            }
+
+            .cta-section h2 {
+                font-size: var(--font-size-3xl);
             }
 
             .start-btn {
                 padding: 18px 36px;
                 width: 100%;
                 max-width: 400px;
+                display: block;
+                margin: 0 auto var(--space-md);
+            }
+
+            .start-btn.secondary {
+                margin-right: 0;
             }
         }
     </style>
@@ -359,53 +522,95 @@
     </div>
 
     <div class="main-content">
-        <div class="welcome-header">
-            <h1>Welcome to the Application Portal</h1>
-            <p>Thank you for your interest in joining our team. This portal will guide you through the application process step by step.</p>
+        <div class="welcome-hero">
+            <h1>Application Portal</h1>
+            <p class="subtitle">Begin your application for the Director - Marketing & Operations position. Your progress is automatically saved at each step.</p>
         </div>
 
-        <div class="portal-cards">
-            <div class="portal-card">
-                <div class="portal-card-icon">📋</div>
-                <h3>What to Expect</h3>
-                <p>The application process consists of several sections covering your background, experience, and qualifications.</p>
-                <ul>
-                    <li>Personal information & education</li>
-                    <li>Professional experience</li>
-                    <li>Technical skills & availability</li>
-                    <li>Portfolio & documents</li>
-                </ul>
+        <div class="process-overview">
+            <div class="process-header">
+                <h2>Application Process</h2>
+                <p>Four simple steps to complete your application</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Basic Information</div>
+                    <div class="step-description">Personal details and education background</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Experience & Skills</div>
+                    <div class="step-description">Professional experience and technical capabilities</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Assessment</div>
+                    <div class="step-description">Career goals and role-specific questions</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Documents & Review</div>
+                    <div class="step-description">Upload materials and final submission</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-card-number">01</div>
+                    <div class="info-card-title">Time Required</div>
+                </div>
+                <div class="info-card-content">
+                    <p>Approximately 20-30 minutes to complete all sections thoroughly.</p>
+                    <ul class="info-card-list">
+                        <li>Progress saves automatically</li>
+                        <li>Return anytime to continue</li>
+                        <li>Review before final submission</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="portal-card">
-                <div class="portal-card-icon">⏱️</div>
-                <h3>Time Required</h3>
-                <p>Plan to spend approximately 20-30 minutes to complete your application thoroughly.</p>
-                <ul>
-                    <li>Progress is saved automatically</li>
-                    <li>You can return anytime</li>
-                    <li>Review before submitting</li>
-                </ul>
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-card-number">02</div>
+                    <div class="info-card-title">Required Documents</div>
+                </div>
+                <div class="info-card-content">
+                    <p>Please have the following ready before you begin:</p>
+                    <ul class="info-card-list">
+                        <li>Resume or CV (PDF, DOC, DOCX)</li>
+                        <li>Video introduction (MP4, MOV, AVI)</li>
+                        <li>Portfolio samples (optional)</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="portal-card">
-                <div class="portal-card-icon">📎</div>
-                <h3>What You'll Need</h3>
-                <p>Please have the following ready before you begin:</p>
-                <ul>
-                    <li>Resume or CV (PDF preferred)</li>
-                    <li>Portfolio samples (if applicable)</li>
-                    <li>Video introduction (optional)</li>
-                    <li>Contact information</li>
-                </ul>
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-card-number">03</div>
+                    <div class="info-card-title">What to Expect</div>
+                </div>
+                <div class="info-card-content">
+                    <p>The application covers several key areas:</p>
+                    <ul class="info-card-list">
+                        <li>Personal information & education</li>
+                        <li>Professional experience & skills</li>
+                        <li>Assessment questions</li>
+                        <li>Document uploads</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <div class="cta-section">
             <h2>Ready to Begin?</h2>
-            <p>Click the button below to start your application. Your progress will be saved automatically as you complete each section.</p>
-            <a href="application-step1.html" class="start-btn" id="startBtn">Start Application →</a>
-            <a href="application-review.html" class="start-btn" id="continueBtn" style="display: none; background: var(--success); margin-left: var(--space-md);">Continue Application →</a>
+            <p>Click below to start your application. All information is securely transmitted and your progress is saved automatically.</p>
+            <div>
+                <a href="application-step1.html" class="start-btn" id="startBtn">Start Application →</a>
+                <a href="application-review.html" class="start-btn success" id="continueBtn" style="display: none;">Continue Application →</a>
+            </div>
             <div>
                 <a href="index.html" class="back-link">← Return to Position Details</a>
             </div>
@@ -424,9 +629,7 @@
             if (progress.percentage > 0 && Object.keys(data).length > 0) {
                 // Show continue button
                 startBtn.textContent = 'Start New Application';
-                startBtn.style.background = 'var(--bg-light)';
-                startBtn.style.color = 'var(--text-primary)';
-                startBtn.style.border = '1px solid var(--border)';
+                startBtn.classList.add('secondary');
                 continueBtn.style.display = 'inline-block';
                 
                 // Add click handler to start new (clears data)
@@ -443,4 +646,3 @@
     </script>
 </body>
 </html>
-
