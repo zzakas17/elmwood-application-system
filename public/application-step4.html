@@ -602,6 +602,266 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Video Recording Styles */
+        .permission-prompt {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            padding: var(--space-4xl);
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .permission-prompt-content h4 {
+            color: var(--primary);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-md);
+        }
+
+        .permission-prompt-content p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-lg);
+            line-height: 1.6;
+        }
+
+        .permission-steps {
+            background: var(--bg-white);
+            border-radius: 0;
+            padding: var(--space-xl);
+            margin: var(--space-lg) 0;
+            text-align: left;
+        }
+
+        .permission-step {
+            padding: var(--space-sm) 0;
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+        }
+
+        .permission-step strong {
+            color: var(--primary);
+            margin-right: var(--space-sm);
+        }
+
+        .video-recording-container {
+            margin-top: var(--space-lg);
+        }
+
+        .video-recording-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .video-option-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-lg) var(--space-xl);
+            border: 2px solid var(--border);
+            border-radius: 0;
+            background: var(--bg-white);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .video-option-btn:hover {
+            border-color: var(--primary);
+            background: rgba(10, 22, 41, 0.03);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .video-option-btn.active {
+            border-color: var(--primary);
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .video-option-icon {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            line-height: 1;
+        }
+
+        .video-option-text {
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .video-preview-container {
+            margin-top: var(--space-lg);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .video-preview-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto var(--space-xl);
+            border-radius: 0;
+            overflow: hidden;
+            background: #000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .video-preview {
+            width: 100%;
+            display: block;
+            border-radius: 0;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+            z-index: 10;
+        }
+
+        .video-loading {
+            text-align: center;
+            color: white;
+        }
+
+        .video-loading p {
+            margin-top: var(--space-lg);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .spinner-large {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+
+        .recording-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+        }
+
+        .recording-controls-primary {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .recording-controls-secondary {
+            display: none;
+            gap: var(--space-md);
+        }
+
+        .recording-controls-secondary.show {
+            display: flex;
+        }
+
+        .btn-record {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-lg) var(--space-2xl);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-record.recording {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .btn-icon {
+            font-size: var(--font-size-lg);
+            line-height: 1;
+        }
+
+        .recording-timer-wrapper {
+            display: none;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-lg);
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 0;
+        }
+
+        .recording-indicator {
+            width: 12px;
+            height: 12px;
+            background: var(--error);
+            border-radius: 50%;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .recording-timer {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .recording-status {
+            padding: var(--space-md);
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            text-align: center;
+            font-size: var(--font-size-base);
+            margin-top: var(--space-lg);
+        }
+
+        .recording-status.recording {
+            background: rgba(220, 38, 38, 0.1);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .recording-status.stopped {
+            background: rgba(5, 150, 105, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .recording-status.error {
+            background: rgba(220, 38, 38, 0.1);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -739,17 +999,94 @@
                                 <li><strong>Format:</strong> MP4, MOV, AVI, WMV, or WEBM</li>
                             </ul>
                         </div>
-                        <div class="file-upload-wrapper">
-                            <div class="file-upload">
-                                <input type="file" id="video1" name="video1" accept="video/*" required>
-                                <label for="video1" class="file-upload-label">
-                                    <div class="file-upload-text">Click to upload video</div>
-                                    <div class="file-upload-hint">Maximum file size: 100MB<br>Supported formats: MP4, MOV, AVI, WMV, WEBM</div>
-                                </label>
+
+                        <!-- Video Recording Options -->
+                        <div class="video-recording-container">
+                            <div class="video-recording-options">
+                                <button type="button" class="video-option-btn" id="recordOption" onclick="switchToRecord()">
+                                    <span class="video-option-icon">●</span>
+                                    <span class="video-option-text">Record Video</span>
+                                </button>
+                                <button type="button" class="video-option-btn active" id="uploadOption" onclick="switchToUpload()">
+                                    <span class="video-option-icon">↑</span>
+                                    <span class="video-option-text">Upload Video</span>
+                                </button>
                             </div>
-                            <div id="fileSelected" class="file-selected" style="display: none;">
-                                <span class="file-selected-name" id="fileName"></span>
-                                <button type="button" class="file-selected-remove" id="removeFile">×</button>
+
+                            <!-- Upload Option -->
+                            <div id="uploadSection" class="file-upload-wrapper">
+                                <div class="file-upload">
+                                    <input type="file" id="video1" name="video1" accept="video/*" required>
+                                    <label for="video1" class="file-upload-label">
+                                        <div class="file-upload-text">Click to upload video</div>
+                                        <div class="file-upload-hint">Maximum file size: 100MB<br>Supported formats: MP4, MOV, AVI, WMV, WEBM</div>
+                                    </label>
+                                </div>
+                                <div id="fileSelected" class="file-selected" style="display: none;">
+                                    <span class="file-selected-name" id="fileName"></span>
+                                    <button type="button" class="file-selected-remove" id="removeFile">×</button>
+                                </div>
+                            </div>
+
+                            <!-- Record Option -->
+                            <div id="recordSection" class="video-preview-container" style="display: none;">
+                                <div id="permissionPrompt" class="permission-prompt" style="display: block;">
+                                    <div class="permission-prompt-content">
+                                        <h4>Camera & Microphone Access Required</h4>
+                                        <p>To record your video introduction, we need access to your camera and microphone.</p>
+                                        <div class="permission-steps">
+                                            <div class="permission-step">
+                                                <strong>1.</strong> Click "Allow Camera Access" below
+                                            </div>
+                                            <div class="permission-step">
+                                                <strong>2.</strong> Your browser will ask for permission - click "Allow"
+                                            </div>
+                                            <div class="permission-step">
+                                                <strong>3.</strong> Your camera preview will appear
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" id="requestPermissionBtn" onclick="requestCameraPermission()" style="margin-top: var(--space-lg); padding: 14px 28px;">
+                                            Allow Camera Access
+                                        </button>
+                                        <p style="margin-top: var(--space-lg); font-size: 13px; color: var(--text-light);">
+                                            <strong>Note:</strong> If you don't see a permission prompt, check your browser's address bar for a camera/microphone icon and click it to allow permissions.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="video-preview-wrapper" id="videoPreviewWrapper" style="display: none;">
+                                    <video id="videoRecordPreview" class="video-preview" autoplay muted playsinline></video>
+                                    <div class="video-overlay" id="videoOverlay" style="display: none;">
+                                        <div class="video-loading">
+                                            <div class="spinner-large"></div>
+                                            <p>Initializing camera...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="recording-controls" id="recordingControls" style="display: none;">
+                                    <div class="recording-controls-primary">
+                                        <button type="button" class="btn btn-primary btn-record" id="startRecordBtn" onclick="startRecording()">
+                                            <span class="btn-icon">●</span>
+                                            <span>Start Recording</span>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-record" id="stopRecordBtn" onclick="stopRecording()" style="display: none; background: var(--error); color: white;">
+                                            <span class="btn-icon">■</span>
+                                            <span>Stop Recording</span>
+                                        </button>
+                                        <div class="recording-timer-wrapper" id="recordingTimerWrapper" style="display: none;">
+                                            <div class="recording-indicator"></div>
+                                            <div class="recording-timer" id="recordingTimer">00:00</div>
+                                        </div>
+                                    </div>
+                                    <div class="recording-controls-secondary" id="recordingControlsSecondary" style="display: none;">
+                                        <button type="button" class="btn btn-primary" id="useRecordBtn" onclick="useRecordedVideo()" style="background: var(--success);">
+                                            <span>Use This Video</span>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" id="retryRecordBtn" onclick="retryRecording()">
+                                            <span>Record Again</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="recordingStatus" class="recording-status" style="display: none;"></div>
                             </div>
                         </div>
                         <div class="error-message" id="video-error"></div>
@@ -767,6 +1104,336 @@
     <div class="save-indicator" id="saveIndicator">Saved</div>
 
     <script>
+        // Video Recording Variables
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let recordedBlob = null;
+        let recordingStream = null;
+        let recordingTimerInterval = null;
+        let recordingStartTime = null;
+
+        // Video Recording Functions
+        function switchToRecord() {
+            document.getElementById('recordOption').classList.add('active');
+            document.getElementById('uploadOption').classList.remove('active');
+            document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('recordSection').style.display = 'block';
+            document.getElementById('recordSection').classList.add('active');
+            
+            // Clear any uploaded file
+            const videoInput = document.getElementById('video1');
+            if (videoInput) videoInput.value = '';
+            const fileSelected = document.getElementById('fileSelected');
+            if (fileSelected) fileSelected.style.display = 'none';
+            
+            // Show permission prompt if we don't have access yet
+            const permissionPrompt = document.getElementById('permissionPrompt');
+            const videoPreviewWrapper = document.getElementById('videoPreviewWrapper');
+            const recordingControls = document.getElementById('recordingControls');
+            
+            if (!recordingStream) {
+                if (permissionPrompt) permissionPrompt.style.display = 'block';
+                if (videoPreviewWrapper) videoPreviewWrapper.style.display = 'none';
+                if (recordingControls) recordingControls.style.display = 'none';
+            } else {
+                if (permissionPrompt) permissionPrompt.style.display = 'none';
+                if (videoPreviewWrapper) videoPreviewWrapper.style.display = 'block';
+                if (recordingControls) recordingControls.style.display = 'block';
+            }
+        }
+
+        function switchToUpload() {
+            document.getElementById('uploadOption').classList.add('active');
+            document.getElementById('recordOption').classList.remove('active');
+            document.getElementById('recordSection').style.display = 'none';
+            document.getElementById('uploadSection').style.display = 'block';
+            
+            // Stop camera if recording
+            stopCamera();
+        }
+
+        async function requestCameraPermission() {
+            const permissionPrompt = document.getElementById('permissionPrompt');
+            const videoPreviewWrapper = document.getElementById('videoPreviewWrapper');
+            const recordingControls = document.getElementById('recordingControls');
+            const requestBtn = document.getElementById('requestPermissionBtn');
+            
+            if (requestBtn) {
+                requestBtn.disabled = true;
+                requestBtn.textContent = 'Requesting Permission...';
+            }
+            
+            try {
+                // Check if browser supports getUserMedia
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('Your browser does not support video recording. Please use a modern browser like Chrome, Firefox, or Edge.');
+                }
+                
+                // Request permission
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    }, 
+                    audio: true 
+                });
+                
+                // Permission granted - hide prompt, show preview
+                recordingStream = stream;
+                
+                if (permissionPrompt) permissionPrompt.style.display = 'none';
+                if (videoPreviewWrapper) videoPreviewWrapper.style.display = 'block';
+                if (recordingControls) recordingControls.style.display = 'block';
+                
+                const videoPreview = document.getElementById('videoRecordPreview');
+                if (videoPreview) {
+                    videoPreview.srcObject = stream;
+                }
+                
+            } catch (error) {
+                console.error('Error requesting camera permission:', error);
+                
+                if (requestBtn) {
+                    requestBtn.disabled = false;
+                    requestBtn.textContent = 'Allow Camera Access';
+                }
+                
+                let errorMsg = '';
+                let helpText = '';
+                
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    errorMsg = 'Camera permission denied';
+                    helpText = 'Please click the camera/microphone icon in your browser\'s address bar and select "Allow". Then refresh this page or click the button again.';
+                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                    errorMsg = 'No camera found';
+                    helpText = 'Please connect a camera to your device or use the "Upload Video" option instead.';
+                } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+                    errorMsg = 'Camera is being used by another application';
+                    helpText = 'Please close other applications using your camera and try again.';
+                } else {
+                    errorMsg = 'Unable to access camera';
+                    helpText = error.message || 'Please check your camera settings and try again, or use the upload option.';
+                }
+                
+                if (permissionPrompt) {
+                    const content = permissionPrompt.querySelector('.permission-prompt-content');
+                    if (content) {
+                        content.innerHTML = `
+                            <h4 style="color: var(--error);">❌ ${errorMsg}</h4>
+                            <p style="color: var(--text-secondary); margin-bottom: 20px;">${helpText}</p>
+                            <button type="button" class="btn btn-primary" onclick="requestCameraPermission()" style="margin-right: 10px;">
+                                Try Again
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="switchToUpload()">
+                                Use Upload Instead
+                            </button>
+                        `;
+                    }
+                }
+            }
+        }
+
+        function startRecording() {
+            if (!recordingStream) {
+                alert('Camera not initialized. Please wait for camera to load.');
+                requestCameraPermission();
+                setTimeout(() => {
+                    if (recordingStream) {
+                        startRecording();
+                    }
+                }, 1000);
+                return;
+            }
+
+            recordedChunks = [];
+            let options = { mimeType: 'video/webm;codecs=vp9,opus' };
+            
+            // Check if the codec is supported
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                options = { mimeType: 'video/webm' };
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    options = {}; // Use default
+                }
+            }
+            
+            try {
+                mediaRecorder = new MediaRecorder(recordingStream, options);
+            } catch (e) {
+                console.error('Error creating MediaRecorder:', e);
+                // Fallback to default
+                try {
+                    mediaRecorder = new MediaRecorder(recordingStream);
+                } catch (e2) {
+                    console.error('Error creating MediaRecorder with default options:', e2);
+                    alert('Unable to start recording. Your browser may not support video recording. Please use the upload option instead.');
+                    return;
+                }
+            }
+
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                const videoPreview = document.getElementById('videoRecordPreview');
+                const stopBtn = document.getElementById('stopRecordBtn');
+                const useBtn = document.getElementById('useRecordBtn');
+                const retryBtn = document.getElementById('retryRecordBtn');
+                const timerWrapper = document.getElementById('recordingTimerWrapper');
+                const statusDiv = document.getElementById('recordingStatus');
+                const controlsSecondary = document.getElementById('recordingControlsSecondary');
+                
+                if (videoPreview) {
+                    videoPreview.srcObject = null;
+                    const videoUrl = URL.createObjectURL(recordedBlob);
+                    videoPreview.src = videoUrl;
+                    videoPreview.controls = true;
+                    videoPreview.muted = false;
+                }
+                
+                if (stopBtn) stopBtn.style.display = 'none';
+                if (timerWrapper) timerWrapper.style.display = 'none';
+                if (controlsSecondary) controlsSecondary.style.display = 'flex';
+                if (useBtn) useBtn.style.display = 'inline-flex';
+                if (retryBtn) retryBtn.style.display = 'inline-flex';
+                
+                if (statusDiv) {
+                    statusDiv.textContent = 'Recording complete. Review your video below.';
+                    statusDiv.className = 'recording-status stopped';
+                    statusDiv.style.display = 'block';
+                }
+            };
+
+            mediaRecorder.start();
+            recordingStartTime = Date.now();
+            
+            const startBtn = document.getElementById('startRecordBtn');
+            const stopBtn = document.getElementById('stopRecordBtn');
+            const timerWrapper = document.getElementById('recordingTimerWrapper');
+            const statusDiv = document.getElementById('recordingStatus');
+            const controlsSecondary = document.getElementById('recordingControlsSecondary');
+            
+            if (startBtn) startBtn.style.display = 'none';
+            if (stopBtn) stopBtn.style.display = 'flex';
+            if (stopBtn) stopBtn.classList.add('recording');
+            if (timerWrapper) timerWrapper.style.display = 'flex';
+            if (controlsSecondary) controlsSecondary.style.display = 'none';
+            if (statusDiv) {
+                statusDiv.textContent = 'Recording in progress...';
+                statusDiv.className = 'recording-status recording';
+                statusDiv.style.display = 'block';
+            }
+
+            // Start timer
+            recordingTimerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('recordingTimer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Warn at 60 seconds
+                if (elapsed >= 60) {
+                    document.getElementById('recordingStatus').textContent = '⚠️ Recording over 1 minute. Please keep it under 1 minute.';
+                }
+            }, 1000);
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+            
+            if (recordingTimerInterval) {
+                clearInterval(recordingTimerInterval);
+                recordingTimerInterval = null;
+            }
+            
+            const stopBtn = document.getElementById('stopRecordBtn');
+            if (stopBtn) stopBtn.classList.remove('recording');
+        }
+
+        function useRecordedVideo() {
+            if (!recordedBlob) {
+                alert('No video recorded. Please record a video first.');
+                return;
+            }
+
+            // Convert blob to file
+            const file = new File([recordedBlob], `video-${Date.now()}.webm`, { type: 'video/webm' });
+            
+            // Create a FileList-like object and assign to input
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            const videoInput = document.getElementById('video1');
+            videoInput.files = dataTransfer.files;
+
+            // Show file selected
+            const fileSelected = document.getElementById('fileSelected');
+            const fileName = document.getElementById('fileName');
+            if (fileSelected && fileName) {
+                fileName.textContent = file.name;
+                fileSelected.style.display = 'flex';
+            }
+
+            // Switch to upload view to show the file
+            switchToUpload();
+            PortalUtils.showSaveIndicator();
+        }
+
+        function retryRecording() {
+            recordedBlob = null;
+            recordedChunks = [];
+            
+            const videoPreview = document.getElementById('videoRecordPreview');
+            const useBtn = document.getElementById('useRecordBtn');
+            const retryBtn = document.getElementById('retryRecordBtn');
+            const statusDiv = document.getElementById('recordingStatus');
+            const controlsSecondary = document.getElementById('recordingControlsSecondary');
+            
+            if (videoPreview) {
+                videoPreview.src = '';
+                videoPreview.srcObject = recordingStream;
+                videoPreview.controls = false;
+                videoPreview.muted = true;
+            }
+            
+            if (useBtn) useBtn.style.display = 'none';
+            if (retryBtn) retryBtn.style.display = 'none';
+            if (controlsSecondary) controlsSecondary.style.display = 'none';
+            if (statusDiv) statusDiv.style.display = 'none';
+            
+            const startBtn = document.getElementById('startRecordBtn');
+            if (startBtn) startBtn.style.display = 'flex';
+        }
+
+        function stopCamera() {
+            if (recordingStream) {
+                recordingStream.getTracks().forEach(track => track.stop());
+                recordingStream = null;
+            }
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+            if (recordingTimerInterval) {
+                clearInterval(recordingTimerInterval);
+                recordingTimerInterval = null;
+            }
+            
+            const videoPreview = document.getElementById('videoRecordPreview');
+            if (videoPreview) {
+                videoPreview.srcObject = null;
+                videoPreview.src = '';
+            }
+        }
+
+        // Clean up camera on page unload
+        window.addEventListener('beforeunload', stopCamera);
+
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('step4Form');
             
