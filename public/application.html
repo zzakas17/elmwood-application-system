@@ -162,12 +162,60 @@
         .security-indicator {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-size: 11px;
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
+        }
+
+        .security-indicator::before {
+            content: '🔒';
+            font-size: 14px;
+            filter: grayscale(0.3);
+        }
+
+        .trust-badges {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            color: var(--text-light);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 4px 8px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+        }
+
+        .trust-badge-icon {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            background: var(--success);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .trust-badge-icon::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
         }
 
         .portal-topbar-content {
@@ -186,16 +234,18 @@
         }
 
         .portal-logo {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 600;
-            font-size: 16px;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            border: 2px solid var(--primary-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .portal-brand-text {
@@ -3301,6 +3351,23 @@
                 padding: 24px 16px;
             }
 
+            .trust-badges {
+                flex-direction: column;
+                gap: var(--space-sm);
+                width: 100%;
+            }
+
+            .trust-badge {
+                font-size: 9px;
+                padding: 3px 6px;
+            }
+
+            .portal-logo {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
             /* Hide desktop-only elements */
             .nav-link::before {
                 display: none;
@@ -3425,13 +3492,20 @@
         <div class="portal-topbar">
             <div class="portal-topbar-content">
                 <div class="portal-brand">
+                    <div class="portal-logo">CR</div>
                     <div class="portal-brand-text">
                         <div class="portal-brand-name">Application Portal</div>
                         <a href="index.html" class="return-to-main-link">← Return to Main Page</a>
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <div class="security-indicator">SSL Secured</div>
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div class="trust-badges">
+                        <div class="security-indicator">SSL Secured</div>
+                        <div class="trust-badge">
+                            <span class="trust-badge-icon"></span>
+                            <span>256-bit Encryption</span>
+                        </div>
+                    </div>
                     <div class="progress-percentage" id="progressPercentage" style="font-size: 14px; font-weight: 600; color: var(--text-primary); letter-spacing: 0.3px;">0% Complete</div>
                 </div>
             </div>
@@ -4217,7 +4291,12 @@
                             <div class="footer-section">
                                 <h4>Application Process</h4>
                                 <p style="margin-bottom: 12px;">All applications are reviewed by our hiring team. We typically respond within 1-2 weeks. Selected candidates will be contacted via the email address provided in your application.</p>
-                                <p style="font-size: 13px; color: var(--text-light);">Application ID will be provided upon successful submission for your records.</p>
+                                <p style="font-size: 13px; color: var(--text-light); margin-bottom: 16px;">Application ID will be provided upon successful submission for your records.</p>
+                                <p style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light);">
+                                    <strong>Questions or Support:</strong><br>
+                                    Email: <a href="mailto:applications@company.com" style="color: var(--primary); text-decoration: none;">applications@company.com</a><br>
+                                    Hours: Monday - Friday, 9:00 AM - 5:00 PM EST
+                                </p>
                             </div>
                             
                             
