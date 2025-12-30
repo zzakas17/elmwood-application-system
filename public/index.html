@@ -18,13 +18,18 @@
             --primary: #0a1629;
             --primary-dark: #050a14;
             --primary-light: #1a2332;
+            --primary-gradient: linear-gradient(135deg, #0a1629 0%, #1a2332 100%);
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-light: #64748b;
             --border: #e2e8f0;
             --border-light: #f1f5f9;
-            --bg-light: #f8fafc;
+            --bg-light: #fafbfc;
             --bg-white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
             --space-xs: 4px;
             --space-sm: 8px;
             --space-md: 16px;
@@ -35,6 +40,7 @@
             --space-4xl: 64px;
             --space-5xl: 80px;
             --space-6xl: 96px;
+            --space-7xl: 128px;
             --font-size-base: 15px;
             --font-size-md: 16px;
             --font-size-lg: 18px;
@@ -50,6 +56,8 @@
             --line-height-normal: 1.5;
             --line-height-relaxed: 1.6;
             --line-height-loose: 1.75;
+            --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         html {
@@ -60,14 +68,16 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-white);
+            background: linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);
+            background-attachment: fixed;
             color: var(--text-primary);
             line-height: var(--line-height-relaxed);
             font-size: var(--font-size-base);
             font-weight: var(--font-weight-normal);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            letter-spacing: 0.01em;
+            text-rendering: optimizeLegibility;
+            letter-spacing: -0.01em;
             margin: 0;
             padding: 0;
         }
@@ -105,10 +115,14 @@
             left: 0;
             right: 0;
             z-index: 200;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             padding: 0;
             flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
         }
 
         @media (max-width: 768px) {
@@ -133,7 +147,7 @@
         .portal-topbar-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 16px 40px;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -167,16 +181,24 @@
         }
 
         .portal-logo {
-            width: 32px;
-            height: 32px;
-            background: var(--primary);
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 0.3px;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
+        }
+        
+        .portal-logo:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .portal-brand-text {
@@ -209,21 +231,32 @@
         }
 
         h3 {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: var(--font-weight-bold);
             color: var(--text-primary);
-            margin-bottom: var(--space-md);
-            margin-top: var(--space-xl);
+            margin-bottom: var(--space-lg);
+            margin-top: var(--space-2xl);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding-bottom: var(--space-xs);
-            border-bottom: 1px solid var(--border-light);
+            letter-spacing: 1.4px;
+            padding-bottom: var(--space-sm);
+            border-bottom: 2px solid var(--border-light);
             display: block;
             width: 100%;
+            position: relative;
+        }
+        
+        h3::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
         }
 
         .header {
-            background: var(--primary);
+            background: var(--primary-gradient);
             color: #ffffff;
             padding: 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -231,6 +264,19 @@
             flex-shrink: 0;
             z-index: 1;
             margin-top: 0;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         @media (max-width: 768px) {
@@ -242,27 +288,31 @@
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--space-5xl) var(--space-2xl) var(--space-4xl);
+            padding: var(--space-6xl) var(--space-2xl) var(--space-5xl);
+            position: relative;
+            z-index: 1;
         }
 
         .header h1 {
             color: #ffffff !important;
-            margin-bottom: var(--space-sm);
+            margin-bottom: var(--space-md);
             font-weight: var(--font-weight-bold);
-            letter-spacing: -0.5px;
-            font-size: 32px;
-            line-height: 1.2;
+            letter-spacing: -0.8px;
+            font-size: 40px;
+            line-height: 1.15;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .header p {
-            color: rgba(255, 255, 255, 0.9) !important;
+            color: rgba(255, 255, 255, 0.95) !important;
             font-weight: var(--font-weight-medium);
             line-height: var(--line-height-normal);
             max-width: 700px;
             text-transform: uppercase;
             font-size: 11px;
-            letter-spacing: 0.8px;
+            letter-spacing: 1.2px;
             margin-bottom: 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .header-cta {
@@ -313,9 +363,9 @@
 
         .main-container {
             flex: 1;
-            max-width: 900px;
+            max-width: 920px;
             margin: 0 auto;
-            padding: var(--space-5xl) var(--space-2xl) var(--space-6xl);
+            padding: var(--space-6xl) var(--space-2xl) var(--space-7xl);
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
@@ -334,14 +384,38 @@
             background: var(--bg-white);
             border: 1px solid var(--border);
             border-radius: 0;
-            margin-bottom: var(--space-5xl);
-            transition: none;
+            margin-bottom: var(--space-6xl);
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .position-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition-base);
+        }
+        
+        .position-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .position-card:hover::before {
+            opacity: 1;
         }
 
         .position-card-header {
             background: var(--bg-white);
-            padding: var(--space-4xl) var(--space-3xl);
-            border-bottom: 1px solid var(--border);
+            padding: var(--space-5xl) var(--space-4xl);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .position-card:first-of-type {
@@ -349,40 +423,41 @@
         }
 
         .position-card-header h2 {
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-lg);
             font-weight: var(--font-weight-bold);
-            letter-spacing: -0.4px;
-            font-size: 26px;
-            line-height: 1.3;
+            letter-spacing: -0.6px;
+            font-size: 32px;
+            line-height: 1.25;
             color: var(--text-primary);
         }
 
         .position-card-header p {
             color: var(--text-secondary);
-            font-size: var(--font-size-base);
-            line-height: 1.65;
-            margin: 0 0 var(--space-xl) 0;
+            font-size: var(--font-size-md);
+            line-height: 1.7;
+            margin: 0 0 var(--space-2xl) 0;
             font-weight: var(--font-weight-normal);
             text-align: left;
         }
 
         .position-card-header > p:first-of-type {
-            font-size: var(--font-size-md);
+            font-size: var(--font-size-lg);
             color: var(--text-primary);
             font-weight: var(--font-weight-medium);
-            margin-bottom: var(--space-2xl);
-            line-height: 1.65;
+            margin-bottom: var(--space-3xl);
+            line-height: 1.7;
+            letter-spacing: -0.2px;
         }
 
         .position-details {
-            margin-top: var(--space-2xl);
-            padding-top: var(--space-2xl);
-            border-top: 1px solid var(--border);
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-3xl);
+            border-top: 1px solid var(--border-light);
         }
 
         .position-detail-section {
-            margin-bottom: var(--space-3xl);
-            padding-bottom: var(--space-2xl);
+            margin-bottom: var(--space-4xl);
+            padding-bottom: var(--space-3xl);
             border-bottom: 1px solid var(--border-light);
         }
 
@@ -422,30 +497,41 @@
         }
 
         .position-detail-section li {
-            padding: var(--space-xs) 0 var(--space-xs) var(--space-2xl);
+            padding: var(--space-sm) 0 var(--space-sm) var(--space-2xl);
             position: relative;
             color: var(--text-secondary);
-            line-height: 1.65;
+            line-height: 1.7;
             font-size: var(--font-size-base);
             font-weight: var(--font-weight-normal);
             text-align: left;
+            transition: var(--transition-base);
+        }
+        
+        .position-detail-section li:hover {
+            color: var(--text-primary);
+            padding-left: calc(var(--space-2xl) + 4px);
         }
 
         .position-detail-section li::before {
-            content: '■';
+            content: '▪';
             position: absolute;
             left: var(--space-md);
-            top: var(--space-sm);
+            top: var(--space-md);
             color: var(--primary);
-            font-size: 8px;
+            font-size: 10px;
             line-height: 1;
             font-weight: var(--font-weight-bold);
+            transition: var(--transition-base);
+        }
+        
+        .position-detail-section li:hover::before {
+            transform: scale(1.2);
         }
 
         .job-description {
-            padding: var(--space-4xl) var(--space-3xl);
-            background: var(--bg-light);
-            border-top: 1px solid var(--border);
+            padding: var(--space-5xl) var(--space-4xl);
+            background: linear-gradient(to bottom, var(--bg-light) 0%, var(--bg-white) 100%);
+            border-top: 1px solid var(--border-light);
         }
 
         .job-description .job-section:first-child {
@@ -461,14 +547,25 @@
         }
 
         .job-section h3 {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: var(--font-weight-bold);
             color: var(--text-primary);
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-lg);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: var(--space-xs);
+            letter-spacing: 1.4px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: var(--space-sm);
+            position: relative;
+        }
+        
+        .job-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
         }
 
         .job-section ul {
@@ -478,38 +575,64 @@
         }
 
         .job-section li {
-            padding: var(--space-xs) 0 var(--space-xs) var(--space-2xl);
+            padding: var(--space-sm) 0 var(--space-sm) var(--space-2xl);
             position: relative;
             color: var(--text-secondary);
-            line-height: 1.65;
+            line-height: 1.7;
             font-size: var(--font-size-base);
             text-align: left;
+            transition: var(--transition-base);
+        }
+        
+        .job-section li:hover {
+            color: var(--text-primary);
+            padding-left: calc(var(--space-2xl) + 4px);
         }
 
         .job-section li::before {
-            content: '■';
+            content: '▪';
             position: absolute;
             left: var(--space-md);
-            top: var(--space-sm);
+            top: var(--space-md);
             color: var(--primary);
-            font-size: 8px;
+            font-size: 10px;
             line-height: 1;
             font-weight: var(--font-weight-bold);
+            transition: var(--transition-base);
+        }
+        
+        .job-section li:hover::before {
+            transform: scale(1.2);
         }
 
         .job-note {
-            margin-top: var(--space-2xl);
-            padding: var(--space-xl);
-            background: var(--bg-white);
+            margin-top: var(--space-3xl);
+            padding: var(--space-2xl);
+            background: linear-gradient(135deg, rgba(10, 22, 41, 0.02) 0%, rgba(10, 22, 41, 0.01) 100%);
             border: 1px solid var(--border);
-            border-left: 3px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+        
+        .job-note::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 22, 41, 0.01) 0%, transparent 100%);
+            pointer-events: none;
         }
 
         .job-note p {
             margin: 0;
             color: var(--text-primary);
-            line-height: 1.65;
+            line-height: 1.75;
             font-size: var(--font-size-base);
+            position: relative;
+            z-index: 1;
         }
 
         .job-note strong {
@@ -519,22 +642,50 @@
 
         .start-application-btn {
             display: block;
-            background: var(--primary);
+            background: var(--primary-gradient);
             color: white;
             border: none;
-            padding: 16px 32px;
+            padding: 20px 40px;
             border-radius: 0;
             font-size: var(--font-size-md);
             font-weight: var(--font-weight-semibold);
             cursor: pointer;
             width: 100%;
-            max-width: 400px;
-            margin: var(--space-5xl) auto var(--space-4xl);
+            max-width: 420px;
+            margin: var(--space-6xl) auto var(--space-5xl);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: background 0.2s ease;
+            letter-spacing: 1px;
+            transition: var(--transition-smooth);
             text-align: center;
             text-decoration: none;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .start-application-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .start-application-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .start-application-btn:hover::before {
+            left: 100%;
+        }
+        
+        .start-application-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-md);
         }
 
         .start-application-btn:hover {
@@ -620,11 +771,11 @@
 
         .footer {
             text-align: center;
-            padding: var(--space-4xl) var(--space-2xl);
+            padding: var(--space-5xl) var(--space-2xl);
             color: var(--text-primary);
             font-size: var(--font-size-base);
-            background: var(--bg-white);
-            border-top: 1px solid var(--border);
+            background: linear-gradient(to top, var(--bg-light) 0%, var(--bg-white) 100%);
+            border-top: 1px solid var(--border-light);
             flex-shrink: 0;
             z-index: 1;
         }
@@ -1094,11 +1245,11 @@
                 <p style="line-height: 1.65; margin-bottom: var(--space-lg); font-size: var(--font-size-base); color: var(--text-secondary);">We are a leading U.S.-based commercial real estate brokerage specializing in the acquisition, disposition, and leasing of commercial properties. We facilitate complex transactions for institutional investors, Fortune 500 corporations, and property owners across warehouses, distribution centers, manufacturing facilities, and logistics hubs throughout the United States.</p>
                 <p style="line-height: 1.65; margin-bottom: var(--space-lg); font-size: var(--font-size-base); color: var(--text-secondary);">Our firm operates at the intersection of sophisticated deal-making and operational excellence. We maintain the highest standards of professionalism, precision, and client service, managing every aspect of transactions from initial contract execution through closing. Our team's expertise in navigating complex real estate transactions has established us as a trusted partner to institutional clients who demand exceptional results.</p>
                 <h3>Our People Are Our Most Valuable Asset</h3>
-                <p style="line-height: 1.65; margin-bottom: var(--space-lg); font-size: var(--font-size-base); color: var(--text-secondary);">We encourage independent thinking and reward initiative, while providing new skills, training, and mentoring to help our people grow professionally. Our business platform and reputation provide a strong foundation for your career development. We seek to attract and retain talented individuals across a wide spectrum of backgrounds and experiences, believing that diverse teams make better business decisions.</p>
+                <p style="line-height: 1.75; margin-bottom: var(--space-xl); font-size: var(--font-size-base); color: var(--text-secondary);">We encourage independent thinking and reward initiative, while providing new skills, training, and mentoring to help our people grow professionally. Our business platform and reputation provide a strong foundation for your career development. We seek to attract and retain talented individuals across a wide spectrum of backgrounds and experiences, believing that diverse teams make better business decisions.</p>
                 <h3>Training & Development</h3>
-                <p style="line-height: 1.65; margin-bottom: var(--space-lg); font-size: var(--font-size-base); color: var(--text-secondary);">We are committed to offering learning and development opportunities to help advance careers across a number of areas: marketing and design skills, real estate operations, leadership and management, communication, and technology. We provide structured training, ongoing mentoring, and opportunities to work on high-impact projects that build expertise and professional capabilities.</p>
+                <p style="line-height: 1.75; margin-bottom: var(--space-xl); font-size: var(--font-size-base); color: var(--text-secondary);">We are committed to offering learning and development opportunities to help advance careers across a number of areas: marketing and design skills, real estate operations, leadership and management, communication, and technology. We provide structured training, ongoing mentoring, and opportunities to work on high-impact projects that build expertise and professional capabilities.</p>
                 <h3>Diversity, Equity & Inclusion</h3>
-                <p style="line-height: 1.65; font-size: var(--font-size-base); color: var(--text-secondary);">We are committed to fostering a diverse, equitable, and inclusive workplace. We believe that diversity of thought, background, and experience strengthens our team and enhances our ability to serve our clients effectively. We are dedicated to creating an environment where all individuals feel valued, respected, and empowered to contribute their unique perspectives. Our commitment to diversity, equity, and inclusion is integral to our firm's values and our approach to building a high-performing team.</p>
+                <p style="line-height: 1.75; font-size: var(--font-size-base); color: var(--text-secondary);">We are committed to fostering a diverse, equitable, and inclusive workplace. We believe that diversity of thought, background, and experience strengthens our team and enhances our ability to serve our clients effectively. We are dedicated to creating an environment where all individuals feel valued, respected, and empowered to contribute their unique perspectives. Our commitment to diversity, equity, and inclusion is integral to our firm's values and our approach to building a high-performing team.</p>
             </div>
         </div>
 
