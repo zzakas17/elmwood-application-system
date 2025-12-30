@@ -200,6 +200,17 @@
         .process-step {
             text-align: center;
             position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .process-step.completed .step-number {
+            background: var(--success);
+        }
+
+        .process-step.completed .step-number::after {
+            content: '✓';
+            position: absolute;
+            font-size: var(--font-size-xl);
         }
 
         .process-step::after {
@@ -211,6 +222,11 @@
             height: 1px;
             background: var(--border);
             display: block;
+        }
+
+        .process-step.completed::after {
+            background: var(--success);
+            height: 2px;
         }
 
         .process-step:last-child::after {
@@ -232,6 +248,11 @@
             box-shadow: var(--shadow-md);
             position: relative;
             z-index: 1;
+            transition: var(--transition-smooth);
+        }
+
+        .step-number::after {
+            display: none;
         }
 
         .step-title {
@@ -326,6 +347,30 @@
             left: 0;
             color: var(--primary);
             font-weight: var(--font-weight-bold);
+        }
+
+        .progress-message {
+            background: rgba(5, 150, 105, 0.1);
+            border: 1px solid var(--success);
+            padding: var(--space-lg) var(--space-xl);
+            border-radius: 0;
+            margin-bottom: var(--space-xl);
+            text-align: center;
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            display: none;
+        }
+
+        .progress-message strong {
+            color: var(--success);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .last-saved {
+            font-size: var(--font-size-sm);
+            color: var(--text-light);
+            margin-top: var(--space-sm);
+            font-style: italic;
         }
 
         .cta-section {
@@ -607,6 +652,7 @@
         <div class="cta-section">
             <h2>Ready to Begin?</h2>
             <p>Click below to start your application. All information is securely transmitted and your progress is saved automatically.</p>
+            <div id="progressMessage" class="progress-message"></div>
             <div>
                 <a href="application-step1.html" class="start-btn" id="startBtn">Start Application →</a>
                 <a href="application-review.html" class="start-btn success" id="continueBtn" style="display: none;">Continue Application →</a>
@@ -621,16 +667,47 @@
         document.addEventListener('DOMContentLoaded', function() {
             const startBtn = document.getElementById('startBtn');
             const continueBtn = document.getElementById('continueBtn');
+            const progressMessage = document.getElementById('progressMessage');
+            const processSteps = document.querySelectorAll('.process-step');
             
             // Check if there's saved progress
             const progress = PortalUtils.getProgress();
             const data = PortalUtils.getData();
+            
+            // Mark completed steps
+            if (data.stepsCompleted) {
+                data.stepsCompleted.forEach(stepId => {
+                    const stepElement = processSteps[stepId - 1];
+                    if (stepElement) {
+                        stepElement.classList.add('completed');
+                    }
+                });
+            }
             
             if (progress.percentage > 0 && Object.keys(data).length > 0) {
                 // Show continue button
                 startBtn.textContent = 'Start New Application';
                 startBtn.classList.add('secondary');
                 continueBtn.style.display = 'inline-block';
+                
+                // Show progress message
+                if (progressMessage) {
+                    progressMessage.style.display = 'block';
+                    const lastUpdated = progress.lastUpdated ? new Date(progress.lastUpdated) : null;
+                    let message = `Progress Saved: <strong>${progress.percentage}% Complete</strong>`;
+                    if (lastUpdated) {
+                        const timeAgo = getTimeAgo(lastUpdated);
+                        message += `<span class="last-saved">Last saved ${timeAgo}</span>`;
+                    }
+                    progressMessage.innerHTML = message;
+                }
+                
+                // Get last incomplete step
+                const lastIncompleteStep = PortalUtils.getLastIncompleteStep();
+                const lastStep = PortalUtils.STEPS.find(s => s.id === lastIncompleteStep);
+                if (lastStep && continueBtn) {
+                    continueBtn.href = lastStep.url;
+                }
                 
                 // Add click handler to start new (clears data)
                 startBtn.addEventListener('click', function(e) {
@@ -641,6 +718,19 @@
                         e.preventDefault();
                     }
                 });
+            }
+            
+            function getTimeAgo(date) {
+                const now = new Date();
+                const diff = now - date;
+                const minutes = Math.floor(diff / 60000);
+                const hours = Math.floor(diff / 3600000);
+                const days = Math.floor(diff / 86400000);
+                
+                if (minutes < 1) return 'just now';
+                if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+                if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+                return `${days} day${days !== 1 ? 's' : ''} ago`;
             }
         });
     </script>

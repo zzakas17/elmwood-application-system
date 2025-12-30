@@ -226,8 +226,9 @@ const PortalUtils = {
     showSaveIndicator() {
         const indicator = document.getElementById('saveIndicator');
         if (indicator) {
-            indicator.textContent = 'Saved';
+            indicator.textContent = '✓ Saved';
             indicator.style.display = 'block';
+            indicator.style.opacity = '1';
             setTimeout(() => {
                 indicator.style.opacity = '0';
                 setTimeout(() => {
@@ -236,6 +237,25 @@ const PortalUtils = {
                 }, 300);
             }, 2000);
         }
+    },
+    
+    // Get formatted last saved time
+    getLastSavedTime() {
+        const progress = this.getProgress();
+        if (progress.lastUpdated) {
+            const date = new Date(progress.lastUpdated);
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return 'just now';
+            if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+            if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+            return `${days} day${days !== 1 ? 's' : ''} ago`;
+        }
+        return null;
     },
     
     // Update progress bar

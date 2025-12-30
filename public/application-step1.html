@@ -339,6 +339,18 @@
             box-shadow: 0 0 0 3px rgba(10, 22, 41, 0.1);
         }
 
+        input:invalid:not(:focus):not(:placeholder-shown),
+        select:invalid:not(:focus),
+        textarea:invalid:not(:focus):not(:placeholder-shown) {
+            border-color: var(--error);
+        }
+
+        input:valid:not(:focus):not(:placeholder-shown),
+        select:valid:not(:focus),
+        textarea:valid:not(:focus):not(:placeholder-shown) {
+            border-color: var(--success);
+        }
+
         textarea {
             resize: vertical;
             min-height: 120px;
@@ -350,9 +362,32 @@
             color: var(--error);
             margin-top: var(--space-xs);
             display: none;
+            animation: slideDown 0.3s ease;
         }
 
         .error-message.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .field-success {
+            font-size: var(--font-size-sm);
+            color: var(--success);
+            margin-top: var(--space-xs);
+            display: none;
+        }
+
+        .field-success.show {
             display: block;
         }
 
@@ -423,6 +458,37 @@
             display: none;
             z-index: 1000;
             box-shadow: var(--shadow-lg);
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .last-saved-info {
+            position: fixed;
+            bottom: calc(var(--space-xl) + 50px);
+            right: var(--space-xl);
+            background: var(--bg-white);
+            color: var(--text-secondary);
+            padding: var(--space-xs) var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            font-size: 11px;
+            display: none;
+            z-index: 999;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .last-saved-info.show {
+            display: block;
         }
 
         @media (max-width: 768px) {
@@ -600,18 +666,63 @@
         </form>
     </div>
 
-    <div class="save-indicator" id="saveIndicator">Saved</div>
+    <div class="save-indicator" id="saveIndicator">✓ Saved</div>
+    <div class="last-saved-info" id="lastSavedInfo"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('step1Form');
             const savedData = PortalUtils.getData();
+            const lastSavedInfo = document.getElementById('lastSavedInfo');
+            
+            // Show last saved time if available
+            const lastSaved = PortalUtils.getLastSavedTime();
+            if (lastSaved && lastSavedInfo) {
+                lastSavedInfo.textContent = `Last saved: ${lastSaved}`;
+                lastSavedInfo.classList.add('show');
+                setTimeout(() => {
+                    lastSavedInfo.classList.remove('show');
+                }, 5000);
+            }
             
             // Populate form with saved data
             PortalUtils.populateForm(form, savedData);
             
-            // Setup auto-save
-            PortalUtils.setupAutoSave(form);
+            // Setup auto-save with enhanced feedback
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    const formData = PortalUtils.serializeForm(form);
+                    PortalUtils.saveData(formData);
+                    PortalUtils.showSaveIndicator();
+                    
+                    // Update last saved info
+                    if (lastSavedInfo) {
+                        lastSavedInfo.textContent = `Last saved: just now`;
+                        lastSavedInfo.classList.add('show');
+                        setTimeout(() => {
+                            lastSavedInfo.classList.remove('show');
+                        }, 3000);
+                    }
+                });
+                
+                input.addEventListener('blur', () => {
+                    const formData = PortalUtils.serializeForm(form);
+                    PortalUtils.saveData(formData);
+                });
+                
+                // Real-time validation feedback
+                input.addEventListener('input', function() {
+                    const errorMsg = input.parentElement.querySelector('.error-message');
+                    if (input.validity.valid) {
+                        input.style.borderColor = '';
+                        if (errorMsg) errorMsg.classList.remove('show');
+                    } else if (input.value.trim() !== '') {
+                        input.style.borderColor = 'var(--error)';
+                        if (errorMsg) errorMsg.classList.add('show');
+                    }
+                });
+            });
             
             // Initialize progress
             PortalUtils.initProgress();
