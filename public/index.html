@@ -297,21 +297,21 @@
             color: #ffffff !important;
             margin-bottom: var(--space-md);
             font-weight: var(--font-weight-bold);
-            letter-spacing: -0.8px;
-            font-size: 40px;
-            line-height: 1.15;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -1px;
+            font-size: 44px;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .header p {
-            color: rgba(255, 255, 255, 0.95) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
             font-weight: var(--font-weight-medium);
             line-height: var(--line-height-normal);
             max-width: 700px;
             text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 1.2px;
-            margin-bottom: 0;
+            font-size: 12px;
+            letter-spacing: 1.4px;
+            margin-bottom: var(--space-xl);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
@@ -418,6 +418,10 @@
             border-bottom: 1px solid var(--border-light);
         }
 
+        .position-card:first-of-type .position-card-header {
+            padding-top: var(--space-4xl);
+        }
+
         .position-card:first-of-type {
             margin-top: 0;
         }
@@ -440,13 +444,15 @@
             text-align: left;
         }
 
-        .position-card-header > p:first-of-type {
-            font-size: var(--font-size-lg);
-            color: var(--text-primary);
-            font-weight: var(--font-weight-medium);
-            margin-bottom: var(--space-3xl);
-            line-height: 1.7;
-            letter-spacing: -0.2px;
+        .position-subtitle {
+            font-size: var(--font-size-xl) !important;
+            color: var(--text-primary) !important;
+            font-weight: var(--font-weight-medium) !important;
+            margin-bottom: var(--space-4xl) !important;
+            line-height: 1.6 !important;
+            letter-spacing: -0.3px !important;
+            padding-bottom: var(--space-xl);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .position-details {
@@ -677,6 +683,7 @@
         .start-application-btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
+            background: var(--primary-dark);
         }
         
         .start-application-btn:hover::before {
@@ -686,13 +693,6 @@
         .start-application-btn:active {
             transform: translateY(0);
             box-shadow: var(--shadow-md);
-        }
-
-        .start-application-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .start-application-btn:active {
             background: var(--primary-dark);
         }
 
@@ -1179,17 +1179,13 @@
             <div class="header-content">
                 <h1>Director - Marketing & Operations</h1>
                 <p>Application Portal</p>
-                <div class="header-cta">
-                    <a href="portal.html" class="header-cta-btn">Start Application →</a>
-                </div>
             </div>
         </div>
 
         <div class="main-container">
         <div class="position-card">
             <div class="position-card-header">
-                <h2>Position: Director - Marketing & Operations</h2>
-                <p>Full-time remote role supporting commercial real estate brokerage operations</p>
+                <p class="position-subtitle">Full-time remote role supporting commercial real estate brokerage operations</p>
                 
                 <div class="position-details">
                     <div class="position-detail-section">
@@ -1253,7 +1249,7 @@
             </div>
         </div>
 
-            <a href="portal.html" class="start-application-btn">Click Here to Start Application</a>
+            <a href="portal.html" class="start-application-btn">Start Application →</a>
         </div>
 
         <div class="footer">
