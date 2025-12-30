@@ -52,15 +52,10 @@
             --line-height-loose: 1.75;
         }
 
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
         html {
             scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
         }
 
         body {
@@ -72,10 +67,35 @@
             font-weight: var(--font-weight-normal);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            overflow: hidden;
             letter-spacing: 0.01em;
-            display: flex;
-            flex-direction: column;
+            margin: 0;
+            padding: 0;
+        }
+
+        @media (max-width: 768px) {
+            html, body {
+                height: auto;
+                min-height: 100vh;
+                overflow-x: hidden;
+                overflow-y: auto !important;
+            }
+
+            body {
+                display: block !important;
+                overflow: visible !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            html, body {
+                height: 100%;
+                overflow: hidden;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+            }
         }
 
         /* Portal Top Bar */
