@@ -662,7 +662,7 @@
             align-items: center;
             justify-content: center;
             gap: var(--space-sm);
-            padding: var(--space-lg) var(--space-xl);
+            padding: var(--space-xl) var(--space-2xl);
             border: 2px solid var(--border);
             border-radius: 0;
             background: var(--bg-white);
@@ -672,6 +672,7 @@
             font-weight: var(--font-weight-semibold);
             color: var(--text-primary);
             font-family: inherit;
+            min-height: 60px;
         }
 
         .video-option-btn:hover {
@@ -688,9 +689,10 @@
         }
 
         .video-option-icon {
-            font-size: var(--font-size-lg);
+            font-size: 24px;
             font-weight: var(--font-weight-bold);
             line-height: 1;
+            display: inline-block;
         }
 
         .video-option-text {
@@ -994,6 +996,7 @@
                             <h4>Video Guidelines</h4>
                             <p>Please record a short video (under 1 minute) introducing yourself. Share one fun fact or hobby that you have, and explain why you think this role would be a good fit for you and why you would want to be in this role.</p>
                             <ul>
+                                <li><strong>Record or Upload:</strong> You can record your video directly in your browser or upload a pre-recorded video file</li>
                                 <li><strong>Quality:</strong> Ensure good lighting and clear audio</li>
                                 <li><strong>Duration:</strong> Keep it under 1 minute</li>
                                 <li><strong>Format:</strong> MP4, MOV, AVI, WMV, or WEBM</li>
@@ -1004,11 +1007,11 @@
                         <div class="video-recording-container">
                             <div class="video-recording-options">
                                 <button type="button" class="video-option-btn" id="recordOption" onclick="switchToRecord()">
-                                    <span class="video-option-icon">●</span>
+                                    <span class="video-option-icon">🎥</span>
                                     <span class="video-option-text">Record Video</span>
                                 </button>
                                 <button type="button" class="video-option-btn active" id="uploadOption" onclick="switchToUpload()">
-                                    <span class="video-option-icon">↑</span>
+                                    <span class="video-option-icon">📁</span>
                                     <span class="video-option-text">Upload Video</span>
                                 </button>
                             </div>
