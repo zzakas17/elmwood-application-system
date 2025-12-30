@@ -264,6 +264,36 @@
             letter-spacing: 1px;
         }
 
+        .header-cta {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header-cta {
+                display: block;
+                margin-top: var(--space-xl);
+            }
+
+            .header-cta-btn {
+                display: inline-block;
+                background: rgba(255, 255, 255, 0.15);
+                color: white;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                padding: 14px 24px;
+                font-size: 14px;
+                font-weight: var(--font-weight-semibold);
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+            }
+
+            .header-cta-btn:hover {
+                background: rgba(255, 255, 255, 0.25);
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+        }
+
         .scrollable-content {
             flex: 1;
             display: flex;
@@ -537,14 +567,7 @@
 
         @media (max-width: 768px) {
             .sticky-cta {
-                display: flex;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                padding: var(--space-md);
-                border-top: 1px solid var(--border);
-                box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+                display: none;
             }
         }
 
@@ -932,7 +955,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin-bottom: 100px;
             }
 
             .sticky-cta {
@@ -949,7 +971,7 @@
             }
 
             .footer {
-                padding: var(--space-4xl) var(--space-lg);
+                padding: var(--space-3xl) var(--space-md);
             }
 
             .footer-links {
@@ -1006,6 +1028,9 @@
             <div class="header-content">
                 <h1>Director - Marketing & Operations</h1>
                 <p>Application Portal</p>
+                <div class="header-cta">
+                    <a href="application.html" class="header-cta-btn">Start Application →</a>
+                </div>
             </div>
         </div>
 
@@ -1130,24 +1155,11 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             handleStickyCta();
-            
-            // On mobile, always show sticky button
-            if (window.innerWidth <= 768) {
-                const stickyCta = document.getElementById('stickyCta');
-                if (stickyCta) {
-                    stickyCta.classList.add('visible');
-                }
-            }
         });
 
         // Handle window resize
         window.addEventListener('resize', () => {
-            if (window.innerWidth <= 768) {
-                const stickyCta = document.getElementById('stickyCta');
-                if (stickyCta) {
-                    stickyCta.classList.add('visible');
-                }
-            } else {
+            if (window.innerWidth > 768) {
                 handleStickyCta();
             }
         });
