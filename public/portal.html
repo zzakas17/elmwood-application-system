@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Portal - Welcome</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a1629;
+            --primary-dark: #050a14;
+            --primary-light: #1a2332;
+            --primary-gradient: linear-gradient(135deg, #0a1629 0%, #1a2332 100%);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --bg-light: #fafbfc;
+            --bg-white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 40px;
+            --space-3xl: 48px;
+            --space-4xl: 64px;
+            --space-5xl: 80px;
+            --space-6xl: 96px;
+            --font-size-base: 15px;
+            --font-size-md: 16px;
+            --font-size-lg: 18px;
+            --font-size-xl: 20px;
+            --font-size-2xl: 24px;
+            --font-size-3xl: 30px;
+            --font-size-4xl: 36px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: var(--font-size-base);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        .portal-topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .portal-topbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .portal-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .portal-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .portal-brand-name {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            letter-spacing: 0.3px;
+        }
+
+        .security-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .main-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: calc(80px + var(--space-5xl)) var(--space-2xl) var(--space-6xl);
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: var(--space-6xl);
+        }
+
+        .welcome-header h1 {
+            font-size: 42px;
+            font-weight: var(--font-weight-bold);
+            letter-spacing: -0.8px;
+            line-height: 1.15;
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+        }
+
+        .welcome-header p {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .portal-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-3xl);
+            margin-bottom: var(--space-6xl);
+        }
+
+        .portal-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            padding: var(--space-4xl);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition-base);
+        }
+
+        .portal-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .portal-card:hover::before {
+            opacity: 1;
+        }
+
+        .portal-card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .portal-card h3 {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-md);
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .portal-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-lg);
+        }
+
+        .portal-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .portal-card li {
+            padding: var(--space-xs) 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: var(--space-lg);
+        }
+
+        .portal-card li::before {
+            content: '▪';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: var(--space-5xl);
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 0;
+        }
+
+        .cta-section h2 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-lg);
+            letter-spacing: -0.5px;
+        }
+
+        .cta-section p {
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3xl);
+            line-height: 1.7;
+        }
+
+        .start-btn {
+            display: inline-block;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 20px 48px;
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .start-btn:hover::before {
+            left: 100%;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: var(--font-size-base);
+            margin-top: var(--space-xl);
+            transition: var(--transition-base);
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .portal-topbar {
+                position: relative;
+            }
+
+            .main-content {
+                padding: var(--space-4xl) var(--space-md) var(--space-5xl);
+            }
+
+            .welcome-header h1 {
+                font-size: 32px;
+            }
+
+            .portal-cards {
+                grid-template-columns: 1fr;
+                gap: var(--space-2xl);
+            }
+
+            .portal-card {
+                padding: var(--space-3xl);
+            }
+
+            .start-btn {
+                padding: 18px 36px;
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-topbar">
+        <div class="portal-topbar-content">
+            <div class="portal-brand">
+                <div class="portal-logo">E</div>
+                <div class="portal-brand-name">Application Portal</div>
+            </div>
+            <div class="security-indicator">
+                <span>🔒</span>
+                <span>SSL Secured</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="welcome-header">
+            <h1>Welcome to the Application Portal</h1>
+            <p>Thank you for your interest in joining our team. This portal will guide you through the application process step by step.</p>
+        </div>
+
+        <div class="portal-cards">
+            <div class="portal-card">
+                <div class="portal-card-icon">📋</div>
+                <h3>What to Expect</h3>
+                <p>The application process consists of several sections covering your background, experience, and qualifications.</p>
+                <ul>
+                    <li>Personal information & education</li>
+                    <li>Professional experience</li>
+                    <li>Technical skills & availability</li>
+                    <li>Portfolio & documents</li>
+                </ul>
+            </div>
+
+            <div class="portal-card">
+                <div class="portal-card-icon">⏱️</div>
+                <h3>Time Required</h3>
+                <p>Plan to spend approximately 20-30 minutes to complete your application thoroughly.</p>
+                <ul>
+                    <li>Progress is saved automatically</li>
+                    <li>You can return anytime</li>
+                    <li>Review before submitting</li>
+                </ul>
+            </div>
+
+            <div class="portal-card">
+                <div class="portal-card-icon">📎</div>
+                <h3>What You'll Need</h3>
+                <p>Please have the following ready before you begin:</p>
+                <ul>
+                    <li>Resume or CV (PDF preferred)</li>
+                    <li>Portfolio samples (if applicable)</li>
+                    <li>Video introduction (optional)</li>
+                    <li>Contact information</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Begin?</h2>
+            <p>Click the button below to start your application. Your progress will be saved automatically as you complete each section.</p>
+            <a href="application.html" class="start-btn">Start Application →</a>
+            <div>
+                <a href="index.html" class="back-link">← Return to Position Details</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
